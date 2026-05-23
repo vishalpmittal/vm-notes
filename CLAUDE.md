@@ -33,6 +33,12 @@ Personal knowledge base of technical notes, learnings, and curated blog content.
   - Use an `_index.md` in each directory as a table of contents for that bucket
 - When reorganizing, update all cross-references and the root `_index.md`
 
+### Images
+- Store all images in the top-level `images/` directory (not inside topic folders)
+- Name format: `yyyymmdd-hhmm-image-description.png` (e.g., `20260523-1430-claude-context-flow.png`)
+- Reference from markdown files using relative paths: `![description](../images/20260523-1430-claude-context-flow.png)`
+- Keep images at a readable resolution but optimize file size (compress PNGs/JPGs before committing)
+
 ### Static Site Generation
 - This repo is intended to produce a browsable documentation site (static HTML)
 - When the site tooling is set up, respect its config and directory conventions
