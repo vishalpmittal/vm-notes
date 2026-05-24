@@ -1,9 +1,4 @@
----
-title: "How Does a Request Actually Travel Through Claude Code"
-source: https://blog.bytebytego.com/i/198874402/how-does-a-request-actually-travel-through-claude-code
-date: 2026-05-23
-tags: [claude-code, architecture, agent-loop]
----
+# How Does a Request Actually Travel Through Claude Code
 
 ## Key Takeaways
 
@@ -32,3 +27,9 @@ tags: [claude-code, architecture, agent-loop]
 8. **Streaming Response** — The agent streams the final message to the user.
 
 The system repeats the Plan-Act-Observe loop iteratively until the model completes the task and stops requesting tools.
+
+---
+
+**Source:** https://blog.bytebytego.com/i/198874402/how-does-a-request-actually-travel-through-claude-code
+**Date:** 2026-05-23
+**Tags:** claude-code, architecture, agent-loop

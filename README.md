@@ -11,9 +11,11 @@ Use `/add-blog <url>` to add a blog post. It will fetch the content, download im
 ```
 notes/
 ├── images/          # all diagrams and illustrations (yyyymmdd-hhmm-description.ext)
-├── ai-concepts/     # AI/ML, LLMs, RAG, agents
-├── claude/          # Claude Code, Anthropic tools
+├── ai-ml-ds/        # AI, ML, data science
+│   ├── claude/      # Claude Code, Anthropic tools
+│   └── concepts/    # RAG, agents, LLM patterns
 ├── system-design/   # architecture, distributed systems
+├── leadership/      # management, leadership (summaries only)
 └── ...              # new topic folders as needed
 ```
 

@@ -60,17 +60,19 @@ Check 3-4 key terms. There are three outcomes:
 ### If exactly one related note exists:
 - Read the existing note to understand its scope
 - APPEND the new content as a new section within that file
-- Add the new source URL to the frontmatter (use a `sources:` list if multiple)
+- Add the new source URL to the metadata section at the bottom
 - Update the `## Key Takeaways` section to include insights from the new content
-- Update `tags:` to include any new relevant tags
+- Update **Tags:** to include any new relevant tags
 - Merge overlapping content — do not repeat information already present
 - Add new images inline where they belong in the merged content
 
 ### If no related note exists:
 - Determine the best topic directory using this mapping:
-  - AI/ML, LLMs, prompting, RAG, agents → `notes/ai-concepts/`
+  - AI/ML, LLMs, prompting, RAG, agents → `notes/ai-ml-ds/concepts/`
+  - Claude Code, Claude features, Anthropic tools → `notes/ai-ml-ds/claude/`
   - System design, architecture, distributed systems, databases → `notes/system-design/`
-  - Claude Code, Claude features, Anthropic tools → `notes/claude/`
+  - Leadership, management, people skills → `notes/leadership/`
+  - Life coaching, personal growth → `notes/life-coaching/`
   - DevOps, CI/CD, infrastructure, cloud → `notes/devops/`
   - Backend, APIs, microservices, languages → `notes/backend/`
   - Frontend, UI, CSS, JavaScript frameworks → `notes/frontend/`
@@ -83,19 +85,25 @@ Check 3-4 key terms. There are three outcomes:
 - If no existing directory fits, propose a new name and confirm with the user before creating
 - Create a new markdown file in the chosen directory
 
+## Special Handling: Leadership Content
+
+If the article is about leadership, management, people skills, career growth, or organizational topics:
+- Do NOT add the full blog content — leadership notes should be concise and actionable
+- Write ONLY a summary with key takeaways, lessons, and actionable insights
+- Use bullet points and short paragraphs — no lengthy prose from the original
+- Structure as: `## Key Takeaways`, then `## Actionable Insights` (what to do differently)
+- Still include source attribution and images if they are meaningful diagrams (skip stock photos)
+
 ## Step 4: Write or Update the Note
 
 ### For new notes:
 
 Use lowercase-hyphenated filename derived from the topic (not the article title — use a broad topic name since the file may accumulate multiple sources).
 
-```yaml
----
-title: "Topic Name"
-source: <the-original-url>
-date: <today's date YYYY-MM-DD>
-tags: [relevant, tags, here]
----
+Start the file with only the title as a top-level heading:
+
+```markdown
+# Topic Name
 ```
 
 Then:
@@ -104,18 +112,24 @@ Then:
 - Article content organized with clear section headers
 - Keep content concise but complete — no fluff, no ads
 
+End the file with a `---` horizontal rule followed by metadata:
+
+```markdown
+---
+
+**Source:** <the-original-url>
+**Date:** <today's date YYYY-MM-DD>
+**Tags:** topic1, topic2, topic3
+```
+
 ### For existing notes being updated:
 
-- Convert `source:` to a list if adding a second source:
-  ```yaml
-  sources:
-    - https://first-article.com
-    - https://new-article.com
-  ```
+- Add the new source URL to the metadata section at the bottom (use multiple **Source:** lines)
 - Add new content under a clear section header (e.g., `## New Topic From Article`)
 - Deduplicate — if the new article covers something already in the note, enrich the existing section rather than adding a duplicate
 - Update the Key Takeaways section with any new insights
 - Place new images where they contextually belong
+- Update **Tags:** to include any new relevant tags
 
 ## Step 5: Print Summary
 

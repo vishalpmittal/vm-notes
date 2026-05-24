@@ -1,9 +1,4 @@
----
-title: "Forward Proxy, Reverse Proxy, and API Gateway Explained"
-source: https://blog.bytebytego.com/i/198874402/forward-proxy-reverse-proxy-and-api-gateway-explained
-date: 2026-05-23
-tags: [proxy, api-gateway, networking, system-design]
----
+# Forward Proxy, Reverse Proxy, and API Gateway Explained
 
 ## Key Takeaways
 
@@ -49,3 +44,9 @@ All three operate in tandem across different layers:
 - **Forward proxies** filter outbound traffic
 - **Reverse proxies** protect application servers
 - **API gateways** enforce consistent policies before requests reach backend services
+
+---
+
+**Source:** https://blog.bytebytego.com/i/198874402/forward-proxy-reverse-proxy-and-api-gateway-explained
+**Date:** 2026-05-23
+**Tags:** proxy, api-gateway, networking, system-design

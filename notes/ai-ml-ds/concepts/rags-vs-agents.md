@@ -1,9 +1,4 @@
----
-title: "RAGs vs Agents"
-source: https://blog.bytebytego.com/i/198874402/rags-vs-agents
-date: 2026-05-23
-tags: [rag, agents, llm, architecture]
----
+# RAGs vs Agents
 
 ## Key Takeaways
 
@@ -40,3 +35,9 @@ More flexible but more token-intensive and harder to debug — errors compound a
 
 **Best when:** Task requires actions on other systems.
 **Common use cases:** Coding agents, workflow bots, browser use.
+
+---
+
+**Source:** https://blog.bytebytego.com/i/198874402/rags-vs-agents
+**Date:** 2026-05-23
+**Tags:** rag, agents, llm, architecture

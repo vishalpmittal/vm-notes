@@ -1,72 +1,81 @@
-# VM Notes - Claude Instructions
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 @BEHAVIORAL-GUIDELINES.md
 
 ## Repository Purpose
 
-Personal knowledge base of technical notes, learnings, and curated blog content. Topics span software engineering, system design, AI/ML, and emerging technologies. Notes are primarily markdown files, often sourced from online articles for future reference.
+Personal knowledge base of technical notes and curated blog content. Topics: software engineering, system design, AI/ML, and emerging technologies. Notes are markdown files, often sourced from online articles.
 
-## Workflow Guidelines
+## Commands
 
-### Adding Notes
-- All notes live under the `notes/` directory — topic folders and images are inside it
-- Each topic gets ONE file — do not create a separate file per blog post
-- Before creating a new file, search existing notes for related content (`grep -ri` for key terms)
-- If a related note exists, append new content as a new section within that file and merge overlapping parts
-- Only create a new file when no existing note covers the topic
-- Use `/add-blog <url>` to automate the full workflow (fetch, clean, categorize, merge, save)
-- When adding from an online source, include source attribution in YAML frontmatter:
-  ```yaml
-  ---
-  title: "Topic Name"
-  source: https://example.com/article
-  date: 2026-05-23
-  tags: [topic1, topic2]
-  ---
-  ```
-- For files with multiple sources, use a `sources:` list:
-  ```yaml
-  sources:
-    - https://first-article.com
-    - https://second-article.com
-  ```
-- Extract key takeaways into a `## Key Takeaways` section at the top
-- Filenames should reflect the broad topic, not a specific article title
+- `/add-blog <url>` — fetch a blog post, clean ads, download images, auto-categorize, merge with existing notes, and print a summary
 
-### Deduplication & Merging
-- Always search before adding — one authoritative file per topic
-- When merging into an existing note, enrich existing sections rather than duplicating content
-- Update the Key Takeaways section when adding new insights
-- Update tags to reflect the combined content
+## Architecture
 
-### Organization
-- All content lives under `notes/` — topic folders and `images/` are inside it
-- Up to two levels of folders allowed, then markdown files (e.g., `notes/ai-concepts/llm/prompting.md`)
-- No deeper nesting — max depth is `notes/<category>/<subcategory>/<file>.md`
-- Keep directory names lowercase, hyphenated
-- Use an `_index.md` in each directory as a table of contents for that bucket
-- When reorganizing, update all cross-references and the root `_index.md`
+```
+notes/                          # all content lives here
+├── images/                     # centralized image storage (flat)
+├── ai-ml-ds/                   # AI, ML, data science
+│   ├── claude/                 # Claude Code, Anthropic tools
+│   └── concepts/               # RAG, agents, LLM patterns
+├── system-design/              # architecture, distributed systems
+├── leadership/                 # management, leadership (summaries only)
+├── life-coaching/              # life advice, personal growth
+├── dad-jokes/                  # humor
+└── <new-categories-as-needed>/
+```
 
-### Images
-- Store all images in `notes/images/` (not inside topic folders)
-- Name format: `yyyymmdd-hhmm-image-description.png` (e.g., `20260523-1430-claude-context-flow.png`)
-- Reference from markdown files using relative paths: `![description](../images/20260523-1430-claude-context-flow.png)`
-- Keep images at a readable resolution but optimize file size (compress PNGs/JPGs before committing)
+- One markdown file per topic — multiple blog sources merge into a single note
+- Max folder depth: `notes/<category>/<subcategory>/<file>.md` (two levels, then files)
+- `notes/images/` is flat — all images regardless of topic category
 
-### Static Site Generation
-- This repo is intended to produce a browsable documentation site (static HTML)
-- When the site tooling is set up, respect its config and directory conventions
-- Generated/output files should be gitignored, not committed
+## Adding Notes
 
-## Code Style
+Search before creating: `grep -ri "key terms" notes/ --include="*.md" -l`
+- If a related note exists → append and merge, don't create a new file
+- If multiple placement options → prompt the user to choose
+- If no related note exists → create in the best-fit category directory
 
-- Markdown: ATX-style headers (`#`), one blank line between sections
-- Filenames: lowercase, hyphenated (e.g., `cap-theorem-notes.md`)
-- No trailing whitespace; files end with a single newline
+### Note Format
 
-## What Not to Do
+Each note starts with a `# Title` heading, then `## Key Takeaways` (3-5 bullets). Metadata goes at the end after a horizontal rule:
 
-- Don't delete or overwrite existing notes without confirmation
-- Don't reorganize the entire directory structure unprompted — propose the new structure first
-- Don't commit generated site output
-- Don't strip source attribution from curated content
+```markdown
+# Topic Name
+
+## Key Takeaways
+...
+
+## Content sections
+...
+
+---
+
+**Source:** https://example.com/article
+**Date:** 2026-05-23
+**Tags:** topic1, topic2
+```
+
+Multiple sources use multiple **Source:** lines. Filenames reflect the broad topic, not a specific article title.
+
+## Images
+
+- Location: `notes/images/` (never inside topic folders)
+- Naming: `yyyymmdd-hhmm-description.ext` (e.g., `20260523-1430-claude-context-flow.png`)
+- Reference: `![alt](../images/20260523-1430-claude-context-flow.png)` (relative from topic folder)
+- Optimize file size; keep readable resolution
+
+## Style
+
+- ATX headers (`#`), one blank line between sections
+- Filenames: lowercase, hyphenated
+- No trailing whitespace; single trailing newline
+
+## Constraints
+
+- Never delete or overwrite notes without confirmation
+- Never reorganize directory structure unprompted — propose first
+- Never strip source attribution
+- Never commit generated site output (future static site build artifacts should be gitignored)

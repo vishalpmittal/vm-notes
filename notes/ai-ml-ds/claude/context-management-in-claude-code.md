@@ -1,9 +1,4 @@
----
-title: "How Does Claude Code Keep Long Sessions From Running Out of Context"
-source: https://blog.bytebytego.com/i/198874402/how-does-claude-code-keep-long-sessions-from-running-out-of-context
-date: 2026-05-23
-tags: [claude-code, context-window, llm, architecture]
----
+# How Does Claude Code Keep Long Sessions From Running Out of Context
 
 ## Key Takeaways
 
@@ -30,3 +25,9 @@ Applied in order of least to most disruptive:
 ## Core Philosophy
 
 The architecture follows a "lazy degradation" pattern: apply the least disruptive shaper first, escalate only when cheaper layers prove insufficient. This preserves context quality for as long as possible before resorting to summaries.
+
+---
+
+**Source:** https://blog.bytebytego.com/i/198874402/how-does-claude-code-keep-long-sessions-from-running-out-of-context
+**Date:** 2026-05-23
+**Tags:** claude-code, context-window, llm, architecture
