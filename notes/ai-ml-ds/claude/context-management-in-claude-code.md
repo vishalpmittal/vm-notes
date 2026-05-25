@@ -6,7 +6,7 @@
 - Follows a "lazy degradation" pattern — least disruptive shaper first, escalate only when cheaper layers prove insufficient
 - Summarization is the last resort, not the first
 
-![5 Compaction Strategies in Claude Code](../images/20260523-1700-claude-code-context-management-strategies.png)
+![5 Compaction Strategies in Claude Code](../../images/20260523-1700-claude-code-context-management-strategies.png)
 
 ## The Five Strategies
 

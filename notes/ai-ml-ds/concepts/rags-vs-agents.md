@@ -6,7 +6,7 @@
 - Agents: reasoning loop with tools — flexible but token-intensive and harder to debug
 - Decision rule: RAG when the answer lives in your documents, agents when the task requires action on other systems
 
-![RAG vs Agent](../images/20260523-1800-rags-vs-agents-comparison.png)
+![RAG vs Agent](../../images/20260523-1800-rags-vs-agents-comparison.png)
 
 ## RAG (Retrieval-Augmented Generation)
 

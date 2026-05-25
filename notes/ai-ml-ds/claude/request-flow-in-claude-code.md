@@ -6,7 +6,7 @@
 - The core is a Plan-Act-Observe agent loop that repeats until the task is complete
 - Every tool action passes through a permission gate (Allow/Ask/Deny) before execution
 
-![What Happens When You Hit Enter in Claude Code](../images/20260523-1730-claude-code-request-flow.jpeg)
+![What Happens When You Hit Enter in Claude Code](../../images/20260523-1730-claude-code-request-flow.jpeg)
 
 ## The 8-Step Request Flow
 
