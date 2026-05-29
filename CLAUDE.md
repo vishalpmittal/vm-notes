@@ -11,6 +11,7 @@ Personal knowledge base of technical notes and curated blog content. Topics: sof
 ## Commands
 
 - `/add-blog <url>` — fetch a blog post, clean ads, download images, auto-categorize, merge with existing notes, and print a summary
+- `/course-notes <course-file> <text|url|image>` — append concise notes to a course file and update the directory's glossary.md with key terms
 
 ## Architecture
 
@@ -19,8 +20,13 @@ notes/                          # all content lives here
 ├── images/                     # centralized image storage (flat)
 ├── ai-ml-ds/                   # AI, ML, data science
 │   ├── claude/                 # Claude Code, Anthropic tools
-│   └── concepts/               # RAG, agents, LLM patterns
+│   ├── concepts/               # RAG, agents, LLM patterns
+│   ├── inference/              # ML serving, inference at scale
+│   └── models/                 # multi-model, model architectures
 ├── system-design/              # architecture, distributed systems
+├── infra/                      # DevOps, CI/CD, cloud, containers
+├── courses/                    # course notes (see Courses below)
+│   └── <course-name>/          # one subfolder per course
 ├── leadership/                 # management, leadership (summaries only)
 ├── life-coaching/              # life advice, personal growth
 ├── dad-jokes/                  # humor
@@ -59,6 +65,10 @@ Each note starts with a `# Title` heading, then `## Key Takeaways` (3-5 bullets)
 ```
 
 Multiple sources use multiple **Source:** lines. Filenames reflect the broad topic, not a specific article title.
+
+## Courses
+
+Course notes live in `notes/courses/<course-name>/` with a per-directory `glossary.md` table. The `/course-notes` command appends sections to a course file and auto-updates the glossary.
 
 ## Images
 
