@@ -8,6 +8,7 @@
 - High-performing engineers maintain quality standards regardless of tools (amplification effect) — AI doesn't inherently create more technical debt, but "cognitive debt" (understanding systems less) is an emerging concern
 - The biggest bottlenecks aren't code review or velocity — they're decision-making, prioritization, and meetings
 - The AI-native SDLC inverts time allocation: majority of effort shifts to planning and validation, while creation and operations compress
+- The cost of building collapsed but the cost of aligning organizationally has not — when multiple teams can solve the same problem in parallel, coordination becomes the bottleneck
 
 ## Actionable Insights
 
@@ -61,9 +62,26 @@
 - Agency — decisiveness without management oversight
 - Higher-level abstraction — making better choices about *what* to build, not just building faster
 
+## The Sustainability Problem for Senior Engineers
+
+AI tools enhanced senior roles more than junior ones — seniors have the system-level understanding to apply AI across the full lifecycle, then execute themselves. But productivity gains didn't reduce workload; organizational expectations expanded to absorb increased output.
+
+**What expanded:**
+
+- Senior engineers now code most days (previously occasional prototypes) while also increasing strategic writing and meetings
+- Idea-to-prototype compressed from a year to weeks, but stakeholder alignment didn't speed up proportionally
+- Thinking time — supposedly central to senior roles — nearly vanished, only appearing during holidays
+
+**What's at risk:**
+
+- 1-on-1 mentoring and people-focused work doesn't benefit from AI tooling and gets squeezed out
+- Specializing in AI/GenAI creates career advantages but narrows expertise — "identified with one thing in a way I wasn't before"
+- The role expanded in contradictory directions: deeper hands-on engineering + broader strategic scope + more mentoring — unsustainable simultaneously
+
 ---
 
 **Source:** https://newsletter.getdx.com/p/ai-productivity-debate
 **Source:** https://newsletter.getdx.com/p/designing-the-ai-native-engineering
-**Date:** 2026-05-25
-**Tags:** leadership, ai-adoption, developer-productivity, engineering-management, org-design, ai-native
+**Source:** https://jamiehurst.co.uk/2026-05-24_ai-sustainable
+**Date:** 2026-05-29
+**Tags:** leadership, ai-adoption, developer-productivity, engineering-management, org-design, ai-native, sustainability, senior-engineering
