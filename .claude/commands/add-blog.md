@@ -1,10 +1,104 @@
 ---
-description: Fetch a blog post, clean it, save with images, and auto-categorize
-argument-hint: <blog-url>
-allowed-tools: WebFetch, WebSearch, Read, Write, Bash, Glob, Grep, Edit
+description: Fetch one or more blog posts, clean, save with images, and auto-categorize
+argument-hint: <blog-url> [blog-url ...] | <pasted-content>
+allowed-tools: WebFetch, WebSearch, Read, Write, Bash, Glob, Grep, Edit, Agent
 ---
 
-You are adding a blog article to this notes repository. The URL is: $ARGUMENTS
+You are adding one or more blog articles to this notes repository. The input is: $ARGUMENTS
+
+**Decide the flow first:**
+
+- **Single URL or pasted content** → follow Steps 1–5 below in your own context
+- **Multiple URLs (2 or more)** → use the **Multi-Blog Parallel Strategy** below, then Step 5 to summarize
+
+---
+
+## Multi-Blog Parallel Strategy (use when 2+ URLs)
+
+This protects your context window and parallelizes I/O. Three agent roles:
+
+### Role A — Worker agents (1 per blog, run in parallel)
+
+Spawn one `general-purpose` Agent per URL using `run_in_background: true`. Each worker:
+
+1. Fetches the URL via WebFetch
+2. Downloads meaningful images to `notes/images/` (apply the time-slot convention: assign each worker a non-overlapping 10-minute slot, e.g. worker 1 uses `HHMM = 1500–1509`, worker 2 uses `1510–1519`, etc., so filenames don't collide)
+3. Returns a **structured report** — does NOT write any markdown files
+
+The worker prompt must include the URL, a unique time-slot range for image naming, and the report template below. Tell the worker explicitly: *"Do NOT create or modify any markdown files. The supervisor will do that."*
+
+**Worker report template (technical content):**
+
+```
+## ARTICLE: <title>
+### Source: <url>
+### Topic Tags: [tag, tag, ...]
+### Key Takeaways (3-5 bullets)
+### Core Argument (2-4 sentences)
+### Sections / Structure (heading → 2-4 sentence summary, preserve concrete details)
+### Key Decisions / Frameworks
+### Notable Quotes (max 3)
+### Images Downloaded (filename — description, or "None")
+### Suggested Note Placement (existing files to consider, or new file proposal)
+```
+
+**Worker report template (leadership content):**
+
+```
+## ARTICLE: <title>
+### Source: <url>
+### Topic Tags
+### Key Takeaways (3-5 bullets)
+### Actionable Insights (what to do differently)
+### Key Concepts / Frameworks Mentioned
+### Notable Quotes (max 2)
+### Images Downloaded (or "None")
+### Suggested Note Placement
+```
+
+### Role B — Consolidation-scout agent (parallel with workers)
+
+Spawn ONE `Explore` agent in parallel with the workers. Its job: while workers are fetching external content, the scout maps existing internal content in directories likely to be relevant to the batch.
+
+The scout's prompt should:
+- Take the rough topic of the batch (inferred from the URL hostnames / any user-provided theme tag like "leadership")
+- List existing files in the likely target directories
+- Read each candidate file's `## Key Takeaways` section
+- Return a structured map: `path → 1-line scope summary → relevant tags`
+
+This means by the time workers finish, the supervisor already has the "what exists" map and doesn't need to re-explore.
+
+### Role C — Supervisor (you, the parent)
+
+Once all workers + scout return:
+
+1. **Cross-article dedup** — read all worker reports together. If two new articles cover overlapping topics, decide whether they should land in the same file or stay separate.
+2. **Match against scout's map** — for each article, decide:
+   - **Append** to an existing file (use Edit) — when scope clearly overlaps
+   - **Create new** file (use Write) — when no existing file matches
+   - **Skip duplicate content** — if an article repeats what's already in a file, only add the new substance
+3. **Preview downloaded images** with the Read tool when worker captions were inferred (e.g., "diagram2"). Rename images to descriptive filenames with `mv` if needed. Delete any images that turned out to be sponsored ads or page chrome that slipped through the worker's filter.
+4. **Apply leadership formatting** (Key Takeaways + Actionable Insights, bullets not prose) for any article tagged leadership.
+5. **Write all final notes** — do not delegate the writing back to subagents; the supervisor owns final placement decisions.
+
+### Image-naming time-slot table (default)
+
+Assign before spawning workers:
+
+| Worker | Image time-slot range |
+|---|---|
+| 1 | `20260601-1500` to `20260601-1509` |
+| 2 | `20260601-1510` to `20260601-1519` |
+| 3 | `20260601-1520` to `20260601-1529` |
+| ... | (continue in 10-min blocks) |
+
+Use today's date, not literal `20260601`. Workers must use their assigned range.
+
+### When to use Skill version vs. direct work
+
+If the user gives 1 URL, don't spawn agents — the overhead isn't worth it. If the user gives 2+ URLs, always use this strategy; it's significantly faster and keeps the parent context lean.
+
+---
 
 Follow these steps exactly:
 

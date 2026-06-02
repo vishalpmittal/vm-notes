@@ -1,5 +1,11 @@
 # API Concepts Every Software Engineer Should Know
 
+> **This is the index.** Each section below lists topics; deep-dives live in sibling files. Drill into:
+>
+> - **[REST vs GraphQL vs gRPC](rest-vs-graphql-vs-grpc.md)** — when to pick which style
+> - **[Real-time communication](real-time-communication.md)** — polling, long polling, SSE, webhooks
+> - **[Retries](retries.md)** — exponential backoff, jitter, idempotency, retry budgets, circuit breakers
+
 ## Key Takeaways
 
 - API design spans six interconnected dimensions: foundations, styles/patterns, reliability, security, design/evolution, and observability
@@ -26,12 +32,13 @@ The HTTP basics that determine whether an API feels intuitive or confusing:
 
 Different architectural approaches suited to different situations:
 
-- **REST** -- resource-oriented, HTTP-native, most common
+- **REST** -- resource-oriented, HTTP-native, most common → see [rest-vs-graphql-vs-grpc.md](rest-vs-graphql-vs-grpc.md)
 - **RPC** -- action-oriented remote procedure calls
-- **gRPC** -- high-performance binary protocol (Protocol Buffers)
-- **GraphQL** -- client-specified queries, single endpoint
+- **gRPC** -- high-performance binary protocol (Protocol Buffers) → see [rest-vs-graphql-vs-grpc.md](rest-vs-graphql-vs-grpc.md)
+- **GraphQL** -- client-specified queries, single endpoint → see [rest-vs-graphql-vs-grpc.md](rest-vs-graphql-vs-grpc.md)
 - **WebSockets** -- full-duplex persistent connections
-- **Webhooks** -- server-to-client push notifications
+- **Webhooks** -- server-to-client push notifications → see [real-time-communication.md](real-time-communication.md)
+- **SSE / Polling / Long Polling** -- server-to-client update patterns → see [real-time-communication.md](real-time-communication.md)
 - **Sync vs Async & Long-Running APIs** -- request/response vs event-driven patterns
 
 ## Design & Evolution
@@ -65,10 +72,11 @@ Getting authentication and authorization right to avoid costly mistakes:
 
 Easy to ignore until the system is under pressure:
 
-- **Timeouts** -- preventing hung connections
-- **Retries with Backoff & Jitter** -- graceful failure recovery
-- **Idempotency (Keys)** -- safe retries without duplicate side effects
-- **Rate Limiting, Throttling & Quotas** -- protecting against abuse
+- **Timeouts** -- preventing hung connections → see [retries.md](retries.md)
+- **Retries with Backoff & Jitter** -- graceful failure recovery → see [retries.md](retries.md)
+- **Idempotency (Keys)** -- safe retries without duplicate side effects → see [retries.md](retries.md)
+- **Circuit Breakers** -- stop calling sustained-failing dependencies → see [retries.md](retries.md) and [../circuit-breakers.md](../circuit-breakers.md)
+- **Rate Limiting, Throttling & Quotas** -- protecting against abuse → see [../rate-limiting.md](../rate-limiting.md)
 - **HTTP Caching** -- Cache-Control, ETags, conditional requests
 
 ## Contracts, Testing & Docs

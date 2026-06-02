@@ -7,6 +7,7 @@
 - MCP (Model Context Protocol) reduces integration complexity from N x M (providers x tools) to N + M by standardizing how tools are described, discovered, and invoked across any model
 - MCP architecture has three layers: Host (user-facing app), Client (communication handler), and Server (lightweight wrapper around tools/APIs) -- all communicating via a standard protocol
 - Tool use introduces real costs: tool definitions consume context window tokens, models can hallucinate function names or malform arguments, and multi-turn loops add latency
+- Pinterest's production MCP deployment (66K monthly invocations, 7K hours/month saved) shows that implementing the protocol is the easy part -- registry, auth, deployment pipeline, and observability are the real engineering challenges
 
 ## Why LLMs Cannot Act Alone
 
@@ -115,6 +116,65 @@ A malicious npm package mimicked a legitimate Postmark email integration for MCP
 
 Production systems require validation, error handling, approval steps, and sandboxing for untrusted tools.
 
+## Pinterest — Production MCP at Scale
+
+Pinterest deployed a production MCP ecosystem across the company, reaching 66,000 monthly invocations across 844 active users and saving approximately 7,000 hours/month as of January 2025.
+
+### N+M in Practice
+
+![MCP N+M integration model](../../images/20260531-1330-pinterest-mcp-n-plus-m.png)
+
+Rather than building 50 custom integrations (5 AI surfaces x 10 tools), Pinterest implemented 15 components (5 clients + 10 servers). Each AI surface connects to MCP servers through a unified interface.
+
+### Three Architectural Bets
+
+![Pinterest MCP architecture](../../images/20260531-1331-pinterest-mcp-architecture.png)
+
+1. **Cloud-hosted servers** — all MCP servers run centrally in the cloud, not locally. This enables consistent auth, logging, and monitoring across every server, at the cost of network latency.
+2. **Domain-specific servers** — separate servers per domain (Presto for data queries, Spark for job debugging, Knowledge for documentation). Different tools need different access controls, and tool descriptions consume context window tokens, so scoping servers keeps token budgets manageable.
+3. **Unified deployment pipeline** — a centralized framework eliminates boilerplate, letting domain experts focus on business logic. This made the "many small servers" strategy operationally viable.
+
+### MCP Registry
+
+A central catalog acts as the governance backbone:
+
+- Approved servers for production use
+- Ownership information and support channels
+- Live status monitoring
+- Web UI for human browsing + API for programmatic discovery
+
+### Two-Layer Authorization
+
+![Two-layer auth flow](../../images/20260531-1332-pinterest-mcp-auth-layers.png)
+
+**Layer 1 — Network edge (Envoy proxy):** Validates JWT tokens and enforces coarse-grained access policies before requests reach MCP servers. Example: "production chat may access Presto, but experimental dev servers are blocked."
+
+**Layer 2 — Tool level:** Individual MCP servers apply fine-grained authorization using `@authorize_tool` decorators. Presto gates access by business group even if the server is broadly reachable.
+
+Pinterest bypassed the MCP spec's per-server OAuth flows. Instead, a single OAuth session is established when users open any AI surface. Service-to-service calls use SPIFFE-based authentication for low-risk, read-only scenarios.
+
+### Integration Surfaces
+
+![Deployment pipeline and client consumption](../../images/20260531-1334-pinterest-mcp-integration.png)
+
+MCP tools embed into existing engineer workflows:
+
+- **Internal AI chat** — primary interface, automatically scopes tools to user permissions
+- **Communication platform bots** — context-aware tool availability per channel
+- **AI-enabled IDEs** — Presto MCP for in-editor data access
+- **CLI agents** — terminal-based tool invocation
+
+### Governance and Observability
+
+- Human-in-the-loop approval for sensitive/expensive automated actions
+- Elicitation for dangerous tasks (explicit user confirmation)
+- Shared library provides input/output logging, invocation counts, and exception tracing
+- Impact measured by server owners providing "minutes saved per invocation" estimates, multiplied by invocation counts
+
+### Key Insight
+
+"Implementing the protocol turned out to be the easy part." The registry, auth layers, deployment pipeline, and observability infrastructure proved more critical than the MCP specification itself. The platform engineering around MCP is what enabled adoption at scale.
+
 ## Costs and Tradeoffs of Tool Use
 
 **Token consumption:** Tool definitions (names, descriptions, parameter schemas) occupy space in the finite context window. A handful of tools creates negligible overhead, but dozens or hundreds start crowding out the room the model needs to reason. Each additional tool slightly degrades the model's ability to focus.
@@ -128,5 +188,6 @@ Production systems require validation, error handling, approval steps, and sandb
 ---
 
 **Source:** https://blog.bytebytego.com/p/connecting-llms-to-the-real-world
+**Source:** https://blog.bytebytego.com/p/how-pinterest-built-a-production
 **Date:** 2026-05-04
-**Tags:** llm, tool-use, function-calling, mcp, agentic-loop, security, model-context-protocol
+**Tags:** llm, tool-use, function-calling, mcp, agentic-loop, security, model-context-protocol, pinterest, enterprise-mcp, developer-productivity

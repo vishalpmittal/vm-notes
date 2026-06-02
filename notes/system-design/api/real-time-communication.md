@@ -53,6 +53,12 @@ The service sends a request to the client when an event happens. The direction i
 
 Production systems typically combine multiple patterns rather than relying on a single approach.
 
+## See Also
+
+- [api-concepts.md](api-concepts.md) — the broader API design index (this file expands the API Styles & Patterns section)
+- [rest-vs-graphql-vs-grpc.md](rest-vs-graphql-vs-grpc.md) — sibling deep-dive on request/response API styles; note that gRPC streaming is an alternative to SSE/WebSockets for service-to-service realtime
+- [retries.md](retries.md) — webhook delivery typically needs idempotent retries with backoff
+
 ---
 
 **Source:** https://blog.bytebytego.com/i/195380781/polling-vs-long-polling-vs-webhooks-vs-sse

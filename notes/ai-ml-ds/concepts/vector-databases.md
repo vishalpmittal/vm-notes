@@ -88,9 +88,93 @@ Every operational decision in a vector database involves a tradeoff:
 
 - **pgvector (PostgreSQL extension):** Good for <100K vectors with moderate query volume. Simplifies infrastructure by keeping vectors alongside relational data. Hits scalability limits with millions of vectors.
 - **Dedicated vector database (Pinecone, Weaviate, Milvus, Qdrant):** Required when dataset size grows into millions+, query latency requirements tighten, or you need advanced features like filtered search, hybrid search, or multi-tenancy.
+- **Distributed SQL with vector indexing (CockroachDB C-SPANN — see case study below):** When vectors must co-exist with transactional data, when multi-tenant isolation or multi-region domiciling matters, or when transactional freshness is critical.
+
+## Case Study: CockroachDB C-SPANN — Vector Indexing in Distributed SQL
+
+CockroachDB built **C-SPANN**, a custom distributed vector index inspired by Microsoft SPANN, Google ScaNN, and SPFresh — purpose-built for distributed SQL constraints rather than reusing HNSW or classical IVF.
+
+### Why Not HNSW, IVF, or Pinecone?
+
+Six non-negotiable constraints eliminated existing options:
+
+- No central coordinator
+- On-disk state
+- Minimal network hops
+- Shardable KV layout
+- No hot spots
+- Real-time incremental updates
+
+**HNSW** (used by pgvector) requires in-memory graphs that resist sharding. **Classical IVF** assumes single-node deployment. **Specialized vector DBs** (Pinecone, etc.) separate vectors from transactional data, breaking unified queries and transactional freshness.
+
+### The C-SPANN Architecture
+
+A hierarchical K-means tree where vectors group into partitions with centroids; centroids themselves cluster up to a single root.
+
+![C-SPANN hierarchical K-means tree](../../images/20260601-1930-cockroachdb-vector-cspann-tree.png)
+
+- Wide, shallow tree — fanout ~100 keeps tree depth low (3 levels for 1M vectors, 5 for 10B)
+- Parallel partition traversal keeps latency predictable
+- Leaf scans use **SIMD CPU instructions** for fast distance computation
+- Background maintenance: K-means partition splitting, merging, and **nearest-partition reassignment** (from SPFresh paper) — keeps the index accurate without offline rebuilds
+
+### The Core Architectural Trick: Index-as-Table-Rows
+
+> "The architectural elegance stems from treating the vector index as ordinary table data rather than a special subsystem."
+
+Each partition is a **self-contained set of KV rows in CockroachDB's normal storage ranges** — not a parallel index data structure.
+
+![C-SPANN partitions stored as KV table rows — inherits distributed-storage capabilities](../../images/20260601-1931-cockroachdb-vector-index-as-table-rows.png)
+
+Because the index *is* table data, it automatically inherits from CockroachDB's existing infrastructure:
+
+| CockroachDB primitive | What the index gets for free |
+|---|---|
+| Range splitting & rebalancing | Auto-sharded as the index grows |
+| Block cache | Hot partitions stay in memory |
+| Multi-region replication | Vector index spans regions like any table |
+| Range restart resilience | No warm-up after node restart |
+
+### Compression: RaBitQ 1-Bit Quantization
+
+1536-dim OpenAI embedding at fp16 = ~3 KB → 1 TB per 333M vectors. **RaBitQ** collapses each dimension to 1 bit (~200 bytes/vector, **94% reduction**) using random orthogonal transforms.
+
+Two-phase search absorbs the lossy compression error:
+
+1. **Filter** — scan quantized vectors fast
+2. **Refine** — rerank top candidates against full-precision vectors
+
+(The same "cheap filter, precise refine" pattern appears throughout systems engineering.)
+
+### Multi-Tenancy via Prefix Columns
+
+```sql
+VECTOR INDEX (user_id, embedding)
+```
+
+Prefix columns build **separate K-means trees per tenant**. Combined with `REGIONAL BY ROW`, this gives geographic data domiciling for free.
+
+> "A billion vectors across a million users behaves as a million-vector index per user."
+
+Query syntax stays pgvector-compatible (`ORDER BY embedding <-> $2 LIMIT 10`), easing migration.
+
+### Tradeoffs
+
+| Strength | Limitation |
+|---|---|
+| Transactional freshness | Preview (25.2), Euclidean-only |
+| Distributed scaling | Limited non-prefix filtering |
+| Unified storage with relational data | Raw latency trails specialized in-memory systems |
+| Restart resilience (no warm-up) | Pending SIMD and root-cache optimizations |
+| Native multi-tenant + multi-region | |
+
+### Transferable Lesson
+
+Treating a "special subsystem" as ordinary table data is a powerful lever — distributed infrastructure came **for free**. Look for similar opportunities anywhere a system temptingly demands its own parallel storage plane.
 
 ---
 
 **Source:** https://newsletter.systemdesign.one/p/what-is-a-vector-database
+**Source:** https://blog.bytebytego.com/p/how-cockroachdb-built-vector-indexing
 **Date:** 2026-05-31
-**Tags:** vector-database, embeddings, hnsw, similarity-search, quantization, semantic-search, pgvector
+**Tags:** vector-database, embeddings, hnsw, similarity-search, quantization, semantic-search, pgvector, cockroachdb, c-spann, k-means, rabitq, distributed-sql, multi-tenancy
