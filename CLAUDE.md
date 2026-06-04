@@ -10,8 +10,12 @@ Personal knowledge base of technical notes and curated blog content. Topics: sof
 
 ## Commands
 
-- `/add-blog <url>` — fetch a blog post, clean ads, download images, auto-categorize, merge with existing notes, and print a summary
+- `/add-blog <url> [<url> ...]` — fetch a blog post, clean ads, download images, auto-categorize, merge with existing notes, and print a summary. For 2+ URLs, spawns parallel worker agents per blog plus a consolidation scout to map existing internal content.
 - `/course-notes <course-file> <text|url|image>` — append concise notes to a course file and update the directory's glossary.md with key terms
+
+## Agents
+
+- `leadership-coach` (`.claude/agents/leadership-coach.md`) — engineering leadership coaching for Sr Manager / Director situations (difficult engineer behavior, exec dynamics, delegation, hiring). Grounds advice in `notes/leadership/` and writes structured coaching plans into `notes/leadership/coaching-cases/`.
 
 ## Architecture
 
@@ -19,15 +23,17 @@ Personal knowledge base of technical notes and curated blog content. Topics: sof
 notes/                          # all content lives here
 ├── images/                     # centralized image storage (flat)
 ├── ai-ml-ds/                   # AI, ML, data science
+│   ├── agents/                 # agent frameworks, real-world agent writeups
 │   ├── claude/                 # Claude Code, Anthropic tools
-│   ├── concepts/               # RAG, agents, LLM patterns
-│   ├── inference/              # ML serving, inference at scale
-│   └── models/                 # multi-model, model architectures
+│   ├── concepts/               # RAG, LLM patterns, writing with LLMs
+│   └── inference/              # ML serving, inference at scale
 ├── system-design/              # architecture, distributed systems
+├── design/                     # product design, UX, design systems
 ├── infra/                      # DevOps, CI/CD, cloud, containers
 ├── courses/                    # course notes (see Courses below)
 │   └── <course-name>/          # one subfolder per course
 ├── leadership/                 # management, leadership (summaries only)
+│   └── coaching-cases/         # leadership-coach agent output (see Agents)
 ├── life-coaching/              # life advice, personal growth
 ├── dad-jokes/                  # humor
 └── <new-categories-as-needed>/
