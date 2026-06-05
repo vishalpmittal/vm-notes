@@ -37,6 +37,34 @@
 
 **Benefits:** zero downtime, instant rollback, production-like testing, decreased release risk
 
+## Canary Deployment
+
+**Problem:** Blue-green is all-or-nothing — if Green is bad, every user sees it the moment traffic flips. You want to validate the new version with real production traffic *before* exposing everyone.
+
+**Solution:** Deploy the new version alongside the current one, route a small percentage of traffic (1-5%) to it, monitor health metrics, gradually increase if healthy, roll back if not.
+
+**How it works:**
+
+1. Deploy v2 alongside v1 (both running)
+2. Route 1-5% of traffic to v2 via load balancer / service mesh
+3. Monitor: error rate, p95/p99 latency, business metrics for the canary cohort
+4. Auto-rollback if SLO breaches; otherwise increase to 10%, 25%, 50%, 100% over hours/days
+5. Once 100%, retire v1
+
+**Canary vs. Blue-Green:**
+
+| | Blue-Green | Canary |
+|---|---|---|
+| Traffic switch | Instant (0 → 100%) | Gradual (1% → 5% → 25% → 100%) |
+| Blast radius if bad | All users immediately | Small cohort first |
+| Rollback speed | Instant (switch back) | Pull traffic from canary cohort |
+| Requires | Two full environments | One environment with traffic-splitting |
+| Best for | Major releases, schema changes | Routine releases, gradual rollouts |
+
+**Requires:** backward compatibility between v1 and v2 (since they run concurrently), traffic-splitting infrastructure (service mesh, smart load balancer, feature flags), and good observability to detect canary regressions.
+
+**Often paired with:** feature flags (deploy code dark, then activate per-user/cohort) for even finer control without redeploying.
+
 ## Cross-Cutting Patterns Summary
 
 | Pattern | Solves | Key Mechanism |
@@ -45,9 +73,11 @@
 | Service Discovery | Services finding each other dynamically | Service registry (Consul, Eureka) or DNS/service mesh |
 | Circuit Breaker | Cascading failures from unhealthy dependencies | Three-state proxy (Closed → Open → Half-Open) |
 | Blue-Green Deployment | Downtime and risky releases | Dual environments with traffic switching |
+| Canary Deployment | Reducing blast radius of bad releases | Gradual traffic shift with monitoring + auto-rollback |
 
 ---
 
 **Source:** /Users/vimittal/Downloads/IJIRCT2412070.md
-**Date:** 2026-05-29
-**Tags:** microservices, cross-cutting-concerns, externalized-configuration, blue-green-deployment, design-patterns
+**Source:** https://designgurus.substack.com/p/50-system-design-patterns-every-engineer
+**Date:** 2026-05-29 (initial), 2026-06-04 (added canary)
+**Tags:** microservices, cross-cutting-concerns, externalized-configuration, blue-green-deployment, canary-deployment, design-patterns
