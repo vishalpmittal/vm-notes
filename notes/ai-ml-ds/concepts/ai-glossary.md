@@ -65,14 +65,14 @@ Storage and nearest-neighbor retrieval over embeddings. The real engineering wor
 
 ### 8. Semantic Search
 Matching by *meaning* rather than exact keywords. "How do I cancel my subscription?" should match a doc titled "Membership termination process." Hybrid (semantic + keyword) usually beats either alone.
-→ See [Vector databases](vector-databases.md), [Instacart search infrastructure](../../system-design/instacart-search-infrastructure.md)
+→ See [Vector databases](vector-databases.md), [Instacart search infrastructure](../../system-design/case-studies/instacart-search-infrastructure.md)
 
 ### 9. Retrieval
 Bringing external information into the model at query time. Covers chunking strategy, indexing choice, filtering rules, ranking, and context assembly. Retrieval quality is usually the gating factor on RAG accuracy.
 
 ### 10. RAG (Retrieval-Augmented Generation)
 The pattern: retrieve relevant docs, stuff them into the context window, ask the model to answer using them. **Separates "where the knowledge lives" from "how the answer is composed,"** but doesn't guarantee correctness — retrieval misses cascade into hallucinated answers.
-→ See [RAGs vs Agents](rags-vs-agents.md)
+→ See [RAGs vs Agents](rag.md#when-to-reach-for-rag-vs-agents-vs-long-context)
 
 ### 11. Prompting
 The instruction layer specifying task, role, format, constraints. Guides behavior but **doesn't update weights or add knowledge** — knowledge has to come from training, retrieval, or tools.
@@ -158,7 +158,7 @@ Stackable. Quantizing a distilled model with LoRA-tuned adapters is normal.
 
 - [Transformer architecture](transformer-architecture.md) — concepts 2, 4, 5 in depth
 - [Vector databases](vector-databases.md) — concepts 6, 7, 8
-- [RAGs vs Agents](rags-vs-agents.md) — concepts 10, 15
+- [RAGs vs Agents](rag.md#when-to-reach-for-rag-vs-agents-vs-long-context) — concepts 10, 15
 - [LLM tool use and MCP](llm-tool-use-and-mcp.md) — concepts 13, 14
 - [Agentic design patterns](../agents/agentic-design-patterns.md) — concept 15
 - [AI agent anatomy](../agents/ai-agent-anatomy.md) — concept 15

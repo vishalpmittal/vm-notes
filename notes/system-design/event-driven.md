@@ -148,5 +148,6 @@ Design with these as **givens**, not possibilities:
 ---
 
 **Source:** https://newsletter.systemdesignclassroom.com/p/event-driven-systems-are-easy-to-build-but-hard-to-keep-correct
-**Date:** 2026-04-25
-**Tags:** event-driven, distributed-systems, idempotency, outbox-pattern, cdc, schema-evolution, system-design
+**Source:** https://blog.levelupcoding.com/p/event-driven-architecture
+**Date:** 2026-04-25 (initial), 2026-06-05 (added "EDA as governance tool" framing)
+**Tags:** event-driven, distributed-systems, idempotency, outbox-pattern, cdc, schema-evolution, system-design, organizational-coupling

@@ -113,7 +113,7 @@ Swap Milvus for another vector DB, or HNSW for another in-memory index, and the 
 ## See Also
 
 - [instacart-search-infrastructure.md](instacart-search-infrastructure.md) — a sibling search case study, but fundamentally different problem (lexical → semantic migration, ES vs pgvector for product search)
-- [../ai-ml-ds/concepts/vector-databases.md](../ai-ml-ds/concepts/vector-databases.md) — HNSW fundamentals and vector DB tradeoffs
+- [../ai-ml-ds/concepts/vector-databases.md](../../ai-ml-ds/concepts/vector-databases.md) — HNSW fundamentals and vector DB tradeoffs
 
 ---
 

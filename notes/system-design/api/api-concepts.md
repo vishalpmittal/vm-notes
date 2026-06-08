@@ -97,6 +97,33 @@ Monitoring and managing APIs in production:
 
 ---
 
+## REST's Six Architectural Constraints (Fielding, 2000)
+
+The original REST dissertation defines REST through six constraints that explain *why* RESTful APIs scale and stay debuggable, not just what they look like:
+
+1. **Client-server separation** — clear interface boundary
+2. **Statelessness** — every request carries everything needed; servers don't track session state
+3. **Cacheability** — responses must declare cacheability; intermediaries (CDNs, proxies) can store them
+4. **Uniform interface** — identification of resources, manipulation through representations, self-descriptive messages, HATEOAS
+5. **Layered system** — clients can't tell whether they're talking to the origin or a proxy/cache/gateway
+6. **Code-on-demand** (optional) — servers can transfer executable code (rarely used)
+
+Most "REST" APIs in practice satisfy constraints 1-3 and partially satisfy 4 (usually skipping HATEOAS). The constraints, more than the URL conventions, are what make REST work at internet scale.
+
+### REST's Real Weaknesses
+
+The honest list:
+- **Over-fetching / under-fetching** — fixed resource shapes force clients to take more or less than they need
+- **Multiple round-trips** — fetching a list-then-details often requires N+1 requests
+- **Loose JSON contracts** — no protocol-level enforcement (vs gRPC's proto)
+- **Versioning friction** — `/v2/...` is a workaround, not a solution
+- **Real-time gaps** — REST is request/response only; live updates need [SSE or WebSockets](real-time-communication.md)
+
+REST is the **path of least resistance** for resource-centric domains, not universally optimal. See [rest-vs-graphql-vs-grpc.md](rest-vs-graphql-vs-grpc.md) for the layered choice.
+
+---
+
 **Source:** https://blog.bytebytego.com/i/195380781/api-concepts-every-software-engineer-should-know
-**Date:** 2026-05-31
-**Tags:** api, api-design, rest, graphql, grpc, security, system-design
+**Source:** https://blog.levelupcoding.com/p/rest-apis-properly-explained
+**Date:** 2026-05-31 (initial), 2026-06-05 (added REST six constraints + honest weaknesses)
+**Tags:** api, api-design, rest, graphql, grpc, security, system-design, fielding-constraints, hateoas

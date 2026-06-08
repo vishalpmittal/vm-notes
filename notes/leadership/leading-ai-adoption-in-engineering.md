@@ -139,9 +139,65 @@ AI tools enhanced senior roles more than junior ones — seniors have the system
 
 ---
 
+## When Enthusiasts and Skeptics Stop Talking (Charity Majors)
+
+A specific dysfunction worth naming: most engineering orgs now have **two distinct camps** that have stopped communicating productively about AI.
+
+### The Two Races
+
+| Camp | What they're racing against |
+|---|---|
+| **AI Enthusiasts** | **Time** — competitors using AI effectively could put them out of business |
+| **AI Skeptics** | **Entropy** — shipping unreviewed code creates technical debt and degrades systems |
+
+Both face genuine existential threats. Both are right. But they've started caricaturing each other ("you hate progress" / "you don't care about quality") and operate in separate realities.
+
+### The Structural Asymmetry
+
+The feedback loop is broken because **winners and costs flow to different people**:
+
+- An enthusiast ships fast → celebrated for velocity
+- Downstream teams discover the chaos weeks later → frustrated
+- Skeptics see the problems but lack credibility with leadership
+- Enthusiasts never see the second-order costs of their wins
+
+This is why mutual dismissal calcifies — both sides experience only their own evidence.
+
+### The Three Fixes
+
+**1. Tell the whole story in the same forum.** Present wins *alongside* costs where both camps can see them. Enthusiasts invite feedback openly; skeptics close loops by surfacing problems back to creators, not just complaining in side channels.
+
+**2. Treat the disagreement as engineering, not rhetoric.** Replace accusations with diagnostic questions:
+- ❌ "You hate progress" / "You don't care about quality"
+- ✅ **"What conditions would make you comfortable shipping unreviewed code?"**
+
+Then map dependencies, identify prerequisites, sequence the work. The disagreement becomes a roadmap.
+
+**3. Build credible expertise on both sides.** Engineers who influence outcomes need standing through *knowledge*, not position:
+- **Skeptics must understand AI opportunities** to have moral authority to push back
+- **Enthusiasts must understand the operational realities** they're creating for downstream teams
+- Leaders earn trust by forcing decisions **only as a last resort** — when both sides genuinely understand each other, they usually converge
+
+### The North-Star Example
+
+Fin (formerly Intercom) achieved **3× output in 9 months** through disciplined AI adoption — not magic. The unlock wasn't the AI itself; it was the prerequisites:
+- Better tests
+- Feature flags
+- Observability
+- Decoupled dependencies
+
+This validates both camps. Enthusiasts get the speedup; skeptics get the conditions for it to be safe. The "right" answer is enthusiasm grounded in skeptics' prerequisites.
+
+### Lesson for Leaders
+
+When you see your org polarizing into camps, don't pick a side. **Force the diagnostic conversation**: what would each side need to agree the other side has a point? The answer is usually a list of investments (testing, observability, gated rollouts, paved paths) that are valuable independent of who "wins" the argument.
+
+---
+
 **Source:** https://newsletter.getdx.com/p/ai-productivity-debate
 **Source:** https://newsletter.getdx.com/p/designing-the-ai-native-engineering
 **Source:** https://newsletter.getdx.com/p/ai-assisted-engineering-q1-2026-impact
 **Source:** https://jamiehurst.co.uk/2026-05-24_ai-sustainable
-**Date:** 2026-05-29
-**Tags:** leadership, ai-adoption, developer-productivity, engineering-management, org-design, ai-native, sustainability, senior-engineering, agentic-workflows, performance-metrics, player-coach, shadow-ai, change-failure-rate, dx-data
+**Source:** https://charitydotwtf.substack.com/p/ai-enthusiasts-are-in-a-race-against
+**Date:** 2026-05-29 (initial), 2026-06-07 (added Charity Majors enthusiast/skeptic framing)
+**Tags:** leadership, ai-adoption, developer-productivity, engineering-management, org-design, ai-native, sustainability, senior-engineering, agentic-workflows, performance-metrics, player-coach, shadow-ai, change-failure-rate, dx-data, enthusiast-skeptic, organizational-polarization, charity-majors

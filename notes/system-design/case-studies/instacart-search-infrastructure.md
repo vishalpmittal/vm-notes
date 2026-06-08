@@ -16,7 +16,7 @@ Users exhibit two distinct search patterns:
 - **Specific queries** ("pesto pasta sauce 8oz") -- need precise keyword matching
 - **Vague queries** ("healthy foods") -- need semantic understanding
 
-![Four-stage evolution of Instacart search](../images/20260531-1340-instacart-search-overview.png)
+![Four-stage evolution of Instacart search](../../images/20260531-1340-instacart-search-overview.png)
 
 ## Stage 1: Leaving Elasticsearch Behind
 
@@ -24,9 +24,9 @@ Elasticsearch requires **denormalized documents** -- any single field change tri
 
 The team made a counterintuitive move: they migrated search to **PostgreSQL**, leveraging its normalized data model. Isolated field changes no longer required full document re-indexing, reducing write workload by ~10x. They also benefited from existing operational expertise with Postgres.
 
-![Elasticsearch vs PostgreSQL data model comparison](../images/20260531-1341-instacart-es-vs-pg-migration.png)
+![Elasticsearch vs PostgreSQL data model comparison](../../images/20260531-1341-instacart-es-vs-pg-migration.png)
 
-![Detailed comparison between ES and Postgres approaches](../images/20260531-1342-instacart-es-pg-comparison.png)
+![Detailed comparison between ES and Postgres approaches](../../images/20260531-1342-instacart-es-pg-comparison.png)
 
 ## Stage 2: The Two-System Problem (Postgres + FAISS)
 
@@ -36,13 +36,13 @@ By 2021, Instacart added semantic search using **FAISS** (Meta's vector search l
 2. **Operational overhead** -- maintaining separate services for keyword and semantic search
 3. **Constrained signal combination** -- the architecture prevented sophisticated blending of retrieval signals
 
-![Dual retrieval architecture with FAISS and Postgres](../images/20260531-1343-instacart-dual-retrieval-system.png)
+![Dual retrieval architecture with FAISS and Postgres](../../images/20260531-1343-instacart-dual-retrieval-system.png)
 
 ## Stage 3: Unification with pgvector
 
 Instacart selected **pgvector** -- a PostgreSQL extension for vector similarity search -- to unify both retrieval paths into a single database. Pre-production testing confirmed it could meet throughput and latency requirements.
 
-![Unified architecture with pgvector](../images/20260531-1344-instacart-pgvector-unified.png)
+![Unified architecture with pgvector](../../images/20260531-1344-instacart-pgvector-unified.png)
 
 ### Results
 
@@ -54,7 +54,7 @@ Instacart selected **pgvector** -- a PostgreSQL extension for vector similarity 
 
 Previously, the application layer made separate calls to Elasticsearch, availability services, and other systems, then performed in-memory joining. The new architecture executes all operations within PostgreSQL -- filters, joins, and ranking happen before results leave the database.
 
-![Performance metrics and index tuning](../images/20260531-1345-instacart-perf-index-tuning.png)
+![Performance metrics and index tuning](../../images/20260531-1345-instacart-perf-index-tuning.png)
 
 ## Limits and Tradeoffs
 

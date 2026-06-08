@@ -92,8 +92,54 @@ The guiding principle: *"What is the weakest model that still protects us from u
 | Under-designing for staleness | Assuming eventual consistency "just works" without handling conflicts | Define explicit staleness windows; implement conflict resolution |
 | Treating consistency as platform-wide | One global setting instead of per-workflow tuning | Make consistency a per-workflow decision at the data layer |
 
+## Consistency vs Accuracy
+
+A useful distinction that gets conflated: **consistency** ≠ **accuracy**.
+
+- **Consistency** (CAP sense) — replicas agree on the value
+- **Accuracy** — the value reflects reality
+
+These can diverge in both directions:
+
+| Scenario | Consistent? | Accurate? |
+|---|---|---|
+| User updates email; primary shows new value, replicas show old | ❌ No | ✅ Yes (somewhere) |
+| Bug writes incorrect tax rate; all nodes replicate the wrong value perfectly | ✅ Yes | ❌ No |
+
+> "Consistency protects agreement about the order of writes, not the truth of the data itself."
+
+The implication: **consistency protocols can't make your data correct**. Correctness depends on application validation and business logic. You can have a perfectly consistent system that's confidently wrong.
+
+This matters for decision-making:
+- For payments/banking, you need both (and you pay latency for it)
+- For social feeds, you need neither very strongly (eventual consistency, eventual accuracy fine)
+- For analytics, you usually want accuracy with weak consistency (correct numbers eventually)
+
+> "Good system design isn't about perfection — it's about choosing which failure mode causes the least damage."
+
+## Additional Framings
+
+**CAP as a runtime choice, not a permanent classification.** A useful reframe: the C/A/P triangle isn't about what your system gives up forever — it's about *what happens when the network splits*. Most of the time partitions don't exist, and the trade-off doesn't bite. The classification ("CP system" vs "AP system") describes the choice the system makes during the partition window, not a property that affects every request.
+
+The practical decision heuristic that follows: **"What hurts your product more — returning incorrect data, or returning no data at all?"** Banking apps choose "no data" (CP — refuse to serve stale balances). Social feeds choose "stale data" (AP — show something rather than fail). Most real systems pick per component, not globally.
+
+## PACELC: The "Else" Extension
+
+CAP only covers behavior during partitions (the "PC" part). **PACELC** extends it to the normal case: **if Partitioned, choose C or A; Else, choose Latency or Consistency.**
+
+| Partition behavior | Else behavior | Examples |
+|---|---|---|
+| **PC/EC** | Consistent always | Postgres in synchronous-replication mode, traditional RDBMS |
+| **PC/EL** | Consistent on partition, low-latency normally | MongoDB (default), HBase |
+| **PA/EC** | Available on partition, consistent normally | (uncommon) |
+| **PA/EL** | Available + low-latency, lossy on consistency | Cassandra, DynamoDB, Riak (most "AP" datastores) |
+
+PACELC captures the truth that even when partitions aren't happening, you're still trading consistency for latency on every read/write. Most systems people call "AP" are really "PA/EL" — they prioritize availability *and* latency over consistency at all times, not only during partitions.
+
 ---
 
 **Source:** https://newsletter.systemdesignclassroom.com/p/consistency-is-negotiable-but
-**Date:** 2026-05-31
-**Tags:** consistency, distributed-systems, cap-theorem, quorum, linearizability, eventual-consistency, system-design
+**Source:** https://blog.levelupcoding.com/p/cap-theorem-explained
+**Source:** https://newsletter.systemdesignclassroom.com/p/consistency-vs-accuracy-distributed-systems
+**Date:** 2026-05-31 (initial), 2026-06-05 (added CAP-as-runtime-choice framing + PACELC + consistency-vs-accuracy distinction)
+**Tags:** consistency, accuracy, distributed-systems, cap-theorem, pacelc, quorum, linearizability, eventual-consistency, system-design

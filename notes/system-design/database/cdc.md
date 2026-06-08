@@ -54,6 +54,26 @@
 
 ---
 
+## The Three Capture Methods
+
+Worth knowing which method any CDC system uses — they have very different operational profiles:
+
+| Method | How | Pros | Cons |
+|---|---|---|---|
+| **Timestamp polling** | Periodically `SELECT WHERE updated_at > last_poll` | Simple; no DB-side changes | Latency gaps; **misses hard deletes** (no row to scan); polling overhead |
+| **Database triggers** | Trigger on insert/update/delete writes to a CDC table | Immediate capture; works with any consumer | Adds write overhead to every change; trigger logic can hide bugs |
+| **Log-based capture** | Read the WAL / binlog / redo log | Low latency; minimally invasive; preserves write order exactly | Requires privileged DB access; tool/version-specific; security implications |
+
+**Log-based is the modern standard** — Debezium, Maxwell, AWS DMS all read transaction logs. Triggers and timestamp polling persist mostly in legacy systems or where log access isn't available.
+
+**Common gaps that "vanilla" CDC doesn't solve:**
+- Schema evolution breaks downstream consumers (mitigate: schema registry — see [Datadog's pattern](case-studies/datadog-data-replication.md))
+- No business context — events are row-level, not domain-event-level (mitigate: enrichment layer between CDC and consumers)
+- Requires privileged DB access — security concern (mitigate: audit, least-privilege CDC user)
+
+---
+
 **Source:** https://blog.bytebytego.com/p/how-figma-upgraded-data-pipeline
-**Date:** 2026-05-24
-**Tags:** cdc, data-pipeline, system-design, kafka, snowflake, figma
+**Source:** https://blog.levelupcoding.com/p/change-data-capture-cdc
+**Date:** 2026-05-24 (initial), 2026-06-05 (added 3 capture methods + common gaps)
+**Tags:** cdc, data-pipeline, system-design, kafka, snowflake, figma, debezium, log-based-capture

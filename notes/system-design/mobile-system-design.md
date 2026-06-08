@@ -232,7 +232,49 @@ Cursor-based pagination is the recommended approach for dynamic content (social 
 
 ---
 
+## Interview Framework (~45 min)
+
+For mobile system design interviews, a reusable four-phase structure:
+
+| Phase | Time | Focus |
+|---|---|---|
+| **1. Requirements & Scope** | 5-10 min | Clarify what's being designed |
+| **2. API & Data Needs** | 5-10 min | Define client-server interactions |
+| **3. Architecture** | 10-15 min | Components and data flow |
+| **4. Deep Dive** | 15-20 min | Critical flows or new constraints |
+
+### Step 1 in detail
+
+The most underrated step. Before drawing anything, surface:
+
+**Briefing questions:**
+- Success criteria and priorities
+- Platform scope (iOS/Android/both) and target devices
+- Network conditions (offline support needed?)
+- User base size and constraints
+- What hidden requirements are likely?
+
+> "Your first job is not to design anything. It's understanding what you're being asked to design."
+
+### Mobile-specific deep-dive topics
+
+For phase 4, prioritize the topics covered in the rest of this note:
+- Caching strategy
+- App lifecycle handling (foreground/background/killed)
+- Memory and battery constraints
+- Offline-first capabilities + sync conflict resolution
+- Background task management (iOS BGTask, Android WorkManager)
+
+### Seniority signal
+
+Juniors show competence by **asking** clarifying questions. Seniors **proactively uncover hidden requirements** — they spot the constraint the interviewer didn't mention.
+
+See also [system-design-interview-approach.md](../leadership/system-design-interview-approach.md) for the broader (non-mobile) interview framework.
+
+---
+
 **Source:** https://newsletter.systemdesign.one/p/mobile-system-design
 **Source:** https://newsletter.systemdesign.one/p/mobile-system-design-concepts
-**Date:** 2026-05-31
-**Tags:** mobile, system-design, offline-first, caching, synchronization, networking, pagination
+**Source:** https://newsletter.systemdesign.one/p/mobile-system-design-interview
+**Date:** 2026-05-31 (initial), 2026-06-05 (added interview framework)
+**Tags:** mobile, system-design, offline-first, caching, synchronization, networking, pagination, interview-framework

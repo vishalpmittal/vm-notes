@@ -89,7 +89,36 @@ Central LLM decides subtasks at runtime (unlike pipeline where steps are predete
 - **Not multi-agent:** single central LLM stays in control; in true multi-agent, agents can call each other directly
 - **Tradeoff:** orchestrator can lose track of the original goal or become a bottleneck
 
+## Deep Research as a Canonical Multi-Agent Pattern
+
+![LLM deep research flow](../../images/20260605-1800-llm-deep-research-flow.png)
+
+The "deep research" features in Claude, ChatGPT, and Gemini are all multi-agent systems following the same four-role pattern:
+
+| Role | Job |
+|---|---|
+| **Planner** | Decompose the query into subtasks; ask clarifying questions up front rather than diving in blindly |
+| **Sub-agent Searchers** | Parallel task execution; each picks its own tools (web search, page browse, code execution) and accesses the outside world through a secure API/services layer |
+| **Synthesizer** | Aggregate sub-agent outputs, identify themes, plan outline, remove duplication |
+| **Citation Agent** | Run alongside the Synthesizer; link every claim back to its source |
+
+> "It's not just one model doing all the work. It's a coordinated system of specialized AI agents."
+
+The architecture corresponds to **orchestrator-worker + pipeline + parallelization** combined:
+- Orchestrator-worker shape (planner dispatches to searchers)
+- Parallelization within searchers (multiple sources/topics in flight)
+- Pipeline shape (planner → searchers → synthesizer → citation)
+
+The output feels more thorough and grounded than a single-shot LLM response because:
+1. The planner's clarifying questions catch ambiguity early
+2. Parallel searchers cover more ground in the same wall-clock time
+3. The synthesizer dedupes and structures
+4. Citations make the output verifiable, not just plausible
+
+This is the architectural shape behind any "research mode" you've seen in modern LLM products.
+
 ---
 
-**Date:** 2026-05-28
-**Tags:** multi-agent, orchestrator, pipeline, hierarchical, workflow-patterns, prompt-chaining, routing, parallelization
+**Source:** https://blog.bytebytego.com/i/191425883/how-llms-use-ai-agents-with-deep-research
+**Date:** 2026-05-28 (initial), 2026-06-05 (enriched with deep research pattern)
+**Tags:** multi-agent, orchestrator, pipeline, hierarchical, workflow-patterns, prompt-chaining, routing, parallelization, deep-research, planner-synthesizer, citation-agent

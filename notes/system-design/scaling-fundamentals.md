@@ -138,6 +138,22 @@ Fix the design, then scale.
 
 ---
 
+## Additional Connection Pool Parameters
+
+Beyond the basic sizing covered above, production pools have four key knobs:
+
+| Parameter | What | Trade-off if wrong |
+|---|---|---|
+| **Min / Max size** | Idle connections kept ready vs ceiling under load | Too low → connection thrashing; too high → DB resource waste |
+| **Idle timeout** | How long unused connections persist | Too short → reconnect overhead; too long → orphaned connections during DB restarts |
+| **Wait timeout** | Max time a request queues before failing | Too short → user-visible failures on bursts; too long → backed-up requests pile up |
+| **Validation strategy** | When to test connection health (borrow / release / periodic) | Too aggressive → latency cost; too lax → broken connections served to app |
+
+**The diagnostic warning:** a healthy pool can mask deeper problems. If queries are CPU- or I/O-bound on the DB, no pool tuning fixes that — the pool just becomes the new bottleneck visibility layer. Fix the slow query before adding more connections.
+
+---
+
 **Source:** https://designgurus.substack.com/p/50-system-design-patterns-every-engineer
-**Date:** 2026-06-04
+**Source:** https://blog.levelupcoding.com/p/connection-pooling-clearly-explained
+**Date:** 2026-06-04 (initial), 2026-06-05 (added connection-pool parameter detail)
 **Tags:** scaling, horizontal-scaling, vertical-scaling, auto-scaling, connection-pooling, capacity-planning, system-design

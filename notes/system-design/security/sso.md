@@ -131,8 +131,17 @@ See [password-attacks.md](password-attacks.md) for what these defenses block.
 - [Agent identity and auth](../../ai-ml-ds/concepts/agent-identity-and-auth.md) — the same delegation idea for AI agents (Uber's act_chain extends SSO-style trust to autonomous agents)
 - [Common cyber attacks](common-cyber-attacks.md) — phishing AiTM, the modern attack that bypasses traditional SSO
 
+## Additional Framings
+
+**"Centralize identity, decentralize access."** SSO is best understood as a **trust protocol**, not a convenience feature. Service Providers don't authenticate users — they validate signed assertions from a trusted IdP, then make their own access decisions. The IdP says *who* you are; each SP decides *what* you can do.
+
+**Same-origin policy is why SSO exists.** Cross-origin script restrictions in browsers are what make third-party authentication necessary in the first place. Without same-origin policy, the redirect-based handshake would be unnecessary.
+
+**SSO doesn't eliminate auth work; it shifts it.** Token validation, session expiry, refresh flows, single logout (SLO) — these remain on each SP's plate. SSO removes the credential-store and password-management burden, but the SP still has to implement correct session handling.
+
 ---
 
 **Source:** https://blog.bytebytego.com/i/191425883/how-single-sign-on-sso-works
-**Date:** 2026-06-04
+**Source:** https://blog.levelupcoding.com/p/sso-explained
+**Date:** 2026-06-04 (initial), 2026-06-05 (added trust-protocol framing + same-origin context)
 **Tags:** sso, authentication, identity, identity-provider, service-provider, saml, oidc, oauth, federation, mfa, system-design, security

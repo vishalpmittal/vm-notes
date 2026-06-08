@@ -9,7 +9,7 @@
 
 ## Platform Architecture
 
-![Wise platform layer — autonomous squads on shared internal platform](../images/20260528-2320-wise-platform-layer.png)
+![Wise platform layer — autonomous squads on shared internal platform](../../images/20260528-2320-wise-platform-layer.png)
 
 **Scale:** £36B quarterly cross-border transfers, 65% instant, 1,000+ microservices, 40 web apps, native mobile apps.
 
@@ -19,9 +19,9 @@
 
 ## Compute & Deployment
 
-![Kubernetes CRP — Terraform, RKE2, Rancher, Helm, ArgoCD](../images/20260528-2321-wise-kubernetes-crp.png)
+![Kubernetes CRP — Terraform, RKE2, Rancher, Helm, ArgoCD](../../images/20260528-2321-wise-kubernetes-crp.png)
 
-![Deployment evolution — Octopus (deploy and hope) to Spinnaker (canary + auto-rollback)](../images/20260528-2322-wise-deployment-evolution.png)
+![Deployment evolution — Octopus (deploy and hope) to Spinnaker (canary + auto-rollback)](../../images/20260528-2322-wise-deployment-evolution.png)
 
 - **CRP:** ground-up K8s rebuild — Terraform provisioning, RKE2 bootstrapping, Rancher state management, Helm (replaced JSONNET), ArgoCD with custom plugins; scaled from 6 to 20+ clusters
 - **Canary:** 5% traffic → 30-min analysis of error rates, latency, transaction success, conversion → auto-rollback on anomalies
@@ -30,9 +30,9 @@
 
 ## Data Architecture
 
-![Data pipeline — motion, rest, insight, action](../images/20260528-2323-wise-data-pipeline.png)
+![Data pipeline — motion, rest, insight, action](../../images/20260528-2323-wise-data-pipeline.png)
 
-![Database stack — PostgreSQL, MariaDB, MongoDB, Redis](../images/20260528-2324-wise-database-stack.png)
+![Database stack — PostgreSQL, MariaDB, MongoDB, Redis](../../images/20260528-2324-wise-database-stack.png)
 
 | Layer | Components |
 |---|---|
@@ -46,7 +46,7 @@
 
 ## ML & AI
 
-![ML/AI stack — MLflow, Spark, SageMaker, Ray Serve, AI gateway](../images/20260528-2325-wise-ml-ai-stack.png)
+![ML/AI stack — MLflow, Spark, SageMaker, Ray Serve, AI gateway](../../images/20260528-2325-wise-ml-ai-stack.png)
 
 - **Development:** SageMaker Studio, Spark on EMR, Airflow orchestration
 - **Features:** SageMaker Feature Store syncing hundreds of features for training + inference
@@ -56,7 +56,7 @@
 
 ## Observability
 
-![Observability stack — LGTM, Rollbar, OpenTelemetry](../images/20260528-2326-wise-observability-stack.png)
+![Observability stack — LGTM, Rollbar, OpenTelemetry](../../images/20260528-2326-wise-observability-stack.png)
 
 **LGTM stack (Grafana):** Loki (logs), Grafana (dashboards), Tempo (tracing), Mimir (metrics — migrated from Thanos).
 
