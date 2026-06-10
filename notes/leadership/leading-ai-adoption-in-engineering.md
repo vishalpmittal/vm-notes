@@ -9,6 +9,7 @@
 - The biggest bottlenecks aren't code review or velocity — they're decision-making, prioritization, and meetings
 - The AI-native SDLC inverts time allocation: majority of effort shifts to planning and validation, while creation and operations compress
 - The cost of building collapsed but the cost of aligning organizationally has not — when multiple teams can solve the same problem in parallel, coordination becomes the bottleneck
+- **AI didn't add friction — it revealed it.** Velocity, cognitive, and knowledge friction were always there but masked by slow build speeds. AI removed the speed limit; now friction *is* the bottleneck. **AI generates code, not context** — and most context still lives in individual heads
 
 ## Actionable Insights
 
@@ -194,10 +195,50 @@ When you see your org polarizing into camps, don't pick a side. **Force the diag
 
 ---
 
+## AI Reveals (Doesn't Add) Friction (Forsgren / Clegg, LDX3 2026)
+
+Nicole Forsgren (lead author of *Accelerate*, now Sr. Eng Director at Google) reframed the AI-productivity debate at LDX3 2026: friction was always the bottleneck — slow builds, ambiguous "done", siloed knowledge — but natural speed limits hid it. AI removes the speed limit, and now everything else is the bottleneck.
+
+![AI didn't add friction. It revealed it. Friction along a slow road becomes the bottleneck when AI accelerates. "AI generates the code. Not the context."](../images/20260609-1402-ldx3-ai-revealed-friction.png)
+
+### Three Kinds of Friction
+
+![Three kinds of friction — Velocity (slow builds, manual gates, 15-min deploys → fix: DORA + automation), Cognitive (unclear done, context-switching → fix: explicit ready/done criteria), Knowledge (context lives in one person's head → fix: ADRs + ownership maps). Knowledge is "the one most teams underinvest in"](../images/20260609-1403-ldx3-three-kinds-of-friction.png)
+
+| Friction | What it looks like | Fix |
+|---|---|---|
+| **Velocity** | Slow builds, manual approval gates, 15-min+ deploys | DORA metrics + automation |
+| **Cognitive** | Unclear "done", constant context-switching, ambiguous criteria | Explicit ready/done criteria |
+| **Knowledge** | Context lives in one person's head; engineers unfamiliar with adjacent systems | **ADRs + ownership maps** — the one most teams underinvest in |
+
+### The Central Insight
+
+> "AI generates the code. Not the context." — Nicole Forsgren
+
+In most organizations, critical context lives in individual heads — practically inaccessible to AI. Knowledge friction therefore becomes the **highest-leverage investment** as AI adoption scales.
+
+### Wise's Approach (Rick Clegg)
+
+Wise built scoped AI tools embedded in workflows — a code-flow visualizer that generates architectural diagrams, a PR-review assistant that explains changes in plain language.
+
+> "The goal wasn't speed — it was making systems legible to anyone needing to work within them. Speed follows from clarity."
+
+**Lesson:** target AI tooling at *legibility* (the knowledge-friction lever) before targeting speed. Speed is the downstream consequence.
+
+### Actionable
+
+- **Audit your team's friction by type** — which of the three is biggest? Most teams will discover knowledge friction is dominant once AI exposes the others
+- **Invest in ADRs and ownership maps** *before* investing in more AI tooling — context-less AI just produces more output your team can't validate
+- **Frame AI tools as legibility multipliers**, not speed multipliers — diagram generators, change explainers, onboarding agents
+- **Watch for the trap of measuring AI ROI by code volume.** If knowledge friction is unchanged, volume gains become technical debt at scale
+
+---
+
 **Source:** https://newsletter.getdx.com/p/ai-productivity-debate
 **Source:** https://newsletter.getdx.com/p/designing-the-ai-native-engineering
 **Source:** https://newsletter.getdx.com/p/ai-assisted-engineering-q1-2026-impact
 **Source:** https://jamiehurst.co.uk/2026-05-24_ai-sustainable
 **Source:** https://charitydotwtf.substack.com/p/ai-enthusiasts-are-in-a-race-against
-**Date:** 2026-05-29 (initial), 2026-06-07 (added Charity Majors enthusiast/skeptic framing)
-**Tags:** leadership, ai-adoption, developer-productivity, engineering-management, org-design, ai-native, sustainability, senior-engineering, agentic-workflows, performance-metrics, player-coach, shadow-ai, change-failure-rate, dx-data, enthusiast-skeptic, organizational-polarization, charity-majors
+**Source:** https://www.blog4ems.com/p/engineering-leadership-lessons-from-ldx3-2026
+**Date:** 2026-05-29 (initial), 2026-06-07 (Charity Majors enthusiast/skeptic), 2026-06-09 (Forsgren/Clegg friction reveal)
+**Tags:** leadership, ai-adoption, developer-productivity, engineering-management, org-design, ai-native, sustainability, senior-engineering, agentic-workflows, performance-metrics, player-coach, shadow-ai, change-failure-rate, dx-data, enthusiast-skeptic, organizational-polarization, charity-majors, friction-types, knowledge-friction, forsgren, ldx3

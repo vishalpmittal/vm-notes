@@ -64,6 +64,34 @@ Apply per interview stage:
 - **Meta** — less greenfield coding, more debugging in production-like code
 - All have **stopped tolerating** AI use ambiguously — either fully banned or fully embraced per round
 
+### Case Study: Meta's Full-Codebase + AI-Allowed Rebuild (LDX3 2026)
+
+Danit Nativ Navon (Senior EM, Meta) described Meta's full interview-loop rebuild:
+
+**Setup:**
+
+- Candidates receive a **full codebase**
+- **AI assistants allowed** during the interview
+- Assessment shifts to skills that are **invariant regardless of tooling**
+
+![What still counts when AI is allowed — 5 criteria: Explores first (scopes before diving in), Code quality (maintainable), Questions the AI (validates output), Talks to you (verbal communication), Prompts the AI (written communication)](../images/20260609-1404-ldx3-what-counts-when-ai-allowed.png)
+
+**Five invariant signals:**
+
+| # | Signal | Diagnostic |
+|---|---|---|
+| 1 | **Explores first** | Do they scope the problem before diving in? |
+| 2 | **Code quality** | Is what they ship maintainable? |
+| 3 | **Questions the AI** | Do they validate output or just accept it? |
+| 4 | **Talks to you** | Verbal communication with the interviewer |
+| 5 | **Prompts the AI** | Written communication with the tool |
+
+**Scale:** ~**9,000 interviews** completed in this format before full rollout in **April 2026**.
+
+**Core finding:** what makes a good hire didn't change. The *evidence-gathering methodology* changed entirely.
+
+**Note** — these 5 invariants overlap heavily with [The Five Critical Signals](#the-five-critical-signals) above. Meta's "two-layer communication" (verbal + written-to-AI) maps to **Communication under AI use**; their "questions the AI" maps to **Verification habits**; "explores first" maps to **Problem decomposition**. Independent convergence on the same signal set is a useful credibility check.
+
 ## The Junior Pipeline Risk
 
 - 54% of engineering leaders predict reduced junior hiring
@@ -82,5 +110,6 @@ Apply per interview stage:
 ---
 
 **Source:** https://www.blog4ems.com/p/stop-interviewing-engineers-like-its-2022
-**Date:** 2026-06-01
-**Tags:** leadership, hiring, interviewing, technical-interviews, ai-in-hiring, talent-assessment, engineering-management
+**Source:** https://www.blog4ems.com/p/engineering-leadership-lessons-from-ldx3-2026
+**Date:** 2026-06-01 (initial), 2026-06-09 (added Meta case study from LDX3 2026)
+**Tags:** leadership, hiring, interviewing, technical-interviews, ai-in-hiring, talent-assessment, engineering-management, meta, ldx3
