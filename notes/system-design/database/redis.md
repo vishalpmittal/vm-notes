@@ -28,14 +28,51 @@ This design is why `INCR`, `SETNX`, and other atomic operations are safe without
 
 Redis is not just a key-value store. It provides native support for:
 
-| Structure | Use Cases |
-|-----------|-----------|
-| **Strings** | Counters, flags, cached query results |
-| **Hashes** | User profiles, session data |
-| **Lists** | Queues, activity feeds |
-| **Sets** | Tag systems, unique visitors |
-| **Sorted Sets** | Leaderboards, priority queues |
-| **Streams** | Event sourcing, message logs |
+| Structure | Use Cases | Concrete examples |
+|-----------|-----------|-----------|
+| **Strings** | Counters, flags, cached query results | Session token, distributed lock value |
+| **Integers** | Counters, rate limiters, global ID generators | `INCR`, `INCRBY` for atomic increments |
+| **Hashes** | User profiles, session data | Shopping cart (one hash per user) |
+| **Lists** | Queues, activity feeds | Message queue, recent-N items |
+| **Sets** | Tag systems, unique visitors | Unique daily visitors, tag membership |
+| **Sorted Sets (ZSet)** | Leaderboards, priority queues, ranking | Daily-top songs, fraud-risk-ranked accounts |
+| **Bitmaps** | Compact set membership over dense IDs | User retention (1 bit per day), feature flags per user |
+| **Streams** | Event sourcing, message logs | Audit log, CDC sink |
+
+Reference: [Redis 8.4 Commands](https://redis.io/docs/latest/commands/redis-8-4-commands/)
+
+### Bitmap — User Retention Example
+
+Each bit represents one day; `1` means the user was active. Compact (1 bit/day means a year fits in 46 bytes per user), and Redis is heavily optimized for bit ops, so daily-active / churn / cohort analyses become bit aggregations instead of database joins.
+
+```
+User 1: 1010100   # active on days 1, 3, 5
+User 2: 0101010
+User 3: 1111000
+User 4: 0001111
+User 5: 0010001
+```
+
+To record "User 1 was active on Day 1": `SETBIT user:1:activity 0 1`. For Day 5: `SETBIT user:1:activity 4 1`. Then `BITCOUNT user:1:activity` returns the user's active-day count, and `BITOP AND retention day:1 day:7` gives the intersection (users active on both days) in one operation.
+
+### ZSet — Leaderboard Example
+
+Sorted set with `score → member`. Adds and lookups are O(log N), and the "top K" / "rank of member" / "members in score range" family becomes one command each.
+
+```
+# ZADD key score member
+ZADD songs:daily_top 15600 "Pop_Hit_Summer"
+ZADD songs:daily_top 3450  "Techno_Banger_99"
+ZADD songs:daily_top 1200  "Rock_Anthem_2024"
+
+ZREVRANGE songs:daily_top 0 9 WITHSCORES   # top 10
+ZRANK songs:daily_top "Pop_Hit_Summer"     # rank of one member
+ZRANGEBYSCORE songs:daily_top 1000 5000    # mid-tier slice
+```
+
+Reference: [Redis Sorted Set Commands](https://redis.io/docs/latest/commands/redis-8-4-commands/#sorted-set-commands)
+
+See [../../programming/dsa-patterns.md](../../programming/dsa-patterns.md) for when these structures are the right algorithmic tool.
 
 ### Persistence
 
@@ -94,5 +131,6 @@ Redis supports publish/subscribe messaging and list-based FIFO queues for real-t
 ---
 
 **Source:** https://blog.levelupcoding.com/p/redis-clearly-explained
-**Date:** 2026-05-31
-**Tags:** redis, caching, in-memory, rate-limiting, session-storage, system-design, database
+**Source:** /Users/vimittal/Downloads/data-structures/data-structures.html (bitmap + zset examples + integer/bitmap rows)
+**Date:** 2026-05-31, updated 2026-06-15
+**Tags:** redis, caching, in-memory, rate-limiting, session-storage, system-design, database, bitmap, zset, sorted-set, user-retention, leaderboard
