@@ -232,6 +232,38 @@ Wise built scoped AI tools embedded in workflows — a code-flow visualizer that
 - **Frame AI tools as legibility multipliers**, not speed multipliers — diagram generators, change explainers, onboarding agents
 - **Watch for the trap of measuring AI ROI by code volume.** If knowledge friction is unchanged, volume gains become technical debt at scale
 
+## Harness Engineering Is a Management Responsibility
+
+Stephane Moreau (Blog4EMs) argues that when AI coding tools fail on a team, the problem is rarely the model — it's the **harness** (context files, scoped tests, tool wiring, guardrails). Two engineers using the *same* AI tool produce vastly different results when one has invested setup time and the other points the tool at an unstructured monorepo.
+
+The key reframe: **the harness is the manager's deliverable**, not a platform team's side project. *"The scaffolding around a coding agent shapes its output as much as the model itself."* If nobody owns the harness, AI tools underperform — and the misattribution becomes "the AI isn't good enough" rather than "we didn't set it up."
+
+### The Data That Backs the Reframe
+
+Three studies that make "AI amplifies whatever your team already is" concrete:
+
+- **METR** found experienced developers were **~19% slower** using AI on their own *mature* codebases — the productivity gains are real for greenfield/junior work, but a context-rich expert often loses time to AI-mediated review
+- **2025 DORA report**: *"AI amplifies whatever your team already is."* High-performing teams get more from AI; struggling teams get more dysfunction
+- **Faros AI** (10,000+ developers): post-AI adoption, **PR volume nearly doubled and review time climbed by 91%** — review capacity becomes the new bottleneck (see [code-review-capacity-budgeting.md](code-review-capacity-budgeting.md))
+- **Stack Overflow 2025 Developer Survey**: trust in AI accuracy **fell to 29%**, with **two-thirds reporting outputs as "almost right, but not quite"** — the most expensive failure mode (looks right, isn't)
+
+### Three Problems Good Setup Protects Against
+
+| Problem | What happens without a harness |
+|---|---|
+| **Review Capacity Crisis** | Senior engineers become bottlenecked reviewing rapidly-generated code; verification quality silently degrades. See [code-review-capacity-budgeting.md](code-review-capacity-budgeting.md) |
+| **Junior Development Gap** | AI absorbs the small, well-defined tickets that traditionally taught junior engineers how the system works. Juniors lose the on-ramp; team-level knowledge depth shrinks over a multi-year horizon |
+| **Trust Erosion** | "Almost right, but not quite" outputs train engineers to either over-trust (committing without verification) or under-trust (re-doing the work manually). Either path destroys productivity gains |
+
+### What a Manager-Owned Harness Looks Like
+
+- **Context files** (`AGENTS.md`, `CLAUDE.md`, project-specific skill files) — see [harness-engineering.md](../ai-ml-ds/agents/harness-engineering.md) for OpenAI's playbook
+- **Scoped tests** the agent can run and iterate against
+- **Architectural guardrails** mechanically enforced (custom linters, type boundaries)
+- **A maker/checker loop** so the agent doesn't grade its own work — see [loop-engineering.md](../ai-ml-ds/agents/loop-engineering.md)
+
+The actionable shift: **add "harness health" to your team's regular operational review**, alongside code coverage and incident counts. If you can't point to who owns it, it's nobody's job and your AI tools are underperforming.
+
 ---
 
 **Source:** https://newsletter.getdx.com/p/ai-productivity-debate
@@ -240,5 +272,6 @@ Wise built scoped AI tools embedded in workflows — a code-flow visualizer that
 **Source:** https://jamiehurst.co.uk/2026-05-24_ai-sustainable
 **Source:** https://charitydotwtf.substack.com/p/ai-enthusiasts-are-in-a-race-against
 **Source:** https://www.blog4ems.com/p/engineering-leadership-lessons-from-ldx3-2026
-**Date:** 2026-05-29 (initial), 2026-06-07 (Charity Majors enthusiast/skeptic), 2026-06-09 (Forsgren/Clegg friction reveal)
-**Tags:** leadership, ai-adoption, developer-productivity, engineering-management, org-design, ai-native, sustainability, senior-engineering, agentic-workflows, performance-metrics, player-coach, shadow-ai, change-failure-rate, dx-data, enthusiast-skeptic, organizational-polarization, charity-majors, friction-types, knowledge-friction, forsgren, ldx3
+**Source:** https://www.blog4ems.com/p/the-reason-ai-coding-isnt-working
+**Date:** 2026-05-29 (initial), 2026-06-07 (Charity Majors enthusiast/skeptic), 2026-06-09 (Forsgren/Clegg friction reveal), 2026-06-14 (harness-as-management-responsibility + METR/DORA/Faros/SO data)
+**Tags:** leadership, ai-adoption, developer-productivity, engineering-management, org-design, ai-native, sustainability, senior-engineering, agentic-workflows, performance-metrics, player-coach, shadow-ai, change-failure-rate, dx-data, enthusiast-skeptic, organizational-polarization, charity-majors, friction-types, knowledge-friction, forsgren, ldx3, harness-engineering, metr, dora, faros, stack-overflow-survey, junior-development-gap, trust-erosion

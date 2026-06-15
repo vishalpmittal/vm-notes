@@ -124,8 +124,48 @@ Each shard internally uses primary-replica for read scaling; the shard map (ofte
 - [CAP](../cap.md) — consistency models for replicas
 - [Distributed system failure modes](../distributed-system-failure-modes.md) — read-write splitting, replication lag
 
+## Consistent Hashing with Virtual Nodes (Visual)
+
+Virtual nodes solve the **uneven distribution** problem of naive consistent hashing — each physical database gets *multiple* hash-ring positions, so when a server is added or removed, the load redistributes smoothly across remaining servers instead of dumping all of one node's range onto its single neighbor.
+
+![Hash ring with virtual nodes — each DB gets multiple ring positions](../../images/20260613-0702-consistent-hashing-virtual-nodes.png)
+
+## Sharding Strategies — Full Reference
+
+The full menu of sharding strategies, with their tradeoffs:
+
+| Strategy | One-Liner | Cardinality | Hotspot Risk | Range Queries | Rebalancing Cost | Typical Use Cases |
+|---|---|---|---|---|---|---|
+| **Range-Based** | Ordered key ranges (e.g., user_id 1–1M, 1M–2M) | Medium–High | High | Excellent | High | OLTP, ordered scans, analytics |
+| **Hash-Based (Key-Based)** | `hash(key) % N` → shard | High | Low | Poor | High | High-throughput read/write, sessions |
+| **Consistent Hashing** | Hash ring to minimize data movement | High | Low | Poor | Low | Distributed caches, elastic DBs |
+| **Directory-Based** | Central directory maps key → shard dynamically | Any | Low | Depends | Low | Hot-key mitigation, multi-tenant |
+| **Composite / Multi-Key** | Multiple dimensions (e.g., tenant_id + user_id) | Very High | Medium | Good (within primary key) | Medium | SaaS platforms, tenant isolation |
+| **Time-Based** | By time windows (daily/monthly partitions) | Low–Medium per shard | Very High | Excellent | Medium | Logs, metrics, event streams |
+| **Geo / Location-Based** | By geographic region (US, EU, APAC) | Low–Medium | Medium | Good (per region) | High | Global SaaS, data residency |
+| **Tenant-Based** | Tenant or tenant group → dedicated shard | High | Medium | Good (per tenant) | Medium | Enterprise SaaS, compliance |
+| **Entity-Group / Aggregate** | Co-locate related entities (order + items) | Medium–High | Medium | Poor | High | OLTP with strong consistency needs |
+| **Two-Level / Hierarchical** | Coarse first, then sub-shard (region → hash(user_id)) | Very High | Low | Good (coarse level) | Medium | Planet-scale systems |
+| **Hot / Cold (Tiered)** | Separate frequently-accessed from cold historical | Any | Low | Depends | Medium | Cost-optimized storage |
+| **Functional / Vertical** | By domain or function (users, orders, payments) | N/A | Low | N/A | Low | Microservices, DDD |
+
+### Good Sharding Key Properties
+
+A sharding key should be evaluated on three axes:
+
+- **Cardinality** — enough distinct values to spread across all shards (low cardinality = forced co-location)
+- **Frequency** — relatively even access distribution (some skew is fine; orders-of-magnitude skew is a hotspot)
+- **Monotonic change** — *avoid* monotonic keys for write-heavy workloads (e.g., timestamp or sequential ID as shard key) — newest shard gets all writes
+
+### Horizontal vs Vertical Partitioning (Refresher)
+
+- **Horizontal partitioning** — split *rows* across partitions (same columns, fewer rows per partition). e.g., one partition per year of orders. This is what most people mean by "sharding"
+- **Vertical partitioning** — split *columns* across partitions (same rows, fewer columns per partition). e.g., frequently-accessed columns in one partition, large/rarely-used columns in another
+
 ---
 
 **Source:** https://designgurus.substack.com/p/50-system-design-patterns-every-engineer
-**Date:** 2026-06-04
-**Tags:** database, replication, sharding, consistent-hashing, wal, partitioning, primary-replica, system-design
+**Source:** https://www.hellointerview.com/learn/system-design/core-concepts/sharding
+**Source:** /Users/vimittal/Downloads/prep/prep.html (sharding strategies table, virtual nodes image, sharding key properties, horizontal/vertical partitioning)
+**Date:** 2026-06-04, updated 2026-06-13
+**Tags:** database, replication, sharding, consistent-hashing, virtual-nodes, wal, partitioning, primary-replica, system-design, range-sharding, hash-sharding, directory-sharding, geo-sharding

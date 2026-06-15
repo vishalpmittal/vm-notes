@@ -141,12 +141,64 @@ But: **"no one will ask the AI for ownership."** Keep humans accountable even wh
 5. **Reliability ≠ prompt engineering** — it's testing, examples, observability, error handling
 6. Push the human to the right; keep them accountable
 
+## The 5-Layer Stack (Production View)
+
+A complementary visualization that arranges the components into a **layered stack** with explicit product names per layer. Useful as a procurement / tooling-selection map.
+
+![The AI Agent Stack — Model / Tools / Memory layers, ReAct loop runtime with orchestration components, observability + safety wrapper](../../images/20260614-1510-ai-agent-stack.jpeg)
+
+### The Layers
+
+| Layer | Role (body-part analog) | Examples |
+|---|---|---|
+| **Model Layer** | Brain — the underlying LLMs | OpenAI GPT-5, Anthropic Claude Sonnet 4 / Opus 4, Gemini 3.1 Pro |
+| **Tool Layer** | Hands — interact with the real world | Search (SerpAPI, Tavily, Firecrawl); APIs (Stripe, GitHub, Notion); Code execution (E2B, Modal, Fly.io sandbox); Data access (Postgres, MySQL); calendar / filesystem / etc. |
+| **Memory Layer** | Notebook — context lifecycle (Read context, Write experience) | **Short-term Working**: Redis session/cache, context buffer. **Long-term Semantic**: Qdrant, Pinecone, Milvus. **Long-term Transactional**: Postgres, MySQL |
+| **Agent Runtime** | Executor — runs the ReAct loop + orchestration | (See below) |
+| **Observability & Safety** | Wrapper — keeps it production-safe (cross-cutting) | Tracing/debugging: LangSmith; Eval/Feedback: Langfuse; Cost: Helicone; Quality/Drift: Arize Phoenix; Safety: Guardrails AI, Lakera, LlamaGuard |
+
+### The ReAct Loop (4 Steps, Not Just 3)
+
+The runtime runs an explicit **Thought → Action → Observation → Reflection** loop until the goal is reached:
+
+1. **Thought (Reasoning)** — LLM decides what to do next
+2. **Action (Tool Use)** — agent selects a tool and takes action
+3. **Observation (Result)** — tool returns data or feedback
+4. **Reflection (Plan Update)** — LLM updates context and decides the next step
+
+The 4th step (Reflection) is the one that turns a stateless tool-call loop into an *agent* — the model explicitly updates its plan based on what just happened, not just on what the next tool call should be.
+
+### Orchestration Components (Inside the Runtime)
+
+The Runtime isn't just the loop — it's the loop plus 7 orchestration responsibilities that turn it from a research demo into a production system:
+
+| Component | What it does |
+|---|---|
+| **Planning** | Decompose the goal into a sequence of steps |
+| **Task Decomposition** | Break complex steps into sub-tasks |
+| **Model Selection** | Route different sub-tasks to different models (cheap for triage, expensive for hard reasoning) |
+| **Tool Selection** | Pick the right tool from a possibly-large catalog without flooding the context |
+| **Execution Control** | Concurrency limits, timeouts, parallelism vs sequencing |
+| **Error Handling** | Catch tool errors and decide whether to retry, replan, or escalate |
+| **Retries & Recovery** | Backoff, idempotency, partial-success replay |
+
+### Three-Way Memory Split (Refinement)
+
+The earlier short-term/long-term split is sharpened in production into three distinct stores:
+
+- **Short-term Working** — current task's scratchpad (Redis, in-memory context buffer)
+- **Long-term Semantic** — accumulated knowledge / facts retrieved by similarity (vector DBs: Qdrant, Pinecone, Milvus)
+- **Long-term Transactional** — durable state across steps (relational DBs: Postgres, MySQL) — bookings, user state, audit trail
+
+The transactional layer is the one most people miss. Without it, your agent can plan and remember *facts*, but can't reliably track that "step 3 of 5 succeeded" across a crash.
+
 ## Related Patterns
 
 - [Agentic design patterns](agentic-design-patterns.md) — the escalation ladder (when to use which pattern)
 - [Multi-agent systems](../concepts/multi-agent-systems.md) — coordination styles in depth
 - [LLM tool use and MCP](../concepts/llm-tool-use-and-mcp.md) — step 3 (MCP tools) in depth
 - [Context engineering](../concepts/context-engineering.md) — step 5 (memory) in depth
+- [Agent memory + state consistency](agent-memory-state-consistency.md) — state vs memory split, three-tier memory in depth
 - [OpenAI data agent](openai-data-agent.md) — production case with all 10 steps active
 - [Stripe Minions](stripe-minions.md) — production case at step 10
 - [Harness engineering](harness-engineering.md) — production case at step 10 with mechanically-enforced invariants
@@ -155,5 +207,6 @@ But: **"no one will ask the AI for ownership."** Keep humans accountable even wh
 
 **Source:** https://blog.bytebytego.com/p/ep215-the-anatomy-of-an-ai-agent
 **Source:** https://newsletter.systemdesign.one/p/how-do-ai-agents-work
-**Date:** 2026-05-28 (initial), 2026-06-05 (enriched with 10-step ladder)
-**Tags:** agents, llm, agent-loop, planning, tools, memory, guardrails, mcp, react, runbook, multi-agent, sop, agent-maturity-ladder
+**Source:** https://blog.bytebytego.com/i/201645658/the-typical-ai-agent-stack-explained
+**Date:** 2026-05-28 (initial), 2026-06-05 (10-step ladder), 2026-06-14 (5-layer stack with product map + ReAct's 4 steps + orchestration components + transactional memory)
+**Tags:** agents, llm, agent-loop, planning, tools, memory, guardrails, mcp, react, runbook, multi-agent, sop, agent-maturity-ladder, agent-stack, observability, langsmith, langfuse, helicone, llamaguard, lakera, transactional-memory, orchestration-components, react-loop

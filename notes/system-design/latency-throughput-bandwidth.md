@@ -101,8 +101,29 @@ This is why:
 - [Microservices](microservices.md) — the latency tax of every-call-is-a-network-call
 - [SLA vs SLO vs SLI](observability/sla-slo-sli.md) — latency is the most common SLI
 
+## The Latency Pyramid (Order-of-Magnitude Reference)
+
+A mental hierarchy of common operation latencies — each row is roughly **10× slower** than the previous. Use it to spot mistakes like "Postgres insert in 100 ns" (impossible — that's RAM-read speed).
+
+| Scale | Operation |
+|---|---|
+| **1 ns** | L1 cache (on-die, hardware) |
+| **10 ns** | L2 cache (on-die) |
+| **100 ns** | RAM / memory read (e.g., Redis in-process) |
+| **10 µs** | Send data over 1 Gbps network |
+| **100 µs** | SSD read |
+| **1 ms** | Postgres / DB insert |
+| **10 ms** | HDD read |
+| **100 ms** | Packet round-trip California ↔ Netherlands ↔ California |
+| **1–2 s** | "Real-time" threshold for users |
+| **6–7 s** | "Near real-time" (acceptable for non-interactive flows) |
+| **10 s** | Retry / refresh interval |
+
+**Why this matters:** when designing a system, the cost of a network call (10 µs at best, 100 ms at worst) dominates the cost of a memory access by 4–6 orders of magnitude. *That's* why caching and locality matter more than micro-optimizations.
+
 ---
 
 **Source:** https://blog.bytebytego.com/p/ep217-latency-vs-throughput-vs-bandwidth
-**Date:** 2026-06-07
-**Tags:** latency, throughput, bandwidth, network-performance, system-design, fundamentals, tcp, bandwidth-delay-product
+**Source:** /Users/vimittal/Downloads/prep/prep.html (latency pyramid)
+**Date:** 2026-06-07, updated 2026-06-13
+**Tags:** latency, throughput, bandwidth, network-performance, system-design, fundamentals, tcp, bandwidth-delay-product, latency-pyramid, mechanical-sympathy

@@ -7,6 +7,8 @@
 - **LLMs converge on the average** of what already exists on a topic; humans diverge based on their own experience and conclusions
 - The test for whether a piece of writing should exist: does the reader gain something they couldn't get by prompting an LLM directly? If no, don't ship it
 - Code has testable outcomes (it runs or it doesn't). Writing quality depends on whether the author's *reasoning* comes through — a much harder thing for an LLM to manufacture
+- Before outlining, separate **topic** from **thesis** — "I want to write about RAG" is a subject; "Most teams reach for RAG before validating that retrieval is their bottleneck" is a claim. Only the claim is yours
+- Poor business communication costs the U.S. economy ~$4B/year in *visible* losses alone — unfunded projects, unadopted tools, and unrecognized work are the larger invisible tax
 
 ## The Three Layers
 
@@ -69,6 +71,36 @@ See [ai-assisted-code-review.md](ai-assisted-code-review.md) for the code-discip
 4. **Read the result yourself.** If it sounds like it could be by anyone, rewrite until it sounds like you
 5. **Apply the reader's test before shipping**
 
+## Step 0: Topic vs. Thesis
+
+The outline-by-hand step is itself preceded by a prior step the original framing skips: deciding what you actually think. A topic without a claim produces a generic post — the model can't supply the missing thesis.
+
+| Topic (subject) | Thesis (claim) |
+|---|---|
+| "I want to write about RAG" | "Most teams reach for RAG before validating that retrieval is their actual bottleneck" |
+| "I want to write about multi-agent systems" | "I spent six weeks building an orchestration layer that collapsed to a for-loop after testing — the abstraction added complexity, not capability" |
+| "I want to write about prompt engineering" | "The prompts that work in production look almost nothing like the ones in research papers" |
+
+**The exercise:** before drafting anything, write **one messy, unedited paragraph** capturing your core claim. Keep it nearby as your compass — every section either supports it or gets cut. If you can't write that paragraph, you don't have a thesis yet; you have a topic.
+
+## The 7 Cs (Compact Self-Edit Checklist)
+
+A useful pass-before-shipping checklist from *Technical Writing Essentials*:
+
+- **Clear** — easy to understand on one read
+- **Coherent** — sections logically connected, transitions explicit
+- **Concise** — no wasted words
+- **Concrete** — specific examples, not abstractions
+- **Correct** — accurate facts and numbers
+- **Complete** — necessary context included
+- **Courteous** — respectful tone, no condescension
+
+LLMs are reasonably good at flagging violations of *Clear*, *Concise*, and *Coherent* — and **bad** at *Concrete* (they tend to abstract toward the average) and *Complete* (they can't know what context your reader needs).
+
+## Signal Erosion: Why Overused AI Tropes Hurt You
+
+When AI tools deploy the same rhetorical devices indiscriminately — emoji-prefixed bullets, "let me break this down...", bolded takeaways every paragraph, em-dash-heavy cadence — those devices stop signaling emphasis and start signaling *machine*. Technically sophisticated readers increasingly pattern-match on the tropes and disengage before reading. Once trust erodes, rebuilding it is hard. Use rhetorical devices sparingly enough that they still mean something.
+
 ## See Also
 
 - [ai-assisted-code-review.md](ai-assisted-code-review.md) — the code equivalent: AI as reviewer/polisher, human keeps judgment
@@ -77,5 +109,6 @@ See [ai-assisted-code-review.md](ai-assisted-code-review.md) for the code-discip
 ---
 
 **Source:** https://aiagentssimplified.substack.com/p/what-ive-learned-about-writing-after
-**Date:** 2026-06-02
-**Tags:** writing, llms, ai-assisted-writing, creativity, perspective, editorial, content, originality
+**Source:** https://aiagentssimplified.substack.com/p/how-to-write-an-authentic-technical
+**Date:** 2026-06-02, updated 2026-06-12
+**Tags:** writing, llms, ai-assisted-writing, creativity, perspective, editorial, content, originality, technical-writing, thesis, 7-cs, signal-erosion

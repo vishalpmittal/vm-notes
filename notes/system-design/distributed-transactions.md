@@ -140,8 +140,20 @@ Eventually consistent datastore with multi-node writes?
 - [Event-driven systems](event-driven.md) — sagas are typically built on event buses; outbox for reliable step transitions
 - [Distributed system failure modes](distributed-system-failure-modes.md) — partial failures, idempotency, retries underpin both 2PC participants and saga steps
 
+## Saga: Orchestration vs Choreography (Visual)
+
+Two ways to coordinate the steps of a saga:
+
+- **Orchestration** — a central coordinator (Saga Orchestrator) issues commands and tracks state. *Simpler dependencies, looser coupling between services, better separation of concerns* — but risks centralized business logic and a single point of failure
+- **Choreography** — services react to each other's events with no central coordinator. *Simpler dependencies, looser coupling* — but adds complexity in understanding the overall flow, risks cyclic dependencies and tight coupling through events
+
+![Saga orchestration vs choreography — full comparison](../images/20260613-0700-saga-orchestration-vs-choreography.png)
+
+**Picking between them:** Orchestration when the workflow is non-trivial and you need explicit state/observability (most enterprise sagas). Choreography when the workflow is short and the services are already strongly event-driven.
+
 ---
 
 **Source:** https://designgurus.substack.com/p/50-system-design-patterns-every-engineer
-**Date:** 2026-06-04
-**Tags:** distributed-transactions, two-phase-commit, 2pc, saga, vector-clocks, consistency, eventual-consistency, compensation, system-design
+**Source:** /Users/vimittal/Downloads/prep/prep.html (orchestration vs choreography image)
+**Date:** 2026-06-04, updated 2026-06-13
+**Tags:** distributed-transactions, two-phase-commit, 2pc, saga, vector-clocks, consistency, eventual-consistency, compensation, system-design, orchestration, choreography

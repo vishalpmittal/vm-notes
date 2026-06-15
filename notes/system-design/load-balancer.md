@@ -36,8 +36,51 @@
 11. **Backend response** -- The backend processes the request and sends the response back to the load balancer.
 12. **Response rewriting and client forwarding** -- The load balancer may adjust response headers (e.g., setting cookies for session affinity) and forwards the response to the original client.
 
+## Algorithm Comparison (Full Reference)
+
+The full menu of load-balancing algorithms, what they measure, and where each one breaks down:
+
+![Load balancer algorithm comparison — what each measures, best-for, failure mode](../images/20260613-0704-load-balancer-algorithm-comparison.png)
+
+### Selection Criteria
+
+When picking an algorithm, you're trading off across:
+
+- **Even spread** — distribute traffic uniformly
+- **Concurrency** — send new requests to the server handling the least work *right now*
+- **Latency** — pick the server responding fastest
+- **Locality** — keep a user on the same server for state/cache reasons (session affinity)
+- **Stability** — minimize how much traffic moves around when servers scale up/down
+
+### Static vs Dynamic
+
+- **Static** — fixed pattern (rotation or weights), ignores live load. Round Robin, Weighted Round Robin
+- **Dynamic** — adapts based on runtime signals (active connections, response times). Least Connections, Least Response Time, P2C, Resource-based
+
+### Quick Picker
+
+- **Default for uniform stateless workloads** → Round Robin
+- **Mixed hardware** → Weighted Round Robin
+- **Variable session durations (streaming, downloads)** → Least Connections
+- **User-perceived latency matters and metric is reliable** → Least Response Time
+- **High operational visibility into CPU/memory/queue** → Resource-based
+- **Big fleet, want low coordination overhead** → Power of Two Choices (P2C)
+- **Sticky sessions, no cookies available** → Source IP Hash
+- **Sharded state / caches that must survive scaling** → Consistent Hashing
+
+### Tradeoffs You'll Live With
+
+- **Round Robin** — looks fair until one host buckles under heavy requests
+- **Least Connections** — "few connections" ≠ "low load" on weaker hosts
+- **Least Response Time** — can oscillate as a "fast" host gets flooded, slows, then repeats
+- **Resource-based** — operationally heavy; noisy signals cause flapping
+- **P2C** — if the metric misses the actual bottleneck, it confidently routes wrong
+- **Source IP Hash** — NAT/proxies skew distribution; one corporate IP becomes a hot spot
+- **Consistent Hashing** — hot keys stay hot; doesn't shed load without help
+
 ---
 
 **Source:** https://blog.bytebytego.com/i/194493928/how-load-balancers-work
-**Date:** 2026-05-31
-**Tags:** load-balancer, system-design, networking, distributed-systems
+**Source:** /Users/vimittal/Downloads/prep/prep.html (algorithm comparison + criteria + static/dynamic)
+**Date:** 2026-05-31, updated 2026-06-13
+**Tags:** load-balancer, system-design, networking, distributed-systems, round-robin, least-connections, consistent-hashing, p2c, weighted-round-robin

@@ -83,9 +83,27 @@ Need original value back?
 - [Common cyber attacks](common-cyber-attacks.md) — MitM is the attack encryption defends against
 - [OAuth](oauth.md) — tokens in auth context (different "token" — auth tokens vs tokenization tokens)
 - [SSO](sso.md) — encrypted/signed assertions between IdP and SP
+- [TLS / SSL](tls-ssl.md) — symmetric + asymmetric encryption layered together in the most common encryption deployment
+
+## Symmetric vs Asymmetric Encryption
+
+The two flavors of encryption that get combined in practice (TLS uses both):
+
+| | Symmetric | Asymmetric |
+|---|---|---|
+| **Key model** | Same key for encrypt + decrypt | Public key encrypts, private key decrypts |
+| **Speed** | Very fast — efficient for large data | Slower, computationally heavy |
+| **Key distribution problem** | Must securely share the key first | Public key is shareable openly |
+| **Examples** | AES, ChaCha20 | RSA, ECC, Diffie-Hellman / ECDHE |
+| **Typical use** | Bulk data encryption (e.g., disk-at-rest, TLS data phase) | Key exchange, digital signatures, certificate-based identity |
+
+**Why TLS uses both:** Asymmetric for the handshake (secure key exchange over insecure networks); symmetric for the actual data transmission (much faster for arbitrary payload sizes). Full handshake breakdown in [tls-ssl.md](tls-ssl.md).
+
+![Hashing vs Encryption vs Tokenization — full comparison](../../images/20260613-0706-hashing-vs-encryption-vs-tokenization-table.png)
 
 ---
 
 **Source:** https://blog.levelupcoding.com/p/hashing-vs-encryption-vs-tokenization
-**Date:** 2026-06-05
-**Tags:** hashing, encryption, tokenization, security, cryptography, pci-dss, kdf, vault, data-protection
+**Source:** /Users/vimittal/Downloads/prep/prep.html (symmetric/asymmetric + image)
+**Date:** 2026-06-05, updated 2026-06-13
+**Tags:** hashing, encryption, tokenization, security, cryptography, pci-dss, kdf, vault, data-protection, symmetric, asymmetric, aes, rsa, ecdhe

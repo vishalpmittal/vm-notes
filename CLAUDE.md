@@ -26,9 +26,12 @@ notes/                          # all content lives here
 │   ├── agents/                 # agent frameworks, real-world agent writeups
 │   ├── claude/                 # Claude Code, Anthropic tools
 │   ├── concepts/               # RAG, LLM patterns, writing with LLMs
+│   ├── ethics/                 # AI ethics, safety
 │   └── inference/              # ML serving, inference at scale
 ├── system-design/              # architecture, distributed systems
 ├── design/                     # product design, UX, design systems
+├── product/                    # product management frameworks
+├── programming/                # general programming concepts (OOP, etc.)
 ├── infra/                      # DevOps, CI/CD, cloud, containers
 ├── courses/                    # course notes (see Courses below)
 │   └── <course-name>/          # one subfolder per course

@@ -145,9 +145,22 @@ Design with these as **givens**, not possibilities:
 
 > Event-driven architecture does not remove complexity. It moves it into retries, consistency boundaries, replay, and contracts. You still pay the bill. You just pay it in different places.
 
+## The Five Must-Know Message Broker Patterns
+
+A visual cheat-sheet for the five patterns that show up everywhere in event-driven systems:
+
+- **Transactional Outbox Pattern** — state change + outbox row in one DB transaction, relayer publishes to broker (no lost events)
+- **CQRS** — separate write database (commands) from read database (queries), eventual consistency between them
+- **CQRS with Event Sourcing** — events themselves are the source of truth; read DB is a projection rebuilt from events
+- **Saga Pattern** — long-running cross-service workflow via a chain of events with compensating actions (see [distributed-transactions.md](distributed-transactions.md))
+- **Competing Consumers Pattern** — multiple consumers pull from one queue, work is load-balanced across them
+
+![Five message broker patterns — visual reference](../images/20260613-0703-message-broker-patterns.png)
+
 ---
 
 **Source:** https://newsletter.systemdesignclassroom.com/p/event-driven-systems-are-easy-to-build-but-hard-to-keep-correct
 **Source:** https://blog.levelupcoding.com/p/event-driven-architecture
-**Date:** 2026-04-25 (initial), 2026-06-05 (added "EDA as governance tool" framing)
-**Tags:** event-driven, distributed-systems, idempotency, outbox-pattern, cdc, schema-evolution, system-design, organizational-coupling
+**Source:** /Users/vimittal/Downloads/prep/prep.html (five-pattern visual)
+**Date:** 2026-04-25 (initial), 2026-06-05 (governance framing), 2026-06-13 (five-pattern visual)
+**Tags:** event-driven, distributed-systems, idempotency, outbox-pattern, cdc, schema-evolution, system-design, organizational-coupling, cqrs, event-sourcing, competing-consumers, saga

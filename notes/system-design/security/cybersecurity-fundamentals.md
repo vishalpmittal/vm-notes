@@ -134,9 +134,27 @@ This note is the index for the security/ folder. Specific topics:
 - [Distributed system failure modes](../distributed-system-failure-modes.md) — availability failures are also security incidents
 - [Service mesh and sidecar](../service-mesh-and-sidecar.md) — mTLS as a network-layer control
 - [Prompt injection defenses](../../ai-ml-ds/concepts/prompt-injection-defenses.md) — STRIDE-style threat modeling for LLM systems
+- [MFA](mfa.md) — strong identity is the foundation for everything else
+- [Zero Trust + JIT Access](zero-trust-and-jit-access.md) — "assume breach" + time-bounded privilege
+- [TLS / SSL](tls-ssl.md) — the encryption layer that protects data in transit
+
+## Attack Surface (What to Inventory)
+
+The full set of places where an attacker can interact with your system. Frequently-overlooked entries are at the bottom — the obvious ones are well-guarded; the forgotten ones are usually how attackers get in.
+
+- **Endpoints** — every public API surface
+- **Webhooks** — both inbound (you receive) and outbound (you call out)
+- **Upload flows** — file uploads are a perennial attack vector (XSS in SVG, malware, zip bombs, type confusion)
+- **Background jobs** — anything that processes data without a user in the loop
+- **Message queues** — consumers that auto-process whatever lands on the queue
+- **Third-party callbacks** — OAuth callbacks, payment processor webhooks, etc.
+- **Old features nobody remembers** — the highest-leverage attacker target. Deprecated endpoints, sunsetted features, "legacy" auth paths
+
+**The rule:** if it accepts input, it's part of the attack surface. The cataloging exercise is itself the value.
 
 ---
 
 **Source:** https://newsletter.systemdesign.one/p/cybersecurity-fundamentals
-**Date:** 2026-06-05
-**Tags:** security, cia-triad, stride, threat-modeling, defense-in-depth, cybersecurity, fundamentals, index
+**Source:** /Users/vimittal/Downloads/prep/prep.html (attack surface inventory)
+**Date:** 2026-06-05, updated 2026-06-13
+**Tags:** security, cia-triad, stride, threat-modeling, defense-in-depth, cybersecurity, fundamentals, index, attack-surface

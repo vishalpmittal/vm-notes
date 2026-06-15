@@ -151,9 +151,23 @@ Beyond the basic sizing covered above, production pools have four key knobs:
 
 **The diagnostic warning:** a healthy pool can mask deeper problems. If queries are CPU- or I/O-bound on the DB, no pool tuning fixes that — the pool just becomes the new bottleneck visibility layer. Fix the slow query before adding more connections.
 
+## Scale Reference Numbers (When to Worry)
+
+Order-of-magnitude reference points for the four big classes of components. Use as *triggers* for thinking about scaling, not as hard ceilings.
+
+| Component | Key Metrics | Scale Triggers (start thinking when...) |
+|---|---|---|
+| **Caching** | ~1 ms latency; 100K+ ops/sec; memory-bound (up to ~1 TB) | Hit rate < 80%; latency > 1 ms; memory > 80%; cache churn/thrashing |
+| **Databases** | Up to ~50K TPS; sub-5ms read (cached); 64 TiB+ storage | Write throughput > 10K TPS; read latency > 5ms uncached; geographic distribution needs |
+| **App Servers** | 100K+ concurrent connections; 8–64 cores @ 2–4 GHz; 64–512 GB RAM (up to 2 TB) | CPU > 70%; response latency > SLA; connections near 100K/instance; memory > 80% |
+| **Message Queues** | Up to 1M msgs/sec/broker; sub-5ms end-to-end; up to 50 TB storage | Throughput near 800K msgs/sec; partition count ~200K per cluster; growing consumer lag |
+
+**How to read these:** these are the points at which a single-instance solution stops being viable and you start needing to think about partitioning, replication, or moving to a different architecture. Hit any of these triggers → the next-tier discussion (sharding, read replicas, more brokers, etc.) is overdue.
+
 ---
 
 **Source:** https://designgurus.substack.com/p/50-system-design-patterns-every-engineer
 **Source:** https://blog.levelupcoding.com/p/connection-pooling-clearly-explained
-**Date:** 2026-06-04 (initial), 2026-06-05 (added connection-pool parameter detail)
-**Tags:** scaling, horizontal-scaling, vertical-scaling, auto-scaling, connection-pooling, capacity-planning, system-design
+**Source:** /Users/vimittal/Downloads/prep/prep.html (scale-trigger reference numbers)
+**Date:** 2026-06-04 (initial), 2026-06-05 (connection-pool detail), 2026-06-13 (scale reference numbers)
+**Tags:** scaling, horizontal-scaling, vertical-scaling, auto-scaling, connection-pooling, capacity-planning, system-design, scale-numbers, capacity-thresholds
