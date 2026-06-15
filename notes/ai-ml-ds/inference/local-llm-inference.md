@@ -82,6 +82,7 @@ A simple flow for picking a tool:
 
 ## See Also
 
+- [inference-engineering.md](inference-engineering.md) — the *mechanics* layer (prefill/decode split, batching, prefix caching, quantization, speculative decoding, parallelism, disaggregation) that the tools in this note implement
 - [cpu-gpu-tpu.md](cpu-gpu-tpu.md) — the hardware-architecture layer that determines what fits where
 - [ml-systems-at-scale.md](ml-systems-at-scale.md) — production ML serving patterns at large scale
 - [../concepts/llm-cost-and-routing.md](../concepts/llm-cost-and-routing.md) — cloud cost models and router patterns (the *other* answer to API cost)

@@ -95,6 +95,19 @@ MCP servers can surface three types of capabilities:
 - **Resources** -- data the model can read (files, database records)
 - **Prompt Templates** -- reusable instruction patterns
 
+**Diagnostic for Tools vs Resources:** *if a "tool" mostly returns data with no real side effect, it's probably a resource in disguise.* Misclassifying inflates the tool catalog and crowds the context window with things that should have been read passively.
+
+### Session Lifecycle (Capability Handshake)
+
+Every MCP connection begins with a handshake that establishes:
+
+- Protocol version compatibility
+- The exact set of capabilities the server will expose for *this session*
+
+> "After that, all interactions are constrained by what was agreed upfront. **No hidden features. No assumptions.**"
+
+This handshake is what makes the protocol auditable — at any later point a client can prove what the server claimed to support when the session opened, and the server can refuse calls that weren't in the agreed capability set. It's the structural reason MCP composes safely across providers.
+
 ### Request Flow
 
 ![MCP request flow](../../images/20260531-1215-mcp-request-flow.png)
@@ -185,9 +198,32 @@ MCP tools embed into existing engineer workflows:
 
 **Core principle:** The model reasons about what should happen, and the application layer controls whether it actually does. That boundary is where security, reliability, and control are designed in.
 
+## What MCP Does *Not* Solve
+
+MCP standardizes the **integration surface**, but it doesn't replace any of the discipline that surrounds it:
+
+- **Model selection strategy** — which LLM to call for which workload (see [llm-cost-and-routing.md](llm-cost-and-routing.md))
+- **Context ranking logic** — which tools, resources, and memory items to surface in a given turn
+- **Tool conflict resolution** — what happens when two tools could fulfill the same request, or when their effects collide
+- **Workflow orchestration** — sequencing multi-step plans, retries, parallelism, failure handling (see [../agents/loop-engineering.md](../agents/loop-engineering.md))
+- **Security discipline** — MCP defines the channel; the app must still validate inputs, sandbox outputs, apply rate limits, and require approvals for high-stakes actions
+
+If you adopt MCP and your reliability or quality doesn't improve, the work was never in the protocol — it's in the layer *above* MCP.
+
+## When MCP Is Overkill
+
+MCP shines when you need to **connect multiple services, compose tool workflows, evolve over time, or support agent-like behavior**. It's overkill for:
+
+- A single model talking to a single tool (just call the API directly)
+- Throwaway scripts and prototypes where the integration surface won't grow
+- One-shot batch jobs with a fixed, known toolset
+
+The structural cost of MCP — capability handshake, server lifecycle, registry — only pays back when the integration surface itself is growing.
+
 ---
 
 **Source:** https://blog.bytebytego.com/p/connecting-llms-to-the-real-world
 **Source:** https://blog.bytebytego.com/p/how-pinterest-built-a-production
-**Date:** 2026-05-04
-**Tags:** llm, tool-use, function-calling, mcp, agentic-loop, security, model-context-protocol, pinterest, enterprise-mcp, developer-productivity
+**Source:** https://blog.levelupcoding.com/p/mcp-clearly-explained
+**Date:** 2026-05-04, updated 2026-06-15
+**Tags:** llm, tool-use, function-calling, mcp, agentic-loop, security, model-context-protocol, pinterest, enterprise-mcp, developer-productivity, capability-handshake, when-not-to-use-mcp
