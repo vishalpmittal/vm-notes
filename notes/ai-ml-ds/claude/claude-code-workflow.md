@@ -9,6 +9,7 @@ How to actually use Claude Code in daily work — from beginner setup through ho
 - **CLAUDE.md is institutional knowledge that compounds.** Commit it to Git, update it multiple times a week, and have Claude itself review PRs and propose updates to it
 - **Default to Opus with thinking.** Slower per call, but you steer less, so it's faster end-to-end on multi-step work
 - The single highest-leverage tip: give Claude a **deterministic way to verify its own work** (browser test loop, agent-stop hooks). Claimed to 2-3x output quality
+- **Compounded context becomes standing overhead.** Run `/context` periodically; prune bloated CLAUDE.md sections and unused skill packs — a lean, clear standing context outperforms a comprehensive one
 
 ## Setup
 
@@ -222,6 +223,44 @@ Many devs run both: Claude Code for complex multi-file/agentic work, Copilot or 
 
 API users typically spend ~$6/day for heavy use; Max plans are often better value.
 
+## Curating Standing Context — The Pruning Discipline
+
+Every Claude Code session starts amnesiac. The fix isn't a better prompt; it's a **system that compounds** through three primitives:
+
+| Primitive | What it solves |
+|---|---|
+| **CLAUDE.md (agent files)** | Loads conventions/layout/rules automatically each session. Hierarchical: personal (`~/.claude/CLAUDE.md`) + team + project. |
+| **Skills** | Reusable multi-step procedures bundled with executable scripts. Converts manual re-explanation into invocation. |
+| **Hooks** | Automated corrections at lifecycle points (PreToolUse, PostToolUse). Enforces formatting/checks without relying on model memory. |
+
+Compounding context is the goal — but compounded context becomes **standing overhead** if you don't prune. A bloated CLAUDE.md or unused skill pack lives in the system prompt of *every* session.
+
+### Measure with `/context`
+
+Run `/context` to see the token allocation across categories. It exposes:
+- System prompt size (fixed)
+- CLAUDE.md cost (your responsibility)
+- Active skills and their token cost
+- MCP server descriptions
+- Conversation history
+
+Anything in "standing" categories that you don't actively use is **paying rent every session**.
+
+### Prune aggressively
+
+Concrete wins reported by practitioners:
+- **CLAUDE.md from 3,500 → 1,200 tokens** by removing aspirational rules, duplicated style guidance, and never-triggered conventions
+- **Removing 14.4k tokens of unused skill packs** via `/skills` (deactivate) and `/plugin` (uninstall)
+
+Counter-intuitive principle: **clarity improves model performance**. A lean CLAUDE.md gets followed; a bloated one gets ignored or pattern-matched poorly. The same goes for skills — a directory of 30 skills competes for the model's attention; 5 well-scoped ones get used.
+
+### Maintenance cadence
+
+Treat the standing context like a dependency tree:
+- Once a month, run `/context` and ask: what's here that I haven't used in the last 10 sessions?
+- When you add a rule to CLAUDE.md, check whether a similar rule already exists (consolidate, don't accumulate)
+- When you install a plugin, decide upfront whether it earns its token cost — and remove it if it doesn't
+
 ## Related
 
 - [Claude Code architecture](claude-code-architecture.md) — internals
@@ -259,5 +298,6 @@ The general principle: **invest in dev-environment ergonomics as a multiplier on
 **Source:** https://ainative.to/p/how-to-use-claude-code-beginners-guide
 **Source:** https://getpushtoprod.substack.com/p/how-the-creator-of-claude-code-actually
 **Source:** https://sderosiaux.substack.com/p/claude-code-told-me-what-tools-it
-**Date:** 2026-06-05 (initial + CLI-tools-for-Claude addition same day)
-**Tags:** claude-code, workflow, plan-mode, claude-md, mcp, slash-commands, subagents, parallel-agents, compounding-engineering, opus, verification-loops, cli-tools, ripgrep, duckdb, environment
+**Source:** https://aiagentssimplified.substack.com/p/the-hidden-cost-of-starting-from
+**Date:** 2026-06-16 (curating standing context section added; initial 2026-06-05)
+**Tags:** claude-code, workflow, plan-mode, claude-md, mcp, slash-commands, subagents, parallel-agents, compounding-engineering, opus, verification-loops, cli-tools, ripgrep, duckdb, environment, context-pruning, skills, hooks, session-amnesia

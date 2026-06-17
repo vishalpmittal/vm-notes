@@ -11,7 +11,8 @@ Personal knowledge base of technical notes and curated blog content. Topics: sof
 ## Commands
 
 - `/add-blog <url> [<url> ...]` — fetch a blog post, clean ads, download images, auto-categorize, merge with existing notes, and print a summary. For 2+ URLs, spawns parallel worker agents per blog plus a consolidation scout to map existing internal content.
-- `/course-notes <course-file> <text|url|image>` — append concise notes to a course file and update the directory's glossary.md with key terms
+- `/add-notes <file|folder|url|pasted-content> [...]` — import the user's own existing notes (docs, exports, pasted blobs). Same output as `/add-blog` but also diverts any TO-DO items found in the source into the root `notes/to-do.md`. Multi-doc input uses parallel workers + a consolidation scout.
+- `/course-notes <course-file> <text|url|image>` — append concise notes to a course file and update the directory's glossary.md with key terms.
 
 ## Agents
 

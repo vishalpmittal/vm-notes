@@ -10,6 +10,7 @@
 - The AI-native SDLC inverts time allocation: majority of effort shifts to planning and validation, while creation and operations compress
 - The cost of building collapsed but the cost of aligning organizationally has not — when multiple teams can solve the same problem in parallel, coordination becomes the bottleneck
 - **AI didn't add friction — it revealed it.** Velocity, cognitive, and knowledge friction were always there but masked by slow build speeds. AI removed the speed limit; now friction *is* the bottleneck. **AI generates code, not context** — and most context still lives in individual heads
+- **AI is silently rewiring team relationships.** ~51% of devs now ask AI for technical help they used to ask teammates; ~60%+ prefer AI because "no judgment." The lost interactions were never just about the answer — they were the channel for mentorship, context transfer, and trust. Managers must intentionally preserve what routine questions used to deliver for free
 
 ## Actionable Insights
 
@@ -266,6 +267,62 @@ The actionable shift: **add "harness health" to your team's regular operational 
 
 ---
 
+## When Devs Stop Asking Teammates (Blog4EMs / IEEE TSE 2026)
+
+A new study (*From Disruptions to Discussions*, IEEE Transactions on Software Engineering 2026 — UBC + University of Zurich; 30 devs followed up to 12 days, 131 surveyed) found the team-relationship side of AI adoption is moving faster than most managers realize.
+
+### Headline Numbers
+
+| Stat | Finding |
+|---|---|
+| **51%** | devs who now ask AI for technical help they previously asked teammates |
+| **60%+** | said AI is easier "because there's no fear of looking stupid" |
+| **76%** | drop in new Stack Overflow questions since ChatGPT launched (public analog to the invisible internal version) |
+
+### The Hidden Job of "Quick Questions"
+
+The routine "quick question" wasn't just a request for information. It also delivered:
+
+- **Mentorship** — seniors caught misconceptions in passing
+- **Context transfer** — the "why we did it this way" history that lives nowhere else
+- **Trust building** — repeated low-stakes interactions are what relationships are made of
+- **Weak-tie maintenance** — connecting devs to people outside their immediate squad
+
+When the questions move to AI, the answer is preserved but **all four side effects disappear silently**.
+
+### Emerging Division of Labor
+
+| AI handles | Humans handle |
+|---|---|
+| Technical implementation | Business logic |
+| Feature planning, task breakdown | Requirements clarification |
+| Brainstorming | Contextual decisions |
+
+The risk: this looks efficient on paper but starves the team of the interactions that produce shared context — which then makes the human work harder later.
+
+### The Amplification Pattern (Again)
+
+> AI amplifies whatever your team already is.
+
+- **Strong teams** use AI for individual leverage *and* keep human channels open — they get both speedups
+- **Already-isolated teams** become more fragmented; the AI shortcut removes the last forcing function for connection
+
+This is the social-fabric mirror of the same "high performers amplify quality, struggling engineers amplify problems" pattern documented across the DORA / METR / Faros data above.
+
+### Actionable
+
+- **Add "are teammates still talking?" to your team-health signals.** Ratio of AI questions to human questions is the new staffing-load gauge — direct it, don't just observe it
+- **Make asking humans psychologically cheaper.** The "no judgment" pull toward AI is real; reduce the cost of asking by modeling it yourself, normalizing dumb questions in 1:1s, and praising the asker, not just the answerer
+- **Protect the rituals that bundle work + relationship.** Pair programming, code review walkthroughs, design discussions — these now do load-bearing relational work that "ask in chat" no longer does
+- **Track what gets answered where.** If most technical questions in your team channel have stopped, that's the leading indicator — not a lagging one. Don't wait for an attrition or onboarding crisis to act
+- **Re-design onboarding around it.** New hires who default to AI for everything skip the network-building phase entirely; pair them with people for the first 60 days even if AI could "answer faster"
+
+### Frame for the Team
+
+The point isn't to suppress AI use — it's to be explicit that **convenience-optimized individual behavior produces a team-level cost no individual feels until it's too late**. Managers own this cost.
+
+---
+
 **Source:** https://newsletter.getdx.com/p/ai-productivity-debate
 **Source:** https://newsletter.getdx.com/p/designing-the-ai-native-engineering
 **Source:** https://newsletter.getdx.com/p/ai-assisted-engineering-q1-2026-impact
@@ -273,5 +330,6 @@ The actionable shift: **add "harness health" to your team's regular operational 
 **Source:** https://charitydotwtf.substack.com/p/ai-enthusiasts-are-in-a-race-against
 **Source:** https://www.blog4ems.com/p/engineering-leadership-lessons-from-ldx3-2026
 **Source:** https://www.blog4ems.com/p/the-reason-ai-coding-isnt-working
-**Date:** 2026-05-29 (initial), 2026-06-07 (Charity Majors enthusiast/skeptic), 2026-06-09 (Forsgren/Clegg friction reveal), 2026-06-14 (harness-as-management-responsibility + METR/DORA/Faros/SO data)
-**Tags:** leadership, ai-adoption, developer-productivity, engineering-management, org-design, ai-native, sustainability, senior-engineering, agentic-workflows, performance-metrics, player-coach, shadow-ai, change-failure-rate, dx-data, enthusiast-skeptic, organizational-polarization, charity-majors, friction-types, knowledge-friction, forsgren, ldx3, harness-engineering, metr, dora, faros, stack-overflow-survey, junior-development-gap, trust-erosion
+**Source:** https://www.blog4ems.com/p/51-of-devs-stopped-asking-their-teammates
+**Date:** 2026-05-29 (initial), 2026-06-07 (Charity Majors enthusiast/skeptic), 2026-06-09 (Forsgren/Clegg friction reveal), 2026-06-14 (harness-as-management-responsibility + METR/DORA/Faros/SO data), 2026-06-16 (team-relational cost — IEEE TSE 2026 study)
+**Tags:** leadership, ai-adoption, developer-productivity, engineering-management, org-design, ai-native, sustainability, senior-engineering, agentic-workflows, performance-metrics, player-coach, shadow-ai, change-failure-rate, dx-data, enthusiast-skeptic, organizational-polarization, charity-majors, friction-types, knowledge-friction, forsgren, ldx3, harness-engineering, metr, dora, faros, stack-overflow-survey, junior-development-gap, trust-erosion, team-dynamics, mentorship, psychological-safety, weak-ties, social-fabric

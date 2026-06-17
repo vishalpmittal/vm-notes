@@ -60,7 +60,43 @@ From [Top 7 Most-Used Distributed System Patterns](https://www.youtube.com/watch
 
 ## AI/ML & Agents
 
-*(No new items from this import. See `notes/ai-ml-ds/` for existing notes.)*
+### Frameworks & Libraries
+
+- [ ] **LangChain** — Python/JS framework for chaining LLM calls, agents, retrievers, memory. Compare vs LlamaIndex; when to use vs roll-your-own
+- [ ] **Genkit** — Google's open-source AI app framework (Node/Go/Python). Flows, plugins, dev UI; positioned vs LangChain
+- [ ] **Gemini AI — focused product note** — Gemini 3 family (Pro / Flash / Nano), thinking modes, multimodal, Gemini Robotics. Mentioned across trend notes; no focused product page
+- [ ] **TensorFlow vs PyTorch** — eager vs graph, ecosystem, when each wins in 2026. PyTorch dominates research; TF still strong in mobile/edge
+- [ ] **PyTorch — focused note** — autograd, nn.Module, training loop, distributed (DDP/FSDP). Foundational
+- [ ] **NumPy** — ndarray, broadcasting, vectorization fundamentals. Required substrate for everything else
+- [ ] **Pandas** — DataFrame/Series, groupby, time series, common production gotchas
+- [ ] **LightGBM** — gradient boosting on tree-based learners; histogram-based splits; fast on tabular data
+- [ ] **XGBoost** — the other gradient boosting framework; regularization, GPU support, when to pick vs LightGBM
+
+### Inference & GPU
+
+- [ ] **CUDA fundamentals** — kernels, threads/blocks/grids, memory hierarchy. What ML engineers actually need to know
+- [ ] **TensorRT** — NVIDIA's inference optimization runtime; quantization, kernel fusion, INT8 calibration. Where it fits vs vLLM/SGLang
+
+### LLM Techniques
+
+- [ ] **Prompt Engineering — focused note** — partial coverage in `context-engineering.md` and `writing-with-llms.md`; deserves its own focused page with techniques (CoT, few-shot, ReAct, self-consistency, structured output)
+- [ ] **Fine-Tuning** — SFT, LoRA/QLoRA, DPO, when to fine-tune vs prompt vs RAG. Cost/quality tradeoffs
+- [ ] **Augmented LLM** — pattern: LLM + retrieval + tools + memory + reasoning. Anthropic's framing; relationship to RAG and agents
+
+### Multimodal API Products (focused notes)
+
+- [ ] **Realtime API (OpenAI)** — speech-to-speech, low-latency voice agents, function calling over audio
+- [ ] **Whisper** — speech-to-text model family; deployment patterns, language support, when local vs API
+- [ ] **TTS models** — OpenAI TTS / ElevenLabs / Cartesia. Latency/quality tradeoffs, streaming, voice cloning ethics
+- [ ] **DALL-E / native 4o image generation** — text-to-image, in-context image editing, watermarking
+
+### Data Tooling
+
+- [ ] **ClickHouse** — columnar OLAP database. Why it's everywhere in observability stacks; comparison with Druid, Pinot, Snowflake
+
+## Frontend & UI
+
+- [ ] **Flutter** — cross-platform UI toolkit (Dart). Widget tree, state management options (Provider/Riverpod/BLoC), when to pick vs React Native
 
 ## Leadership
 
@@ -81,5 +117,6 @@ From [Top 7 Most-Used Distributed System Patterns](https://www.youtube.com/watch
 ---
 
 **Source:** /Users/vimittal/Downloads/prep/prep.html (TBD section + trailing fragments)
-**Date:** 2026-06-13
+**Source:** ad-hoc TBD list (2026-06-17)
+**Date:** 2026-06-13, updated 2026-06-17 (AI/ML tooling, multimodal APIs, GPU, Flutter)
 **Tags:** todo, study-list, gaps, parking-lot
