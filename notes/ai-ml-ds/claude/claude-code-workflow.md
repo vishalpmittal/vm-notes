@@ -10,6 +10,7 @@ How to actually use Claude Code in daily work — from beginner setup through ho
 - **Default to Opus with thinking.** Slower per call, but you steer less, so it's faster end-to-end on multi-step work
 - The single highest-leverage tip: give Claude a **deterministic way to verify its own work** (browser test loop, agent-stop hooks). Claimed to 2-3x output quality
 - **Compounded context becomes standing overhead.** Run `/context` periodically; prune bloated CLAUDE.md sections and unused skill packs — a lean, clear standing context outperforms a comprehensive one
+- **Four tools can cut token usage by ~90%:** codegraph (code indexing), RTK (output compression), caveman (response trimming), and built-in session commands — each has tradeoffs that determine when to disable it
 
 ## Setup
 
@@ -293,11 +294,65 @@ The author's framing: **"Claude doesn't actually have preferences"** — these r
 
 The general principle: **invest in dev-environment ergonomics as a multiplier on Claude Code output**. The cost of `brew install` is small; the cumulative effect over a year of agentic coding sessions is large.
 
+## Token Optimization Tools
+
+Four complementary strategies can cut Claude Code token usage by up to 90%. Stack them additively — but each has conditions where disabling it preserves quality over efficiency.
+
+| Strategy | Tool | Install | When ON | When OFF |
+|---|---|---|---|---|
+| Index code | `codegraph` | open-source | Large/unfamiliar codebases, exploration | After heavy refactors until re-synced (stale index = hallucinated functions) |
+| Compress output | `RTK` (Rust Token Killer) | `brew install rtk` | Normal build/test cycles | Debugging or full-log analysis (lossy compression drops the needed line) |
+| Trim responses | `caveman` | `npm install -g caveman` | Quick Q&A, simple one-off tasks | Long multi-step plan-mode sessions (thins session memory, degrades continuity) |
+| Session hygiene | Built-in commands | always available | Always | N/A |
+
+### codegraph — Index the Code
+
+Parses your repo into a queryable graph of functions, classes, imports, and call relationships. Claude queries the graph in natural language instead of grepping files sequentially — eliminating large amounts of irrelevant file content from the context window.
+
+![codegraph indexing demo](../../images/20260618-1510-codegraph-index-demo.gif)
+
+**Risk:** the graph is a second source of truth that drifts. Stale indexes cause Claude to reference deleted functions or miss new ones. Re-sync after significant refactors.
+
+### RTK — Compress the Output
+
+Sits in front of commands and compresses their output before it reaches Claude. Example: 43 test results become "43 test paths"; warnings are bundled.
+
+![RTK output compression demo](../../images/20260618-1511-rtk-output-compression-demo.gif)
+
+**Risk:** compression is lossy — the dropped detail is sometimes the critical one. Disable during detailed debugging or when Claude needs to self-correct step-by-step.
+
+### caveman — Make Claude Talk Less
+
+Per-session mode switcher (light/full/ultra) that strips filler from Claude's responses. Ultra mode cuts length roughly in half at comparable quality.
+
+![caveman response trimming demo](../../images/20260618-1512-caveman-response-trim-demo.gif)
+
+**Risk:** Claude uses its own message history as session memory. Aggressive trimming degrades multi-step task quality by thinning that memory. Keep it off for plan-mode builds.
+
+### Session Hygiene — The Free Layer
+
+![Session management commands](../../images/20260618-1513-session-management-commands.png)
+
+Built-in commands always available:
+- `/context` — audit what's consuming the window (a 50k-token CLAUDE.md burns ~4% before you type anything)
+- `/clear` — reset between unrelated tasks
+- `/compact` — summarize and continue
+- `/model` — pick Haiku/Sonnet/Opus by task type
+
+Model selection heuristic: Haiku for speed-critical automation; Sonnet for repeatable scheduled tasks; most capable model for planning and deep work. Downgrading to a cheaper model and getting a poor result costs more tokens in redo than staying on the capable model.
+
+Additional high-leverage habits: use Plan Mode before edits to eliminate expensive trial-and-error loops; sketch UI designs first rather than having Claude code cold.
+
+> "I've seen a 50k-token CLAUDE.md quietly burn about 4% of the window every single time you open a session, before you've even typed anything."
+
+> "The skill isn't installing these. It's knowing which one to turn on for the task in front of you, and which to leave off."
+
 ---
 
 **Source:** https://ainative.to/p/how-to-use-claude-code-beginners-guide
 **Source:** https://getpushtoprod.substack.com/p/how-the-creator-of-claude-code-actually
 **Source:** https://sderosiaux.substack.com/p/claude-code-told-me-what-tools-it
 **Source:** https://aiagentssimplified.substack.com/p/the-hidden-cost-of-starting-from
-**Date:** 2026-06-16 (curating standing context section added; initial 2026-06-05)
-**Tags:** claude-code, workflow, plan-mode, claude-md, mcp, slash-commands, subagents, parallel-agents, compounding-engineering, opus, verification-loops, cli-tools, ripgrep, duckdb, environment, context-pruning, skills, hooks, session-amnesia
+**Source:** https://getpushtoprod.substack.com/p/how-to-reduce-90-of-claude-code-token
+**Date:** 2026-06-18 (token optimization section added; context section 2026-06-16; initial 2026-06-05)
+**Tags:** claude-code, workflow, plan-mode, claude-md, mcp, slash-commands, subagents, parallel-agents, compounding-engineering, opus, verification-loops, cli-tools, ripgrep, duckdb, environment, context-pruning, skills, hooks, session-amnesia, token-optimization, codegraph, rtk, caveman, cost-reduction
