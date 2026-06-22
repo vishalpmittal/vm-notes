@@ -9,6 +9,8 @@ How the open-weight LLM ecosystem evolved into a borrow-and-build pipeline where
 - The competitive surface narrowed to three innovation axes: **attention strategy, expert count & sparsity, training approach** — each lab specializes in one and the others adopt within months
 - **DeepSeek-V3 trained for ~$5.5M** demonstrated that frontier-quality models don't require hyperscaler budgets when architecture choices compound
 - The 18-month innovation flow (DeepSeek MLA → Moonshot trillion-param scaling → DeepSeek sparse attention → Zhipu adoption) is what closed-weight competitors don't get for free
+- The mid-2026 model landscape has matured beyond "best open model" to **purpose-fit selection**: multimodal (Llama 4 Scout), edge (Phi 4, Falcon 3), coding (GLM 5.1, Kimi K2.6), reproducibility (OLMo 2), long-context (DeepSeek V4, Nemotron 3 Super)
+- **SLM (<10B) vs. LLM (10B+) is a deployment decision**, not a capability race — on-device privacy and latency constraints select for SLMs long before reasoning capability becomes the limit
 
 ## Open-Weight vs. Closed-Weight
 
@@ -111,8 +113,55 @@ This is what closed-weight competitors don't get for free. OpenAI and Anthropic 
 - [Local LLM inference](../inference/local-llm-inference.md) — open weights are what makes self-hosting possible
 - [LLM cost and routing](llm-cost-and-routing.md) — open-weight pricing pressure on closed APIs
 
+## 12 Notable Open-Source Models (Mid-2026 Survey)
+
+A reference card of models notable for a single defining strength — not a ranking.
+
+![12 Open-Source LLM Models](../../images/20260621-1500-12-open-source-llms-overview.png)
+
+| # | Model | Lab | Defining Strength | License |
+|---|---|---|---|---|
+| 1 | **Llama 4 Scout** | Meta | First natively multimodal open-weight model (text + docs + images) | — |
+| 2 | **DeepSeek V4** | DeepSeek | MoE, frontier-level performance, MIT license, native 1M-token context | MIT |
+| 3 | **Qwen3** | Alibaba | Multilingual flagship; switchable thinking/non-thinking modes | Apache 2.0 |
+| 4 | **Gemma 4** | Google | Runs from smartphones to enterprise servers; widest language coverage | Apache 2.0 |
+| 5 | **Phi 4** | Microsoft | Compact, synthetic-data trained; strong math reasoning; single-GPU deployable | — |
+| 6 | **Mistral Small 3.1** | Mistral | VLM with vision support and long context; runs on consumer laptops | — |
+| 7 | **Nemotron 3 Super** | NVIDIA | 1M-token context; fully open weights + datasets + training recipes; strong agentic coding | MIT |
+| 8 | **GLM 5.1** | Zhipu | First open-weight model to top SWE-Bench Pro; no commercial restrictions | MIT |
+| 9 | **Kimi K2.6** | Moonshot | Competitive coding vs. closed models at significantly lower cost | Modified MIT |
+| 10 | **StarCoder2** | AI2 | Fully open: weights, data, and training pipeline all public | — |
+| 11 | **OLMo 2** | AI2 | Weights, data, code, and recipes all under Apache 2.0 — most complete reproducibility | Apache 2.0 |
+| 12 | **Falcon 3** | TII | Lightweight family for single-GPU deployment | — |
+
+**Model selection shortcuts:**
+- On-device / privacy-sensitive → Phi 4, Falcon 3, Mistral Small 3.1
+- Coding / SWE use case → GLM 5.1 (SWE-Bench Pro leader), Kimi K2.6 (cost-efficient), StarCoder2 (transparent)
+- Multimodal (vision + text) → Llama 4 Scout, Mistral Small 3.1
+- Million-token context → DeepSeek V4, Nemotron 3 Super
+- Full reproducibility for research → OLMo 2, StarCoder2
+- Switchable reasoning modes → Qwen3 (thinking/non-thinking toggle)
+
+## SLMs vs. LLMs: A Deployment Decision
+
+The SLM (<10B params) vs. LLM (10B+) choice is a deployment and task-complexity decision, not a capability race. SLMs win on cost, latency, and privacy for bounded tasks; LLMs win on reasoning depth and context for complex workflows.
+
+![SLMs vs. LLMs — 6-dimension comparison](../../images/20260621-1501-slm-vs-llm-comparison.png)
+
+| Dimension | SLM (<10B params) | LLM (10B+ params) |
+|---|---|---|
+| **Architecture** | Few layers, compact, efficient | Deeper, more complex |
+| **Task Complexity** | Simple single-step tasks (classification, intent detection, Q&A) | Complex multi-step code, math, long-horizon planning |
+| **Long Context Recall** | Limited memory; loses coherence across long docs; requires RAG/chunking | Tracks inputs reliably across large contexts; less reliant on external retrieval |
+| **Latency & Cost** | Lightweight, fast inference, low compute | Heavy compute, higher latency, higher cost |
+| **Deployment & Privacy** | On-device or on-premise; data stays local | Cloud/API with external inference dependency |
+| **Where Each Fits** | On-device apps, real-time AI, edge systems | Agent workflows, multimodal tasks, general-purpose AI |
+
+**Hybrid default:** Route simple, high-frequency tasks to SLMs; escalate complex tasks to LLMs. Deployment model (on-device vs. cloud) is often the deciding constraint before reasoning capability.
+
 ---
 
 **Source:** https://blog.bytebytego.com/p/how-open-weight-models-changed-the
-**Date:** 2026-06-16
-**Tags:** open-weight-models, moe, mixture-of-experts, deepseek, qwen, kimi, moonshot, zhipu, glm, mla, gqa, sparse-attention, rlvr, distillation, muonclip, slime, llm-architecture, ai-ecosystem
+**Source:** https://blog.bytebytego.com/i/202318529/12-open-source-llms
+**Date:** 2026-06-16 (initial), 2026-06-21 (enriched with 12-model survey + SLM vs LLM framework)
+**Tags:** open-weight-models, moe, mixture-of-experts, deepseek, qwen, kimi, moonshot, zhipu, glm, mla, gqa, sparse-attention, rlvr, distillation, muonclip, slime, llm-architecture, ai-ecosystem, slm, small-language-model, model-selection, edge-deployment, on-device-ai

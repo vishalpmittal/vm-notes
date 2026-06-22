@@ -117,8 +117,38 @@ The output feels more thorough and grounded than a single-shot LLM response beca
 
 This is the architectural shape behind any "research mode" you've seen in modern LLM products.
 
+## Single-Agent vs. Multi-Agent: The Default Rule
+
+![Single Agent vs. Multi Agent Architecture](../../images/20260621-1520-single-vs-multi-agent.png)
+
+**Default rule: start with single-agent. Move to multi-agent only when context or reliability becomes the observed bottleneck — not speculatively.**
+
+| Architecture | What it is | Best for |
+|---|---|---|
+| **Single-agent** | One reasoning LLM: plans, selects tools, loops until done | Linear tasks; problem fits in one context window; debugging simplicity matters |
+| **Multi-agent** | Orchestrator decomposes work; routes to specialized agents in parallel | Parallelizable subtasks; independent verification needed; scope exceeds single-agent coordination |
+
+The tradeoff in one line: *"Single agents are cheaper and easier to build, but they hit a ceiling on complex work. Multi-agent systems are more capable and more reliable, but they add coordination cost."*
+
+**Orchestrator pattern roles (multi-agent):**
+- **Orchestrator** — decomposes the task and routes subtasks
+- **Specialist agents** — domain-scoped execution (e.g., Research A for product data, Research B for market data)
+- **Synthesis agent** — aggregates specialist outputs into a coherent result
+- **Verifier agent** — validates findings and checks completeness; feeds a revision loop back to the orchestrator
+
+**Decision signals:**
+
+| Signal | Architecture |
+|---|---|
+| Linear task, bounded scope | Single-agent |
+| Task exceeds context window | Multi-agent |
+| Output reliability is critical | Multi-agent (add Verifier) |
+| Subtasks are parallelizable | Multi-agent |
+| Debugging simplicity required | Single-agent |
+
 ---
 
 **Source:** https://blog.bytebytego.com/i/191425883/how-llms-use-ai-agents-with-deep-research
-**Date:** 2026-05-28 (initial), 2026-06-05 (enriched with deep research pattern)
-**Tags:** multi-agent, orchestrator, pipeline, hierarchical, workflow-patterns, prompt-chaining, routing, parallelization, deep-research, planner-synthesizer, citation-agent
+**Source:** https://blog.bytebytego.com/i/202318529/single-agent-vs-multi-agent-architecture
+**Date:** 2026-05-28 (initial), 2026-06-05 (enriched with deep research pattern), 2026-06-21 (added single vs multi-agent decision framework)
+**Tags:** multi-agent, orchestrator, pipeline, hierarchical, workflow-patterns, prompt-chaining, routing, parallelization, deep-research, planner-synthesizer, citation-agent, single-agent, agent-architecture, verifier-agent

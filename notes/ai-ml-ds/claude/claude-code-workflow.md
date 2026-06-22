@@ -173,6 +173,30 @@ Use `/permissions` and check `.claude/settings.json` into Git rather than `--dan
 
 Sharing permissions in Git means the team operates with the same safety boundaries.
 
+### The 7 Permission Modes
+
+![7 Permission Modes in Claude Code](../../images/20260621-1530-claude-code-permission-modes.png)
+
+Claude Code has 7 named modes spanning a spectrum from full user oversight to near-autonomous execution. Only 5 are user-selectable; `auto` is feature-flag gated and `bubble` is internal.
+
+| Mode | What the gate does | Who decides | Autonomy | User-selectable |
+|---|---|---|---|---|
+| `plan` | Model publishes a plan; nothing executes until user approves | User | LOW | Yes |
+| `default` | Standard interactive use; approval needed for most tools | User | LOW-MED | Yes |
+| `acceptEdits` | Auto-approves safe edits in the working directory; shell commands still prompt | Auto-classifier | MEDIUM | Yes |
+| `auto` | ML classifier decides on requests that miss the fast path | Classifier | MEDIUM | No (feature flag) |
+| `dontAsk` | No confirmation prompts shown; deny rules still enforced | Rules engine | HIGH | Yes |
+| `bypassPermissions` | Skips most prompts; only safety-critical guards remain | System | MAX | Yes |
+| `bubble` | Internal — subagent escalates permission request to its parent agent | Subagent | INTERNAL | No (runtime only) |
+
+**When to use each:**
+- `plan` — high-stakes or unfamiliar codebases; review intent before any changes
+- `default` — normal development; oversight without requiring an explicit plan
+- `acceptEdits` — active coding sessions; removes edit friction while keeping shell guardrails
+- `dontAsk` — CI/CD pipelines or automated scripts with no human in the loop
+- `bypassPermissions` — headless batch agents in controlled environments; establishes trust externally
+- `bubble` — set automatically by the runtime when a subagent needs to escalate to its orchestrator
+
 ## MCP for Tools
 
 Connect Slack, BigQuery, Sentry, GitHub, internal APIs via MCP servers. Configs go in Git so they're shared.
