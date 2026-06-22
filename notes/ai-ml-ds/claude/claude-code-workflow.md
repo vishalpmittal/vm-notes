@@ -291,7 +291,7 @@ Treat the standing context like a dependency tree:
 - [Claude Code architecture](claude-code-architecture.md) — internals
 - [Claude Code: 12 features](claude-code-features.md) — feature reference
 - [Claude Code vs OpenClaw](claude-code-vs-openclaw.md) — architectural comparison
-- [AI-native engineering](../agents/ai-native-engineering.md) — broader pattern of orchestrating AI agents
+- [AI-native engineering](../harness-engineering/ai-native-engineering.md) — broader pattern of orchestrating AI agents
 - [Context engineering](../concepts/context-engineering.md) — the discipline behind CLAUDE.md and `/compact`
 
 ---

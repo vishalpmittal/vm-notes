@@ -92,7 +92,7 @@ The constraint used to be "we can't generate code fast enough." That problem is 
 - [leading-ai-adoption-in-engineering.md](leading-ai-adoption-in-engineering.md) — broader context: cognitive debt, manager-vs-engineer disconnect on AI as a metric
 - [interviewing-engineers-in-ai-era.md](interviewing-engineers-in-ai-era.md) — adjacent: the same reasoning behind hiring for verification habits, not just generation speed
 - [../ai-ml-ds/concepts/ai-assisted-code-review.md](../ai-ml-ds/concepts/ai-assisted-code-review.md) — technical complement: how to use LLMs for first-pass review to reduce the burden on humans
-- [../ai-ml-ds/agents/ai-native-engineering.md](../ai-ml-ds/agents/ai-native-engineering.md) — the 40/20/40 time allocation puts review at 40% explicitly
+- [../ai-ml-ds/harness-engineering/ai-native-engineering.md](../ai-ml-ds/harness-engineering/ai-native-engineering.md) — the 40/20/40 time allocation puts review at 40% explicitly
 
 ---
 

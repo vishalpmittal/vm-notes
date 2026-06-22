@@ -205,7 +205,7 @@ MCP standardizes the **integration surface**, but it doesn't replace any of the 
 - **Model selection strategy** — which LLM to call for which workload (see [llm-cost-and-routing.md](llm-cost-and-routing.md))
 - **Context ranking logic** — which tools, resources, and memory items to surface in a given turn
 - **Tool conflict resolution** — what happens when two tools could fulfill the same request, or when their effects collide
-- **Workflow orchestration** — sequencing multi-step plans, retries, parallelism, failure handling (see [../agents/loop-engineering.md](../agents/loop-engineering.md))
+- **Workflow orchestration** — sequencing multi-step plans, retries, parallelism, failure handling (see [../harness-engineering/loop-engineering.md](../harness-engineering/loop-engineering.md))
 - **Security discipline** — MCP defines the channel; the app must still validate inputs, sandbox outputs, apply rate limits, and require approvals for high-stakes actions
 
 If you adopt MCP and your reliability or quality doesn't improve, the work was never in the protocol — it's in the layer *above* MCP.

@@ -104,7 +104,7 @@ When AI tools deploy the same rhetorical devices indiscriminately — emoji-pref
 ## See Also
 
 - [ai-assisted-code-review.md](ai-assisted-code-review.md) — the code equivalent: AI as reviewer/polisher, human keeps judgment
-- [../agents/ai-native-engineering.md](../agents/ai-native-engineering.md) — the 40/20/40 time allocation that puts thinking *before* generation, applies to writing too
+- [../harness-engineering/ai-native-engineering.md](../harness-engineering/ai-native-engineering.md) — the 40/20/40 time allocation that puts thinking *before* generation, applies to writing too
 
 ---
 

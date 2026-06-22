@@ -55,7 +55,7 @@ If review and context are <40% each, the team is probably accumulating debt fast
 
 The ADLC reframes each SDLC stage around AI-human collaboration. Agent swarms specialize by dimension: functionality, security, performance, accessibility, etc.
 
-See [agents-across-sdlc.md](agents-across-sdlc.md) for the complementary view — that note evaluates *where agents fit* across 8 SDLC stages, with strong/weak verdicts per stage. This article assumes the deployment is happening and focuses on *how to do it well*.
+See [agents-across-sdlc.md](../agents/agents-across-sdlc.md) for the complementary view — that note evaluates *where agents fit* across 8 SDLC stages, with strong/weak verdicts per stage. This article assumes the deployment is happening and focuses on *how to do it well*.
 
 ## Individual Maturity Journey
 
@@ -114,8 +114,8 @@ Individual AI gains rarely translate to team/company velocity. Reasons:
 
 ## See Also
 
-- [agents-across-sdlc.md](agents-across-sdlc.md) — agent fit by SDLC stage
-- [ai-agents-overhyped.md](ai-agents-overhyped.md) — demo-to-production gap
+- [agents-across-sdlc.md](../agents/agents-across-sdlc.md) — agent fit by SDLC stage
+- [ai-agents-overhyped.md](../agents/ai-agents-overhyped.md) — demo-to-production gap
 - [../claude/claude-code-source-leak-critique.md](../claude/claude-code-source-leak-critique.md) — what "AI amplifies existing discipline" actually looks like when discipline is missing
 - [../concepts/ai-assisted-code-review.md](../concepts/ai-assisted-code-review.md) — the review-mode discipline
 - [../concepts/llm-tool-use-and-mcp.md](../concepts/llm-tool-use-and-mcp.md) — MCP fundamentals

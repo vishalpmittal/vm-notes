@@ -93,9 +93,9 @@ Plus increasingly: browser control (verification), MCP-based access to internal 
 ### Evidence
 
 - **Claude Code** ([architecture](../claude/claude-code-architecture.md), [features](../claude/claude-code-features.md), [workflow](../claude/claude-code-workflow.md))
-- **OpenAI Codex** ([architecture](../agents/openai-codex.md), [harness engineering](../agents/harness-engineering.md))
+- **OpenAI Codex** ([architecture](../harness-engineering/openai-codex.md), [harness engineering](../harness-engineering/harness-engineering.md))
 - **Alibaba Qwen3-Coder-Next** (80B, runs on consumer hardware)
-- **Stripe Minions** ([writeup](../agents/stripe-minions.md)) — 1,300+ fully agent-written PRs/week
+- **Stripe Minions** ([writeup](../harness-engineering/stripe-minions.md)) — 1,300+ fully agent-written PRs/week
 - **Replit, Lovable** — platforms built on top of these agents
 
 ### 2026 Focus
@@ -103,7 +103,7 @@ Plus increasingly: browser control (verification), MCP-based access to internal 
 - Deeper repo-level understanding
 - Built-in security scanning + automated test generation
 - Faster multi-file changes
-- Better legibility for unattended runs (see [harness-engineering.md](../agents/harness-engineering.md))
+- Better legibility for unattended runs (see [harness-engineering.md](../harness-engineering/harness-engineering.md))
 
 ## Trend 4: Open-Weight Models
 
@@ -204,9 +204,9 @@ Each trend reinforces the next. The compound effect is what makes 2026 feel like
 - [AI engineering fundamentals](ai-engineering-fundamentals.md) — broader engineering framing
 - [LLM tool use and MCP](llm-tool-use-and-mcp.md) — trend 2 in depth
 - [Claude Code architecture](../claude/claude-code-architecture.md) — trend 3 evidence
-- [OpenAI Codex](../agents/openai-codex.md) — trend 3 evidence
-- [Stripe Minions](../agents/stripe-minions.md) — trend 3 evidence
-- [Harness engineering](../agents/harness-engineering.md) — trend 3 production patterns
+- [OpenAI Codex](../harness-engineering/openai-codex.md) — trend 3 evidence
+- [Stripe Minions](../harness-engineering/stripe-minions.md) — trend 3 evidence
+- [Harness engineering](../harness-engineering/harness-engineering.md) — trend 3 production patterns
 - [Transformer architecture](transformer-architecture.md) — trend 4 (efficiency variants underpin open-weight competitiveness)
 - [AI glossary](ai-glossary.md) — quick definitions for terms above
 

@@ -7,6 +7,8 @@
 - Choose communication patterns based on your use case: REST for simplicity, GraphQL for precise data fetching, gRPC for high-performance, WebSockets for real-time bidirectional, and push notifications for background delivery
 - Delta sync, request batching, and cursor-based pagination are essential techniques for minimizing bandwidth and battery consumption on mobile
 - Optimistic UI updates with rollback capability give users instant feedback while handling the reality of unreliable network conditions
+- Feature-based modular architecture speeds builds and enables team parallelism; a BFF layer reduces mobile network overhead by aggregating multiple backend calls into one
+- Use the Expand-Contract pattern for API changes so old and new app versions coexist safely; feature flags let you ship code dark and toggle it remotely without an app release
 
 ## Networking and Communication
 
@@ -230,6 +232,94 @@ Cursor-based pagination is the recommended approach for dynamic content (social 
 | LWW | Simple implementation | Silent data loss risk |
 | Denormalized DB | Fast reads | Data duplication, larger storage |
 
+## Architecture and Production Operations
+
+### Modular Architecture / Feature-Based Modules
+
+Divide the app into separate feature-based modules rather than a single monolithic codebase.
+
+**Typical module structure:**
+- Auth module (login/signup)
+- Feed module (content display)
+- Checkout module (payments)
+
+**Benefits:**
+- Only changed modules rebuild — significantly faster build times on large codebases
+- Teams can develop features simultaneously without stepping on each other
+- Easier to comprehend and maintain in isolation
+
+**Trade-offs:** Requires careful boundary definition, shared infrastructure management (analytics, navigation, design systems), and is hard to retrofit into an existing large codebase. Use dependency graph visualizers to detect circular dependencies.
+
+---
+
+### Backend for Frontend (BFF) for Mobile
+
+A dedicated backend layer that sits between mobile clients and internal services, aggregating and shaping data specifically for mobile consumption.
+
+**How it works:** Instead of mobile apps calling multiple microservices directly, they make one request to the BFF. The BFF fans out to internal services, aggregates results, and returns a single optimized response.
+
+**Performance impact:** Fewer network round-trips → lower latency and less battery drain.
+
+**Real-world example:** Netflix maintains separate BFF layers for iOS, Android, TVs, and web — each returns device-specific data formats and appropriate metadata resolution levels.
+
+**Trade-off:** Introduces an additional service to maintain. Keep business logic in backend services; the BFF handles only aggregation and format adaptation.
+
+---
+
+### App Versioning and Backward Compatibility
+
+Users don't update apps immediately. At any point in time, your server must support multiple simultaneous live app versions.
+
+**Solution:** API versioning (e.g., `/v1/users` vs `/v2/users`) lets different client versions receive appropriately formatted responses.
+
+**Expand-Contract pattern — the safe migration playbook:**
+
+1. **Expand**: add new fields alongside old ones (don't remove anything yet)
+2. **Migrate**: gradually update clients to use the new fields
+3. **Contract**: remove deprecated fields only after adoption is complete
+
+**Real-world example:** Stripe pins clients to a specific API version so they receive backward-compatible responses regardless of how the platform has evolved.
+
+---
+
+### Feature Flags and Remote Configuration
+
+Feature flags are switches that enable or disable functionality remotely without requiring a new app release.
+
+**Mechanism:** Feature code ships in the app binary but is gated by a flag. The flag state is fetched from a backend dashboard and can be toggled for specific user segments or everyone.
+
+**Extended capability — Remote Configuration:** Lets you change at runtime without a release:
+- UI text and labels
+- Feature limits and quotas
+- Layout elements
+- Experiment settings
+
+**Tools:** Firebase Remote Config, LaunchDarkly, and similar platforms.
+
+**Use cases:**
+- **A/B testing**: route user cohorts to different feature variants
+- **Instant rollback**: disable a buggy feature without waiting for app store review (which can take up to 3 days)
+- **Staged rollouts**: enable for 1% → 10% → 100% of users while monitoring crash rates
+
+**Trade-off:** Flags accumulate over time, cluttering the codebase. Enforce lifecycle policies with explicit expiry dates for each flag.
+
+---
+
+### Additional Concepts (Overview)
+
+| # | Concept | What to Know |
+|---|---|---|
+| 44 | Deep Linking | Universal/app links that open specific in-app screens from URLs; critical for growth funnels and marketing attribution |
+| 45 | Navigation & Screen Flow | Stack-based (push/pop) vs tab-based vs deep link routing; back-stack management |
+| 46 | Permissions Model | Request at point of need, not upfront; gracefully degrade when denied |
+| 47 | Accessibility (a11y) | Semantic labels, content descriptions, minimum touch targets, dynamic type support |
+| 48 | Localisation & i18n | Externalize strings, handle RTL layouts, date/number/currency formatting per locale |
+| 49 | Graceful Degradation | App remains functional in reduced form when features fail or connectivity drops |
+| 50 | Geo Location | Coarse vs fine accuracy tradeoffs; respect OS battery-optimization limits on background location |
+| 51 | Crash Reporting & Perf Monitoring | Sentry, Firebase Crashlytics; capture symbolicated stack traces and ANR reports |
+| 52 | Crash-Free Rate as SLI | Crash-free rate = (sessions without crash / total sessions); common mobile reliability SLI |
+| 53 | Staged Rollouts | Ship to 1% → 10% → 50% → 100%; monitor crash-free rate at each stage before expanding |
+
 ---
 
 ## Interview Framework (~45 min)
@@ -276,5 +366,6 @@ See also [system-design-interview-approach.md](../leadership/system-design-inter
 **Source:** https://newsletter.systemdesign.one/p/mobile-system-design
 **Source:** https://newsletter.systemdesign.one/p/mobile-system-design-concepts
 **Source:** https://newsletter.systemdesign.one/p/mobile-system-design-interview
-**Date:** 2026-05-31 (initial), 2026-06-05 (added interview framework)
-**Tags:** mobile, system-design, offline-first, caching, synchronization, networking, pagination, interview-framework
+**Source:** https://newsletter.systemdesign.one/p/system-design-mobile
+**Date:** 2026-05-31 (initial), 2026-06-05 (added interview framework), 2026-06-22 (added architecture & production operations)
+**Tags:** mobile, system-design, offline-first, caching, synchronization, networking, pagination, interview-framework, modular-architecture, bff, feature-flags, versioning, staged-rollouts

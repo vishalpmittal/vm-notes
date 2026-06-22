@@ -9,6 +9,8 @@ OpenAI's playbook for running coding agents at scale: design the *harness* (envi
 - Context strategy: `AGENTS.md` is a **~100-line table of contents** pointing into a structured `docs/` directory — not a giant instruction file. "Give Codex a map, not a 1,000-page instruction manual"
 - **Application legibility for agents was directly engineered**: Chrome DevTools Protocol wired into the agent runtime, per-worktree bootable apps, ephemeral observability stack (Vector + Victoria Logs/Metrics/Traces) so Codex can reproduce bugs and reason about performance targets
 - Coherence preserved via **mechanically-enforced architecture**: rigid per-domain layering (Types → Config → Repo → Service → Runtime → UI), custom linters whose error messages embed remediation instructions to inject into agent context
+- Only 20-30% of engineering time is spent coding; AI tools accelerate that slice but don't automatically unblock the other 70-80% (review, testing, coordination) — teams that redesigned surrounding workflows achieved 1.8-2.4x velocity improvement
+- Organizational redesign is required to translate individual gains to team velocity: pod-based architecture (3-5 person autonomous teams), Agent Champions per function, Single Task Owner for every initiative, and clear human-on-the-loop operating model
 
 ## What Was Built
 
@@ -215,12 +217,101 @@ The investments aren't optional — they're the *prerequisite* for letting agent
 4. **Encode invariants mechanically.** Lints with embedded remediation > written conventions
 5. **Repo = system of record.** Off-repo knowledge is invisible to the agent
 
+---
+
+## Organizational Playbook for AI-Native Teams
+
+The harness is the technical prerequisite. This section covers the organizational redesign required for individual gains to translate to team-level velocity. Per ByteBytego: 70% of AI transformation success depends on operational and cultural changes, not technology deployment alone.
+
+### The Productivity Paradox
+
+Only 20-30% of engineering time is spent coding. The remaining 70-80% is review, testing, coordination, and governance — **where actual bottlenecks form**. AI accelerates coding but doesn't automatically unblock the rest.
+
+Supporting data:
+- McKinsey: 20-45% faster on discrete tasks, but smaller org-level gains
+- Google DORA: improved individual throughput without automatically improving deployment frequency or change failure rates absent process changes
+- Microsoft Research: 26% increase in weekly PRs, but review burden just shifted to others
+
+When teams systematically removed surrounding bottlenecks, they achieved **1.8-2.4x velocity improvement** over six months. The technical harness enables it; the org redesign unlocks it.
+
+### Human-on-the-Loop (vs Human-in-the-Loop)
+
+The harness engineering model above is "humans steer, agents execute." ByteBytego frames the same shift as:
+
+| Human-in-the-Loop | Human-on-the-Loop |
+|---|---|
+| Human approves each step | Human sets plans and success criteria |
+| Agent waits for input | Agent executes and self-verifies |
+| Synchronous handoffs | Agent iterates autonomously until criteria met |
+| Human reviews everything | Human reviews final output (already agent-reviewed) |
+
+Target metric: **70%+ of code AI-generated**. Teams that crossed 55% agent-assisted diffs saw meaningful velocity gains.
+
+### Pod-Based Architecture
+
+The atomic unit: **3-5 person cross-functional team operating autonomously with AI agents.** Engineers design, designers code, PMs prototype — AI removes traditional skill bottlenecks, enabling role fluidity rather than role confusion.
+
+Pilot results from the article: 3 autonomous projects, 90%+ engineer adoption in under two months, features built in hours rather than days.
+
+### Agent Champion Model
+
+Each organizational pillar designates **1-2 full-time Champions** (50-100% dedicated) responsible for workflow reshaping and codebase preparation.
+
+Champions per function:
+- **Product management** — redesign reviews and handoffs
+- **Design** — build agent-first prototyping frameworks
+- **Analytics** — enable large-scale autonomous analysis
+
+### Single Task Owner (STO) for Everything
+
+Most dysfunction in AI-native organizations comes from **unclear ownership, not bad process**. Each initiative needs: clear priority, authority, and decision rights — one person. AI expands parallel work surface area, creating coordination overhead that teams mistakenly solve with more process rather than clearer ownership.
+
+### Eight Anti-Patterns That Derail Transformation
+
+1. **Tool bolt-on without workflow redesign** — adding Copilot/Cursor without changing review/deployment process
+2. **Review bottleneck** — throughput limit shifts to human reviewers
+3. **Prompt cargo culting** — copying external prompts without adapting to codebase context
+4. **Metrics gaming** — optimizing for adoption stats over outcomes
+5. **Security shortcuts** — privileged agents without sandboxing or audit
+6. **Knowledge debt** — verification lagging behind generation speed
+7. **Junior pipeline hollowing** — reduced early-career validation opportunities
+8. **Meeting creep** — coordination overhead swallows time savings
+
+### AI-First Success Metrics
+
+| Metric | Target |
+|---|---|
+| AI-generated code share | 75%+ |
+| Agent-assisted diff rate | 55%+ for meaningful gains |
+| Weekly active tool usage | 80%+ across engineering |
+| Feature velocity | 2-10x prototype-to-production |
+
+### Three-Phase Transformation Playbook
+
+**Phase 1 — Foundation (first 2 months)**
+- Leaders use AI daily; target 50%+ of daily tasks within 30 days; share failures publicly, not just wins
+- Designate Agent Champions (50-100% dedicated)
+- Form 3-5 person pilot pods with autonomous charters on real problems
+
+**Phase 2 — Systematic Redesign (following 2 months)**
+- Audit high-friction manual workflows; build AI-readable documentation systems
+- Establish psychological safety (MIT research: 83% of leaders say it improves AI initiatives)
+- Clear technical debt; implement sandboxing, audit mechanisms, automated security checks
+
+**Phase 3 — Structural Evolution (ongoing)**
+- Flatten coordination layers; reward leverage and outcomes over team size
+- Enable cross-functional fluency as AI removes traditional skill barriers
+
+### The Scarce Resource Has Shifted
+
+Generation and production now approach near-zero marginal cost. The binding constraint is now **orchestration and judgment**: evaluating quality, setting direction, and making prioritization calls. That's what engineers invest in — the harness exists to make that judgment scalable.
+
 ## Related
 
 - [OpenAI Codex](openai-codex.md) — the agent that the harness runs; covers the agent loop, App Server, AGENTS.md basics
 - [Stripe Minions](stripe-minions.md) — same harness-first philosophy in a different deployment shape (unattended one-shot vs interactive)
 - [AI-native engineering](ai-native-engineering.md) — broader pattern of orchestrating agents; complements this with the 40%-context/20%-generation/40%-review breakdown
-- [Agents across SDLC](agents-across-sdlc.md) — where coding agents win/lose across the dev lifecycle
+- [Agents across SDLC](../agents/agents-across-sdlc.md) — where coding agents win/lose across the dev lifecycle
 - [Claude Code: 12 features](../claude/claude-code-features.md) — parallel feature surface in the Anthropic ecosystem
 - [Context engineering](../concepts/context-engineering.md) — the discipline behind progressive context disclosure
 - [Distributed system failure modes](../../system-design/distributed-system-failure-modes.md) — observability matters for agents for the same reasons it matters for humans
@@ -228,5 +319,6 @@ The investments aren't optional — they're the *prerequisite* for letting agent
 ---
 
 **Source:** https://openai.com/index/harness-engineering/
-**Date:** 2026-06-05
-**Tags:** openai, codex, harness-engineering, agents-md, agent-infrastructure, observability, mechanical-invariants, agent-legibility, agentic-coding, ralph-wiggum-loop
+**Source:** https://blog.bytebytego.com/p/ai-native-leaders-the-organizational
+**Date:** 2026-06-05 (initial), 2026-06-22 (added organizational playbook)
+**Tags:** openai, codex, harness-engineering, agents-md, agent-infrastructure, observability, mechanical-invariants, agent-legibility, agentic-coding, ralph-wiggum-loop, org-design, pod-architecture, agent-champions, human-on-the-loop, productivity-paradox, transformation-playbook

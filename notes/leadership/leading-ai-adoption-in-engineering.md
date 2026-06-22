@@ -258,10 +258,10 @@ Three studies that make "AI amplifies whatever your team already is" concrete:
 
 ### What a Manager-Owned Harness Looks Like
 
-- **Context files** (`AGENTS.md`, `CLAUDE.md`, project-specific skill files) — see [harness-engineering.md](../ai-ml-ds/agents/harness-engineering.md) for OpenAI's playbook
+- **Context files** (`AGENTS.md`, `CLAUDE.md`, project-specific skill files) — see [harness-engineering.md](../ai-ml-ds/harness-engineering/harness-engineering.md) for OpenAI's playbook
 - **Scoped tests** the agent can run and iterate against
 - **Architectural guardrails** mechanically enforced (custom linters, type boundaries)
-- **A maker/checker loop** so the agent doesn't grade its own work — see [loop-engineering.md](../ai-ml-ds/agents/loop-engineering.md)
+- **A maker/checker loop** so the agent doesn't grade its own work — see [loop-engineering.md](../ai-ml-ds/harness-engineering/loop-engineering.md)
 
 The actionable shift: **add "harness health" to your team's regular operational review**, alongside code coverage and incident counts. If you can't point to who owns it, it's nobody's job and your AI tools are underperforming.
 

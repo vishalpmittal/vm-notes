@@ -65,10 +65,10 @@ The Plugins/MCP layer is what converts an agent from advisory (*"here's the fix"
 
 ## See Also
 
-- [coding-agents-overview.md](coding-agents-overview.md) — the broader Claude Code / Cursor / Codex / Stripe Minions landscape
+- [coding-agents-overview.md](../agents/coding-agents-overview.md) — the broader Claude Code / Cursor / Codex / Stripe Minions landscape
 - [ai-native-engineering.md](ai-native-engineering.md) — 40/20/40 (context/generation/review) time allocation maps directly to maker/checker
 - [harness-engineering.md](harness-engineering.md) — how OpenAI built the agent harness for Codex (AGENTS.md, mechanical invariants)
-- [agents-across-sdlc.md](agents-across-sdlc.md) — where agents win and lose across the development lifecycle
+- [agents-across-sdlc.md](../agents/agents-across-sdlc.md) — where agents win and lose across the development lifecycle
 
 ---
 

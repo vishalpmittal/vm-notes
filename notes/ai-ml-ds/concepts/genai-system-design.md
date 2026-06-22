@@ -185,7 +185,7 @@ The paid continuation reportedly covers:
 - Agent integration patterns
 
 For these, see:
-- [Claude Code architecture](../claude/claude-code-architecture.md) and [OpenAI Codex](../agents/openai-codex.md) for production agent architectures
+- [Claude Code architecture](../claude/claude-code-architecture.md) and [OpenAI Codex](../harness-engineering/openai-codex.md) for production agent architectures
 - [LinkedIn dual-encoder ranking](llms-in-production-ranking.md) for a production embedding/RAG case
 - [OpenAI data agent](../agents/openai-data-agent.md) for production context assembly
 

@@ -169,9 +169,9 @@ The build only makes sense at Stripe's scale (10,000+ engineers, monorepo at 100
 - [OpenAI Codex](openai-codex.md) — Codex is the attended/conversational counterpart; similar agent loop, different deployment model
 - [Harness engineering](harness-engineering.md) — OpenAI's writeup of building the *harness* (env + observability + invariants) for agentic coding at scale; same philosophy as Stripe Minions
 - [AI-native engineering](ai-native-engineering.md) — broader pattern of orchestrating fleets of agents
-- [Agents across SDLC](agents-across-sdlc.md) — where agents win vs lose in the dev lifecycle
+- [Agents across SDLC](../agents/agents-across-sdlc.md) — where agents win vs lose in the dev lifecycle
 - [LLM tool use and MCP](../concepts/llm-tool-use-and-mcp.md) — the protocol Toolshed implements
-- [OpenAI data agent](openai-data-agent.md) — same "fewer non-overlapping tools" lesson at OpenAI's data platform
+- [OpenAI data agent](../agents/openai-data-agent.md) — same "fewer non-overlapping tools" lesson at OpenAI's data platform
 
 ---
 

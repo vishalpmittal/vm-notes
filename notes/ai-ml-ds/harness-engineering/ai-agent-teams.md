@@ -50,7 +50,7 @@ Four levers for tuning subagent performance:
 
 Agent teams shift the value proposition from "write code faster" to "address intellectual bottlenecks." The bottlenecks are architecture design, planning, validation, and safety modeling -- areas where a single engineer's cognitive bandwidth is the constraint. An agent team turns one engineer's output into a collective achievement by parallelizing specialized reasoning across these domains.
 
-> See also: [Agentic Design Patterns](agentic-design-patterns.md) for the escalation ladder (direct API -> workflows -> agents -> multi-agent) and workflow/agent pattern taxonomy.
+> See also: [Agentic Design Patterns](../agents/agentic-design-patterns.md) for the escalation ladder (direct API -> workflows -> agents -> multi-agent) and workflow/agent pattern taxonomy.
 
 ---
 

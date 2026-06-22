@@ -176,7 +176,7 @@ The Codex architecture suggests a generalizable pattern:
 - [Claude Code: 12 features](../claude/claude-code-features.md) — the feature surface comparison
 - [Context engineering](../concepts/context-engineering.md) — the discipline behind AGENTS.md / CLAUDE.md
 - [LLM tool use and MCP](../concepts/llm-tool-use-and-mcp.md) — how Codex talks to tools
-- [Agents across SDLC](agents-across-sdlc.md) — where coding agents like Codex win/lose
+- [Agents across SDLC](../agents/agents-across-sdlc.md) — where coding agents like Codex win/lose
 - [AI-native engineering](ai-native-engineering.md) — broader workflow patterns around Codex/Claude Code
 
 ---
