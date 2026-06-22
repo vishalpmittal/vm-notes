@@ -318,7 +318,7 @@ Generation and production now approach near-zero marginal cost. The binding cons
 
 ---
 
-**Source:** https://openai.com/index/harness-engineering/
+**Source:** https://openai.com/index/agent-teams-harness-eng/
 **Source:** https://blog.bytebytego.com/p/ai-native-leaders-the-organizational
 **Date:** 2026-06-05 (initial), 2026-06-22 (added organizational playbook)
 **Tags:** openai, codex, harness-engineering, agents-md, agent-infrastructure, observability, mechanical-invariants, agent-legibility, agentic-coding, ralph-wiggum-loop, org-design, pod-architecture, agent-champions, human-on-the-loop, productivity-paradox, transformation-playbook

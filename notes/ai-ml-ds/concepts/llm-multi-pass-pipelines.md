@@ -224,7 +224,7 @@ Bad fit:
 - [Claude internals: interpretability § format vs reasoning](../claude/claude-internals-interpretability.md) — research on why constrained generation degrades reasoning
 - [LLM evals](llm-evals.md) — measuring multi-phase pipeline quality across phases
 - [Distributed system failure modes § graceful degradation](../../system-design/distributed-system-failure-modes.md) — fallback chains as a general system-design pattern
-- [OpenAI Codex § agent loop](../harness-engineering/openai-codex.md) — similar pattern at agent level (alternating deterministic and agentic steps)
+- [OpenAI Codex § agent loop](../agent-teams-harness-eng/openai-codex.md) — similar pattern at agent level (alternating deterministic and agentic steps)
 
 ---
 

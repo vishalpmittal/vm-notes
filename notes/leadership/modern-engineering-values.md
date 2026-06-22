@@ -47,7 +47,7 @@ Consolidate scattered context (docs, implicit knowledge, production behavior) **
 - Decision records (ADRs) capturing the "why"
 - Inline comments where the **why** isn't obvious
 
-The cost: docs that go stale. The mitigation: treat doc-rot as a real problem worth recurring agent runs to fix (see [harness-engineering.md](../ai-ml-ds/harness-engineering/harness-engineering.md) for OpenAI's "doc-gardening agent" pattern).
+The cost: docs that go stale. The mitigation: treat doc-rot as a real problem worth recurring agent runs to fix (see [harness-engineering.md](../ai-ml-ds/agent-teams-harness-eng/harness-engineering.md) for OpenAI's "doc-gardening agent" pattern).
 
 ### 5. Own Your Stack
 **Build or maintain core dependencies rather than outsourcing to third-party libraries.** Agents reduce ownership costs while restoring full control over the product and user experience.
@@ -80,12 +80,12 @@ The values listed above all converge on this shift: **discernment, taste, and fe
 
 ## Related
 
-- [AI-native engineering](../ai-ml-ds/harness-engineering/ai-native-engineering.md) — broader pattern of orchestrating AI agents (40% context / 20% generation / 40% review)
+- [AI-native engineering](../ai-ml-ds/agent-teams-harness-eng/ai-native-engineering.md) — broader pattern of orchestrating AI agents (40% context / 20% generation / 40% review)
 - [Leading AI adoption in engineering](leading-ai-adoption-in-engineering.md) — how to roll this out across an organization
 - [Engineering velocity and feedback](engineering-velocity-and-feedback.md) — value #3 in depth
 - [Memorable is useable](memorable-strategy.md) — applied to strategy/values themselves: the 6 values work only if your team can remember them
-- [Harness engineering](../ai-ml-ds/harness-engineering/harness-engineering.md) — OpenAI's operational playbook that embodies most of these values
-- [Stripe Minions](../ai-ml-ds/harness-engineering/stripe-minions.md) — Strong ownership + guardrails + context-in-repo as a production case
+- [Harness engineering](../ai-ml-ds/agent-teams-harness-eng/harness-engineering.md) — OpenAI's operational playbook that embodies most of these values
+- [Stripe Minions](../ai-ml-ds/agent-teams-harness-eng/stripe-minions.md) — Strong ownership + guardrails + context-in-repo as a production case
 - [Claude Code workflow tips](../ai-ml-ds/claude/claude-code-workflow.md) — `CLAUDE.md` as the "context in the repo" mechanism
 - [Cursor coding agent](../ai-ml-ds/agents/cursor-coding-agent.md) — "own your stack" example (Composer's training on edit trajectories, custom helpers)
 - [Agents across SDLC](../ai-ml-ds/agents/agents-across-sdlc.md) — where these values pay off across the dev lifecycle
