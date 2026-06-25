@@ -11,6 +11,11 @@ How to actually use Claude Code in daily work — from beginner setup through ho
 - The single highest-leverage tip: give Claude a **deterministic way to verify its own work** (browser test loop, agent-stop hooks). Claimed to 2-3x output quality
 - **Compounded context becomes standing overhead.** Run `/context` periodically; prune bloated CLAUDE.md sections and unused skill packs — a lean, clear standing context outperforms a comprehensive one
 - **Four tools can cut token usage by ~90%:** codegraph (code indexing), RTK (output compression), caveman (response trimming), and built-in session commands — each has tradeoffs that determine when to disable it
+- **Act as engineering manager, not programmer.** Ask for outcomes ("audit naming convention compliance") not actions ("rename this variable"). Explain the *why*. When agents err, update CLAUDE.md/AGENTS.md — don't just correct inline
+- **68% of changes have bugs caught by a peer-review agent** before they reach humans — automated validation pipelines (author → reviewer in fresh context → end-to-end evidence → PR) are the missing layer most agentic setups skip
+- **Worktree pools beat ad-hoc creation.** Maintaining a pre-warmed pool of git worktrees (deps installed, env files ready, synced to main) eliminates the setup overhead that makes parallel work feel slow
+- `.claude/` has two layers (global `~/.claude/` + project `./.claude/`); project settings override global. Commit `settings.json`, `commands/`, and `rules/`; gitignore `settings.local.json`
+- The `rules/` subdirectory splits CLAUDE.md into topic-specific files Claude auto-loads; files longer than ~200 lines degrade adherence as rules compete for attention
 
 ## Setup
 
@@ -86,6 +91,45 @@ Anthropic reports engineers onboard **80% faster** to new codebases with a solid
 Every time Claude makes a mistake you have to correct, the correction belongs in CLAUDE.md. Treat the file as an evolving institutional record, not a one-time setup artifact.
 
 **Compounding Engineering pattern** (Dan Shipper / Boris's team): tag `@claude` on PRs via the Claude Code GitHub Action. On review, ask Claude to propose CLAUDE.md updates based on what went wrong. Every PR becomes an opportunity to make the agent smarter for next time.
+
+## .claude/ Folder Layout
+
+Two configuration layers stack additively — global loads first, project overrides where they conflict:
+
+| Layer | Location | Scope |
+|---|---|---|
+| Global | `~/.claude/settings.json` | All projects |
+| Project | `./.claude/settings.json` | This repo only |
+
+![.claude global folder contents](../../images/20260624-1521-claude-global-config.png)
+![.claude project folder contents](../../images/20260624-1522-claude-project-config.png)
+
+`.mcp.json` (project root) configures project-scoped MCP servers; global MCP settings go in `~/.claude/settings.json`.
+
+### Git hygiene
+
+![What to commit vs. gitignore](../../images/20260624-1523-claude-git-commit-guidelines.jpeg)
+
+| File | Action |
+|---|---|
+| `CLAUDE.md` | Commit |
+| `.claude/settings.json` | Commit |
+| `.claude/commands/` | Commit |
+| `.claude/rules/` | Commit |
+| `.claude/settings.local.json` | **Gitignore** (machine-specific) |
+
+### rules/ — Modular CLAUDE.md
+
+The `rules/` subdirectory lets you split a large `CLAUDE.md` into topic-specific files (e.g., `architecture.md`, `conventions.md`). Claude auto-loads all of them. Rules can be scoped to specific folder paths — `rules/api-conventions.md` loads only inside `src/api/`.
+
+![CLAUDE.md content guidelines](../../images/20260624-1524-claude-md-content-guidelines.png)
+
+Three categories belong in CLAUDE.md:
+1. **Architecture rules invisible from code** — e.g., "never import directly from `utils.ts`"
+2. **Environment/workflow context** a new engineer would spend days learning
+3. **Hard constraints** marked with `IMPORTANT:` or `YOU MUST:` — Anthropic confirms emphasis markers measurably improve adherence
+
+Test: if you'd repeat an instruction in every new session, it belongs in CLAUDE.md. If removing a line would not change Claude's behavior, delete it.
 
 ## Boris's Fleet: Running Claude in Parallel
 
@@ -371,6 +415,107 @@ Additional high-leverage habits: use Plan Mode before edits to eliminate expensi
 
 > "The skill isn't installing these. It's knowing which one to turn on for the task in front of you, and which to leave off."
 
+## An Ex-Meta L8's Full Agentic Toolkit (Kun Chen)
+
+Kun Chen (ex-L8 principal engineer at Meta, Microsoft, Atlassian; led Rovo Dev at Atlassian) now works solo with agents as his primary development team. His setup is a reference for a fully optimized agentic workflow.
+
+### Core Philosophy: Engineering Manager, Not Programmer
+
+Stay at the level of *deciding what to build* and *evaluating quality*. Delegate implementation to agents.
+
+**Three delegation anti-patterns to avoid:**
+1. Asking for actions instead of outcomes ("rename this variable" vs. "audit naming convention compliance")
+2. Failing to explain the *why* — agents that understand intent make better judgment calls
+3. Taking back control when mistakes occur — instead, update AGENTS.md so the agent improves systematically
+
+When an agent errors, the fix goes into persistent memory (CLAUDE.md / AGENTS.md), not just the current prompt.
+
+### Terminal Ecosystem
+
+| Tool | Role |
+|---|---|
+| **WezTerm** | Single frameless window, highly performant; keyboard-driven, cross-platform |
+| **Neovim** | Quick filesystem navigation, diff review, small edits |
+| **tmux** | Session + pane manager; agent pane left, Neovim right; tab titles show agent status |
+| **oil.nvim** | Edit filesystem like a buffer |
+| **neogit** | Git status and diffs |
+| **OpenSuperWhisper** | Local Whisper model for voice dictation — "you talk faster than you type" |
+
+**Agent harnesses:** Claude Code + OpenCode (model-agnostic; avoids vendor lock-in)
+
+### Planning Complex Work: Lavish Editor
+
+For new projects, major refactors, or underspecified problems: write a *technical plan before implementation*. Planning-first keeps you out of constant interactive sessions, produces auditable decisions, and enables fully autonomous execution.
+
+**Lavish Editor** (custom open-source tool): interactive HTML-based planning tool that renders the agent's plan as a visual mockup matching the project's style, presents options with pros/cons, and enables click-to-annotate feedback (e.g., click a UI element → "make this a floating overlay instead"). Agent revises and returns instantly, no text-based back-and-forth required.
+
+### Large Task Orchestration: gnhf ("Good Night, Have Fun")
+
+For tasks too complex for a single context window:
+
+```bash
+gnhf <your objective>
+```
+
+**Mechanism:**
+- Breaks the task into small steps
+- Each step runs in a fresh context window seeded with base context + learnings from previous steps
+- Failed attempts auto-rollback; next attempt accounts for failures
+- Token budget cap prevents runaway costs
+- Returns organized commits + `notes.md` summary
+
+**Use cases:** implementing massive plans, improving measurable metrics (reduce LOC, increase test coverage, cut latency), running offline experiments with automated evaluation.
+
+### Autonomous Validation Pipeline: no-mistakes
+
+Instead of manually reviewing agent-written code, use agents to review agents' work. For every project, define agent-testable criteria in AGENTS.md: how to exercise the app, which features to verify, what constitutes success.
+
+```bash
+no-mistakes -y
+```
+
+Autonomously:
+1. Commits with conventional messages into descriptively named branches
+2. Rebases onto latest main, resolves conflicts
+3. Spins up **peer-review agents in fresh context windows** (separate from authors — avoids confirmation bias)
+4. Tests changes end-to-end, produces screenshot evidence
+5. Closes documentation gaps
+6. Fixes linting
+7. Pushes and opens a well-structured PR
+8. Babysits CI until green
+
+Only escalates ambiguous product decisions to humans; fixes obvious bugs autonomously.
+
+> **68% of changes pushed through no-mistakes had bugs that were caught and fixed** before reaching the human.
+
+**Key principle:** run reviewers in separate context windows from authors. Same-session review creates confirmation bias — the agent is primed to find its own work acceptable.
+
+### Parallel Work: treehouse (Worktree Manager)
+
+Parallel agents in the same directory step on each other's toes. Git worktrees solve this — but managing them by hand is friction enough to discourage parallel work.
+
+**treehouse** (custom open-source tool) maintains a pool of ready worktrees:
+- Pre-installed dependencies, build artifacts, env files
+- Synced to latest main before use
+- Idle worktrees reused (not recreated from scratch)
+- Naming and location managed automatically
+
+```bash
+treehouse  # drops you into a ready worktree
+```
+
+**Typical workload:** 5-10 parallel tasks in separate tmux windows. Most go straight to clean PR with zero involvement; occasional escalations from no-mistakes for decisions that require human judgment.
+
+### Remote Access: Work from Anywhere
+
+| Tool | Role |
+|---|---|
+| **Tailscale** | Private network connecting PC, laptop, phone — no VPN complexity |
+| **SSH + tmux** | Attach to the same workspace session from any device |
+| **Mosh** | Transport layer over SSH, built for flaky cellular networks |
+
+Result: full terminal access, all tmux sessions, same environment from phone during off-hours.
+
 ---
 
 **Source:** https://ainative.to/p/how-to-use-claude-code-beginners-guide
@@ -378,5 +523,7 @@ Additional high-leverage habits: use Plan Mode before edits to eliminate expensi
 **Source:** https://sderosiaux.substack.com/p/claude-code-told-me-what-tools-it
 **Source:** https://aiagentssimplified.substack.com/p/the-hidden-cost-of-starting-from
 **Source:** https://getpushtoprod.substack.com/p/how-to-reduce-90-of-claude-code-token
-**Date:** 2026-06-18 (token optimization section added; context section 2026-06-16; initial 2026-06-05)
-**Tags:** claude-code, workflow, plan-mode, claude-md, mcp, slash-commands, subagents, parallel-agents, compounding-engineering, opus, verification-loops, cli-tools, ripgrep, duckdb, environment, context-pruning, skills, hooks, session-amnesia, token-optimization, codegraph, rtk, caveman, cost-reduction
+**Source:** https://blog.bytebytego.com/p/an-ex-meta-l8s-agentic-engineering
+**Source:** https://newsletter.systemdesign.one/p/claude-folder
+**Date:** 2026-06-18 (token optimization section added; context section 2026-06-16; initial 2026-06-05), 2026-06-23 (Kun Chen expert setup), 2026-06-24 (.claude/ folder structure)
+**Tags:** claude-code, workflow, plan-mode, claude-md, mcp, slash-commands, subagents, parallel-agents, compounding-engineering, opus, verification-loops, cli-tools, ripgrep, duckdb, environment, context-pruning, skills, hooks, session-amnesia, token-optimization, codegraph, rtk, caveman, cost-reduction, management-mindset, voice-input, lavish-editor, gnhf, no-mistakes, treehouse, worktrees, remote-access, tailscale, mosh, neovim, tmux, wezterm, rules-directory, git-hygiene, claude-folder

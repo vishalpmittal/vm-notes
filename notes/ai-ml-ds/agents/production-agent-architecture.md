@@ -8,6 +8,8 @@
 - **Context is not a data dump** — the context builder curates the minimum relevant, secure slice of data for each task; shoving everything in generates expensive, complex errors
 - **The semantic repair loop** converts backend failures into structured feedback so the agent can self-correct rather than silently failing or hallucinating a fix
 - Separate low-risk operations (draft, summarize) from high-risk mutations (delete, bill) — human approval for the latter builds organizational trust incrementally
+- **Monolithic agents fail at scale** — forcing a single agent to handle intent parsing, planning, tool execution, and self-correction simultaneously overwhelms its context window; accumulated tool responses degrade the signal-to-noise ratio until the agent loses its original goal
+- Multi-agent Router → Worker → Critic split is the structural fix: each agent does one job with a minimal, focused toolset; conflict resolution requires formal arbitration, not infinite rejection loops
 
 ![The Reality Engine — backend architecture for production AI agents](../../images/20260618-1600-propose-validate-pipeline.jpeg)
 
@@ -83,8 +85,47 @@ Separate the autonomy spectrum by risk:
 
 Incrementally expanding autonomy as trust builds is safer than starting with full autonomy and adding restrictions after incidents.
 
+## Why 90% of AI Agents Fail: The Monolithic Agent Problem
+
+### The Root Cause: Cognitive Overload
+
+The typical failure pattern: developers build a single agent responsible for intent parsing, planning, tool execution, and self-correction all at once. Each tool response, error message, and intermediate thought accumulates in the context window. As the signal-to-noise ratio degrades, the agent loses track of its original goal — what worked in a local prototype becomes brittle against real-world, messy data.
+
+The failure is architectural, not a model capability problem. Upgrading to a more powerful model inside an overloaded context generates more expensive, more complex errors.
+
+### The Fix: Router → Worker → Critic
+
+Distribute responsibilities across three specialized agents, each with a minimal toolset:
+
+| Agent | Role | Tools |
+|---|---|---|
+| **Router** | Classifies user intent only | None (no external tool access) |
+| **Worker** | Executes specific tasks | Minimal, task-focused toolset |
+| **Critic** | Validates output against original constraints | Read-only verification |
+
+The Router makes no API calls — it cannot be distracted by data. The Worker executes with a small, focused context. The Critic validates output *against the original intent* before it reaches the user, catching drift before it ships.
+
+### Distributed State Management
+
+Moving to multi-agent systems requires treating state as a first-class design problem:
+
+- **Formal communication protocols** between agents — no implicit shared state; payloads must be explicit
+- **Short-term working memory** (context window) vs. **long-term semantic memory** (vector databases) — separate them by design
+- Context passing without context loss: each agent receives only what it needs, not the full session history
+
+### Consensus and Conflict Resolution
+
+When agents disagree (e.g., compliance agent rejects what research agent approved), the system needs structured arbitration — not an infinite rejection loop:
+
+1. **Orchestrator-mediated refinement** — the orchestrator rewrites the rejected output against the critic's constraints and resubmits
+2. **Human-in-the-loop checkpoints** — for conflicts that automated arbitration cannot resolve
+3. **Fallback paths** — predetermined exits that prevent runaway loops (max rejection count triggers escalation)
+
+The failure mode to avoid: agents locked in a back-and-forth where neither yields and no human is ever notified.
+
 ---
 
 **Source:** https://aiagentssimplified.substack.com/p/rule-1-of-production-ready-agents
-**Date:** 2026-06-18
-**Tags:** agents, production, validation, backend-architecture, tool-use, safety, observability
+**Source:** https://aiagentssimplified.substack.com/p/why-90-of-ai-agents-fail-in-production
+**Date:** 2026-06-18 (initial), 2026-06-23 (multi-agent failure patterns)
+**Tags:** agents, production, validation, backend-architecture, tool-use, safety, observability, multi-agent, router-worker-critic, context-overload, conflict-resolution, distributed-state

@@ -10,7 +10,7 @@
 
 ---
 
-![A Guide to Observability](../images/20260618-1046-guide-to-observability.png)
+![A Guide to Observability](../../images/20260618-1046-guide-to-observability.png)
 
 ---
 

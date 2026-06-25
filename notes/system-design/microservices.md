@@ -9,6 +9,7 @@ The architectural style of organizing applications as independent, single-busine
 - **Build a modular monolith first**, extract services only when the pain of the monolith genuinely outweighs the cost of distributed systems
 - Microservices shine when you have: uneven traffic patterns (scale parts), independent team deploys, clear domain boundaries, distributed ownership (large org), resilience demands (partial failure OK)
 - A well-structured monolith outperforms premature microservice extraction in nearly every dimension that matters early — speed of development, debuggability, deployment simplicity
+- **Top 6 anti-patterns:** splitting early, wrong boundaries, Conway's Law misalignment, chatty services, deep call chains (5 hops → 99.5% availability, +100ms), shared database
 
 ## What Microservices Actually Are
 
@@ -61,6 +62,32 @@ Without these, failures are "invisible and painful." A small team typically can'
 ### 3. Over-Engineering Simple Problems
 A `users` service, an `auth` service, a `profile` service, a `notifications` service — when all four are CRUD on adjacent tables, you've made distributed transactions, eventual consistency, and network failures your problem when a `BEGIN; ...; COMMIT;` would have worked fine.
 
+## Top 6 Service Architecture Anti-Patterns
+
+![Top Anti-Patterns in Service Architecture](../images/20260625-1501-service-architecture-anti-patterns.webp)
+
+### 1. Splitting Early
+The longer you wait to split, the more you know about the domain — but the higher the cost to change. Split too early and you calcify wrong boundaries; the cost to redraw them later grows with every integration built on top.
+
+### 2. Wrong Boundaries
+A bad split puts a single feature across multiple services. If completing one user action requires coordinating A → B → C, those three services have the wrong boundaries — they should be one. The test: can one team ship one feature touching only one service?
+
+### 3. Conway's Law (Unintentional)
+System architecture mirrors team communication structure. When two teams share a service (or a team spans multiple services), the service boundaries will reflect the org chart, not the domain. Design teams and services together; a shared service owned by no single team becomes a bottleneck.
+
+### 4. Chatty Services
+One external request fans out into 20 service-to-service calls. Each call adds network latency, a failure surface, and retry logic. Fix by coarsening the API (batch operations, returning richer payloads), using async messaging, or merging over-split services.
+
+### 5. Call Chains
+Synchronous chaining multiplies both latency and availability loss:
+- 5 hops × 20ms each = **100ms added latency** minimum
+- 5 hops × 99.9% availability = **99.5% composite availability** (five 9s → two 9s)
+
+Avoid deep sync chains. Use async/event-driven patterns for non-critical paths; keep sync chains ≤ 2–3 hops.
+
+### 6. Shared Database
+Multiple services reading and writing the same database breaks service independence: schema changes become cross-team coordination events, one service's query load starves others, and transactions span service boundaries. Each service must own its data store exclusively.
+
 ## The Operational Tax
 
 Microservices replace:
@@ -109,5 +136,6 @@ This sequencing gets you 80% of the team-velocity benefits without 80% of the op
 ---
 
 **Source:** https://blog.levelupcoding.com/p/microservices-clearly-explained
+**Source:** Imported from pasted notes (ByteByteGo anti-patterns infographic)
 **Date:** 2026-06-05
-**Tags:** microservices, architecture, modular-monolith, distributed-systems, ownership, conway, anti-patterns, when-to-adopt
+**Tags:** microservices, architecture, modular-monolith, distributed-systems, ownership, conway, anti-patterns, when-to-adopt, chatty-services, call-chains, shared-database, wrong-boundaries
