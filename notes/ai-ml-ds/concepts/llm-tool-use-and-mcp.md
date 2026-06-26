@@ -8,6 +8,7 @@
 - MCP architecture has three layers: Host (user-facing app), Client (communication handler), and Server (lightweight wrapper around tools/APIs) -- all communicating via a standard protocol
 - Tool use introduces real costs: tool definitions consume context window tokens, models can hallucinate function names or malform arguments, and multi-turn loops add latency
 - Pinterest's production MCP deployment (66K monthly invocations, 7K hours/month saved) shows that implementing the protocol is the easy part -- registry, auth, deployment pipeline, and observability are the real engineering challenges
+- **A2A (Agent-to-Agent Protocol)** is MCP's complement: MCP connects agents to tools; A2A connects agents to other agents — stateful tasks, multi-turn dialogues, async-first, with a discovery mechanism via Agent Cards at `/.well-known/agent-card.json`
 
 ## Why LLMs Cannot Act Alone
 
@@ -220,10 +221,78 @@ MCP shines when you need to **connect multiple services, compose tool workflows,
 
 The structural cost of MCP — capability handshake, server lifecycle, registry — only pays back when the integration surface itself is growing.
 
+## A2A: The Agent-to-Agent Protocol
+
+MCP connects agents to tools. A2A (Agent-to-Agent Protocol, v1.0, Google / 200+ org consortium, April 2025) connects agents to each other — solving the coordination gap where agents from different vendors operate in silos.
+
+**Design principles:**
+- **Simplicity** — reuses HTTP, JSON-RPC 2.0, and SSE rather than inventing new transports
+- **Enterprise readiness** — auth, authorization, security, and monitoring built in
+- **Async-first** — tasks can span hours or days; supports human-in-the-loop workflows
+- **Opaque execution** — agents share skills and outputs, not internal state
+
+### Agent Discovery: Agent Cards
+
+Every A2A server publishes a machine-readable descriptor at `/.well-known/agent-card.json` (RFC 8615):
+- Identity, capabilities, and service endpoint URL
+- Supported input/output formats (MIME types)
+- Skills with descriptions and examples
+- Authentication requirements
+
+Extended cards can hide sensitive capabilities behind auth.
+
+### Task Lifecycle
+
+Communication centers on stateful **Tasks** — not simple function calls. Nine possible states:
+
+```
+submitted → working → input-required / auth-required → completed / failed / canceled / rejected
+```
+
+Multi-turn interactions let agents request clarification or additional authorization mid-task.
+
+### Message Structure
+
+| Component | What it is |
+|---|---|
+| **Messages** | Units containing a role (user/agent) and Parts |
+| **Parts** | Atomic content units: text, file URI references, or structured JSON |
+| **Artifacts** | Task outputs, streamed as they're created |
+| **Contexts** | Related tasks grouped by `contextId` for conversation continuity |
+
+### Communication Patterns
+
+**Orchestration models:**
+- Centralized: one lead agent plans and delegates to specialists
+- Decentralized swarm: agents discover each other directly with no single orchestrator
+
+**Transport:**
+- Synchronous request-response for quick tasks
+- Server-Sent Events for real-time progress streaming
+- Webhooks for long-running async tasks
+
+### Protocol Bindings
+
+A2A defines one canonical `a2a.proto` and generates three bindings:
+
+| Binding | Use case |
+|---|---|
+| JSON-RPC 2.0 | Default; methods like `message/send` and `tasks/get` |
+| gRPC | High-performance binary serialization |
+| HTTP REST | Standard verbs; e.g., `POST /v1/message:send`, `GET /v1/tasks/{id}` |
+
+### MCP + A2A Together
+
+| Protocol | Connects | Use case |
+|---|---|---|
+| **MCP** | Agent ↔ Tool/API | Live data, DB queries, SaaS integrations |
+| **A2A** | Agent ↔ Agent | Task delegation, multi-agent coordination |
+
 ---
 
 **Source:** https://blog.bytebytego.com/p/connecting-llms-to-the-real-world
 **Source:** https://blog.bytebytego.com/p/how-pinterest-built-a-production
 **Source:** https://blog.levelupcoding.com/p/mcp-clearly-explained
-**Date:** 2026-05-04, updated 2026-06-15
-**Tags:** llm, tool-use, function-calling, mcp, agentic-loop, security, model-context-protocol, pinterest, enterprise-mcp, developer-productivity, capability-handshake, when-not-to-use-mcp
+**Source:** https://newsletter.systemdesign.one/p/agent-to-agent-protocol
+**Date:** 2026-05-04, updated 2026-06-26
+**Tags:** llm, tool-use, function-calling, mcp, agentic-loop, security, model-context-protocol, pinterest, enterprise-mcp, developer-productivity, capability-handshake, when-not-to-use-mcp, a2a, agent-to-agent, agent-discovery, agent-card, task-lifecycle, multi-agent-protocol
