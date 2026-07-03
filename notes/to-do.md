@@ -100,7 +100,12 @@ From [Top 7 Most-Used Distributed System Patterns](https://www.youtube.com/watch
 
 ## Leadership
 
-*(No new items from this import. See `notes/leadership/` for existing notes.)*
+### Project Management
+
+- [ ] **Scoping document template** — create a generic template for the scoping doc produced at project kick-off (defines workstreams, milestones, initial task breakdown). **target file:** `notes/leadership/project-management/project-execution-process.md`
+- [ ] **Externally-sourced project intake** — define how project requests that originate outside the core team (e.g., from account management, customer support, or partner teams) get routed into the standard execution process. **target file:** `notes/leadership/project-management/project-execution-process.md`
+- [ ] **SLO target-setting guide** — document how to define and calibrate SLO targets for a production service (error budget, latency percentiles, availability targets). **target file:** `notes/leadership/project-management/service-infrastructure-tiers.md`
+- [ ] **Shared experiment service architecture** — document patterns for structuring shared infrastructure (databases, pipelines) used by multiple experimental services simultaneously. **target file:** `notes/leadership/project-management/service-infrastructure-tiers.md`
 
 ## Product & Design
 

@@ -95,6 +95,28 @@ Monitoring and managing APIs in production:
 - **API Observability** -- metrics, logging, tracing
 - **API Gateway** -- centralized routing, auth, rate limiting
 
+## API Design Approaches & Lifecycle
+
+### Design Approaches
+
+| Approach | Start from | When to use |
+|---|---|---|
+| **Top-down** | High-level requirements and user workflows | Greenfield; you understand the consumer before the data model |
+| **Bottom-up** | Existing data models and capabilities | Wrapping a legacy system or internal database |
+| **Contract-first** | API contract (OpenAPI spec) defined before implementation | Teams that need to integrate in parallel; strong consumer-producer decoupling |
+
+Contract-first is increasingly the default for teams shipping internal microservices — the spec becomes the source of truth that both client and server code generate from.
+
+### API Lifecycle
+
+1. **Design** — requirements, use cases, contract definition
+2. **Development & local testing** — implementation against the contract
+3. **Deployment & monitoring** — staging → production rollout
+4. **Maintenance** — ongoing management; where simplicity during design pays off most — future developers must work with the system as it evolves
+5. **Deprecation & retirement** — sunsetting old versions without breaking clients
+
+The maintenance phase is where most of the true cost of API design lives. A complex API is cheap to design and expensive to maintain forever.
+
 ---
 
 ## REST's Six Architectural Constraints (Fielding, 2000)
@@ -185,5 +207,6 @@ The standard levers for making an API faster:
 **Source:** https://blog.bytebytego.com/i/195380781/api-concepts-every-software-engineer-should-know
 **Source:** https://blog.levelupcoding.com/p/rest-apis-properly-explained
 **Source:** /Users/vimittal/Downloads/prep/prep.html (API style comparison, endpoint conventions, status codes, performance checklist)
-**Date:** 2026-05-31 (initial), 2026-06-05 (REST six constraints), 2026-06-13 (API style comparison + endpoints + status codes + perf)
-**Tags:** api, api-design, rest, graphql, grpc, security, system-design, fielding-constraints, hateoas, soap, rpc, webhooks, websockets, sse, mqtt, http-status-codes, api-performance
+**Source:** https://hayksimonyan.substack.com/p/how-to-design-apis-like-a-senior-6c0
+**Date:** 2026-05-31 (initial), 2026-06-05 (REST six constraints), 2026-06-13 (API style comparison + endpoints + status codes + perf), 2026-06-25 (design approaches + lifecycle)
+**Tags:** api, api-design, rest, graphql, grpc, security, system-design, fielding-constraints, hateoas, soap, rpc, webhooks, websockets, sse, mqtt, http-status-codes, api-performance, contract-first, api-lifecycle, top-down-design

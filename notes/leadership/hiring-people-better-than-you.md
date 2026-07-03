@@ -9,6 +9,7 @@
 - Reference checks should skip sanitized endorsements and instead ask targeted questions: "Under what ideal circumstances does this person thrive?", "Where would they struggle?", and "What are their unrecognized natural strengths?"
 - Standard interview processes systematically filter out the traits that predict long-term success — each of the four most predictive traits reads as a flaw in interviews (underwhelming, too blunt, makes mistakes, outperformed by pedigreed candidates)
 - Research (NC State/Microsoft): engineers score ~2× better on the same problem when unobserved vs. observed — whiteboard interviews measure scrutiny tolerance, not engineering ability
+- **Close every interview with real-time feedback** — 15–20% of candidates will successfully correct a misreading and surface signal you almost missed; the rest appreciate the rare transparency
 
 ## Actionable Insights
 
@@ -50,9 +51,33 @@ Consequences:
 
 > "We found that brainteasers are a complete waste of time...They don't predict anything. They serve primarily to make the interviewer feel smart." — Laszlo Bock, former Google People Operations
 
+## Real-Time Feedback as Interview Closing Move
+
+Most interviews are one-directional: the interviewer evaluates, the candidate never learns why they passed or failed. Closing with real-time feedback flips this into a dialogue — and surfaces additional signal.
+
+**Opening script:**
+> "I'd like to give you some feedback on what I heard today, so you have the chance to correct anything I may have misinterpreted."
+
+**Principles for delivery:**
+- Address capabilities and specific behaviors, never personality traits (feedback targeting character causes defensiveness and is a delivery error)
+- Be transparent on both strengths and concerns — vague positivity is useless
+- Be specific enough for the candidate to act on it
+
+**How candidates respond (four categories):**
+
+| Response | What it tells you |
+|---|---|
+| **Clarifies successfully (15–20%)** | Candidate had the depth but didn't surface it — a signal you almost missed |
+| **Clarifies but exposes more weakness** | Attempt to fill the gap reveals further gaps through unclear or error-filled explanation |
+| **Accepts with gratitude (majority)** | Interview feedback is rare; most candidates are underserved and appreciate it regardless of outcome |
+| **Reacts negatively (rare)** | Almost always a delivery error — feedback targeted personality rather than specific behavior |
+
+**Why this works:** Candidates are systemically underserved by opaque interview processes. Transparent, specific feedback — even critical — is appreciated and creates a closing signal you can't get from silence.
+
 ---
 
 **Source:** https://longform.asmartbear.com/hire-better-than-you
 **Source:** https://www.blog4ems.com/p/4-traits-that-predict-your-best-hires
+**Source:** https://mgrebler.substack.com/p/real-time-feedback-my-closing-move
 **Date:** 2026-05-28
-**Tags:** hiring, leadership, recruiting, talent-assessment, interviewing, interview-bias, whiteboard-effect, behavioral-traits
+**Tags:** hiring, leadership, recruiting, talent-assessment, interviewing, interview-bias, whiteboard-effect, behavioral-traits, real-time-feedback, candidate-experience

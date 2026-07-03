@@ -10,6 +10,12 @@ The 23 classic Gang-of-Four object-oriented design patterns, organized into thre
 - **Singleton** and **Visitor** are the two most-abused — Singleton becomes a global, Visitor pays the double-dispatch cost without needing it
 - **Pattern over-engineering** is a real anti-pattern: don't reach for Abstract Factory when a function would do
 
+## Visual Reference
+
+![GoF Design Patterns Cheat Sheet Part 1 — Creational patterns](../images/20260628-1543-design-patterns-cheatsheet-1.jpeg)
+
+![GoF Design Patterns Cheat Sheet Part 2 — Structural and Behavioral patterns](../images/20260628-1544-design-patterns-cheatsheet-2.png)
+
 ## Creational — How Objects Are Made
 
 | Pattern | One-liner | Common Use Cases |
@@ -67,5 +73,6 @@ The 23 classic Gang-of-Four object-oriented design patterns, organized into thre
 ---
 
 **Source:** /Users/vimittal/Downloads/prep/prep.html
-**Date:** 2026-06-13
+**Source:** https://blog.bytebytego.com/i/203732633/design-patterns-cheat-sheet
+**Date:** 2026-06-13, updated 2026-06-28
 **Tags:** design-patterns, gang-of-four, oop, creational, structural, behavioral, software-architecture

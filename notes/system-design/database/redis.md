@@ -4,7 +4,7 @@
 
 - Redis is an in-memory data store that serves as a **performance multiplier**, not a database replacement -- it complements primary databases for hot-path reads and transient state
 - Its **single-threaded event loop** guarantees atomic operations without locks, making it ideal for counters, rate limiting, and session management
-- Redis supports rich data structures (strings, hashes, lists, sets, sorted sets, streams) natively, enabling use cases far beyond simple key-value caching
+- Redis 8 supports **ten native data structures** (strings, hashes, lists, sets, sorted sets, streams, JSON, geospatial, vector sets, time series), enabling use cases far beyond simple key-value caching
 - Persistence is optional via **RDB snapshots** (periodic full dumps) or **AOF logs** (append-only operation replay), each trading durability for performance
 - Redis is a poor fit for large cold datasets, complex queries requiring joins, or workloads that demand strict ACID durability
 
@@ -38,6 +38,12 @@ Redis is not just a key-value store. It provides native support for:
 | **Sorted Sets (ZSet)** | Leaderboards, priority queues, ranking | Daily-top songs, fraud-risk-ranked accounts |
 | **Bitmaps** | Compact set membership over dense IDs | User retention (1 bit per day), feature flags per user |
 | **Streams** | Event sourcing, message logs | Audit log, CDC sink |
+| **JSON** | Nested document storage with JSONPath access | Partial field updates without full read-modify-write |
+| **Geospatial** | Latitude/longitude indexes with radius and box queries | Proximity matching, location search (internally a Sorted Set with geohash scores) |
+| **Vector Set** | Approximate nearest-neighbor search over embeddings | RAG retrieval, similarity search — ships natively in Redis 8 |
+| **Time Series** | Timestamped samples with retention policies and downsampling | Metrics, telemetry, IoT |
+
+![Redis 8 data structures reference — all ten native types with use cases](../../images/20260628-1520-redis-data-structures.png)
 
 Reference: [Redis 8.4 Commands](https://redis.io/docs/latest/commands/redis-8-4-commands/)
 
@@ -132,5 +138,6 @@ Redis supports publish/subscribe messaging and list-based FIFO queues for real-t
 
 **Source:** https://blog.levelupcoding.com/p/redis-clearly-explained
 **Source:** /Users/vimittal/Downloads/data-structures/data-structures.html (bitmap + zset examples + integer/bitmap rows)
-**Date:** 2026-05-31, updated 2026-06-15
-**Tags:** redis, caching, in-memory, rate-limiting, session-storage, system-design, database, bitmap, zset, sorted-set, user-retention, leaderboard
+**Source:** https://blog.bytebytego.com/i/203732633/redis-data-structures-every-engineer-should-know
+**Date:** 2026-05-31, updated 2026-06-28
+**Tags:** redis, caching, in-memory, rate-limiting, session-storage, system-design, database, bitmap, zset, sorted-set, user-retention, leaderboard, json, geospatial, vector-set, time-series, redis-8

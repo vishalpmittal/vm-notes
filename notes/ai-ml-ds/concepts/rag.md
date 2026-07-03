@@ -8,6 +8,7 @@ Retrieval-Augmented Generation — from the foundational one-shot pipeline to ag
 - **Two-phase architecture**: offline ingestion (load → chunk → embed → store → tag) and online retrieval (embed query → similarity search → re-rank → augment prompt → generate)
 - **Three retrieval strategies** trade off precision vs recall: sparse (BM25 keyword), dense (semantic embeddings), and hybrid (combined via Reciprocal Rank Fusion)
 - **Production-grade RAG is a multi-step pipeline** — intent parsing → query reformulation → retrieval → optional web search → re-rank → generate — not the naive three-step loop
+- **Graph RAG** adds a knowledge graph between retrieval and generation — traverses entity relationships for multi-hop context; expensive to build but justified for structured/relational domains (legal, biomedical, compliance)
 - **Agentic RAG** turns the pipeline into a control loop with decision points: route to the right source, reformulate weak queries, evaluate retrieval before generation, retry if needed. It's an engineering decision, not a default — cost + latency trade-offs matter
 - RAG and fine-tuning are **complementary**: fine-tune to shape style/behavior, use RAG to inject current/updatable knowledge. RAG also beats long context windows on cost, precision, and the "lost in the middle" problem
 
@@ -145,6 +146,40 @@ What separates demo-quality from production-quality:
 
 Each stage is a decision point that can be made smarter.
 
+## Graph RAG
+
+![RAG vs Graph RAG vs Agentic RAG — architecture comparison](../../images/20260628-1510-rag-vs-graph-rag-vs-agentic-rag.png)
+
+Graph RAG adds a knowledge graph layer between retrieval and generation. Rather than treating documents as independent chunks, it models entities and their relationships — then traverses the graph to collect richer multi-hop context.
+
+### How It Works
+
+Queries are classified first, then routed to one of two search modes:
+
+**Local search (specific, entity-level queries):** query embed → vector DB finds matching entities → pipeline traverses knowledge graph collecting linked context → LLM synthesis
+
+**Global search (broad, thematic queries):** community reports loaded in batches → LLM scores each for relevance → top reports passed to LLM for synthesis
+
+### When to Use Graph RAG
+
+| Signal | Implication |
+|---|---|
+| Relationship-heavy domain | Legal, biomedical, compliance, org charts |
+| Multi-hop queries | "Who is connected to X via Y?" |
+| Entity metadata matters | Named entities, dates, roles — relationships that flat chunks lose |
+| Can afford upfront build cost | Knowledge graph construction is expensive |
+
+### Standard RAG vs Graph RAG vs Agentic RAG
+
+| | Standard RAG | Graph RAG | Agentic RAG |
+|---|---|---|---|
+| **Query type** | Direct factual lookups | Relational, multi-hop | Multi-step reasoning |
+| **Build cost** | Low | High (graph construction) | Medium-high |
+| **Per-query cost** | Low | Medium | High (multi-LLM-call loop) |
+| **Best fit** | General Q&A | Structured domains with entity relationships | Complex analysis, multi-source |
+
+Graph RAG is justified only when relationship context is essential — it is significantly more expensive to build and operate than standard RAG.
+
 ## Agentic RAG
 
 ![Classic vs Agentic RAG](../../images/20260605-1813-rag-vs-agentic-rag.png)
@@ -213,6 +248,7 @@ See [rags-vs-agents.md](rags-vs-agents.md) for the broader comparison.
 | Use case | Tool |
 |---|---|
 | "Answer based on these docs" | Classic RAG |
+| "Answer across a structured domain with entity relationships" | Graph RAG |
 | "Answer based on these docs, possibly across multiple sources" | Agentic RAG (with routing) |
 | "Take action in the world based on these docs" | Agent with RAG as a tool |
 | "Analyze this 200-page document in one shot" | Long context (no retrieval needed) |
@@ -241,5 +277,6 @@ See [rags-vs-agents.md](rags-vs-agents.md) for the broader comparison.
 **Source:** https://newsletter.systemdesign.one/p/how-rag-works
 **Source:** https://blog.bytebytego.com/i/198874402/rags-vs-agents
 **Source:** https://blog.bytebytego.com/p/how-agentic-rag-works
-**Date:** 2026-06-05
-**Tags:** rag, retrieval-augmented-generation, agentic-rag, vector-database, embeddings, chunking, hybrid-search, reranking, react, llm, system-design
+**Source:** https://blog.bytebytego.com/i/203732633/rag-vs-graph-rag-vs-agentic-rag
+**Date:** 2026-06-05, updated 2026-06-28
+**Tags:** rag, retrieval-augmented-generation, graph-rag, agentic-rag, knowledge-graph, vector-database, embeddings, chunking, hybrid-search, reranking, react, llm, system-design

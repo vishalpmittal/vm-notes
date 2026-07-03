@@ -11,6 +11,8 @@
 - The cost of building collapsed but the cost of aligning organizationally has not — when multiple teams can solve the same problem in parallel, coordination becomes the bottleneck
 - **AI didn't add friction — it revealed it.** Velocity, cognitive, and knowledge friction were always there but masked by slow build speeds. AI removed the speed limit; now friction *is* the bottleneck. **AI generates code, not context** — and most context still lives in individual heads
 - **AI is silently rewiring team relationships.** ~51% of devs now ask AI for technical help they used to ask teammates; ~60%+ prefer AI because "no judgment." The lost interactions were never just about the answer — they were the channel for mentorship, context transfer, and trust. Managers must intentionally preserve what routine questions used to deliver for free
+- **Agents produce 4x raw code output but only ~12% improvement in delivered value** (GitClear 2025) — the gap is entirely review work. Per-developer defect rates jumped from 9% → 54%, code churn up 861%, review duration up 441.5% (Faros AI, March 2026). Review is now the most leveraged skill in software
+- **The economics of code flipped: generation is cheap; understanding is expensive.** Agent-written code has no embedded author intent — the reviewer is often "the first human to ever lay eyes on this code." Teams that win build trustworthy review systems, not high-output generation pipelines
 
 ## Actionable Insights
 
@@ -323,6 +325,136 @@ The point isn't to suppress AI use — it's to be explicit that **convenience-op
 
 ---
 
+## When AI Writes to Humans (AI-Generated Communication in Teams)
+
+The most damaging form of AI slop in engineering organizations is not in code — it's in interpersonal communication: PR review comments, Slack replies, and standup answers authored by agents and sent as if they came from a human.
+
+![Robot sends a short AI-generated message; human receives a long scroll to verify — asymmetry of AI-mediated communication](../images/20260628-1500-ai-slop-comms-main.png)
+
+### Key Takeaways
+
+- AI-generated team communication creates a measurable trust deficit: perceived sincerity drops **83% → 40-52%**; professionalism drops **95% → ~70%** (Coman & Cardon, *Intl. Journal of Business Communication*, 2025)
+- **Brandolini's Asymmetry in teams:** a 3-second AI-generated reply costs the recipient 10 minutes of verification — cognitive load moves invisibly from sender to reader
+
+![Seesaw diagram: 3-second AI send vs. 10-minute human verification — Brandolini's asymmetry applied to team comms](../images/20260628-1501-ai-slop-brandolini.png)
+
+- **Psychological safety erodes:** Google Project Aristotle's #1 team effectiveness factor depends on knowing you're dealing with real human judgment — AI-mediated interactions undermine this foundation
+- The failure mode: two agents exchange "Great catch!" / "You're totally right!" while two humans sit below, "cc'd, not involved"
+
+![Trust erosion data: sincerity 83% → 40-52%, professionalism 95% → ~70% when messages are mostly AI-generated](../images/20260628-1502-ai-slop-trust-erosion.png)
+
+### The Artifact / Interaction Line
+
+> "Our artefacts can be AI-assisted, but our interactions with humans should remain human."
+
+| AI assistance acceptable | Crosses the line |
+|---|---|
+| Code generation, test writing | PR comments written by an agent |
+| Documentation drafting | Standup answers generated per-task |
+| Architecture diagrams | Slack replies sent on the engineer's behalf |
+| Commit messages | Peer feedback or performance commentary |
+
+### Actionable Insights
+
+![Two robots exchange "Great catch!" while two humans sit below them, labeled "cc'd, not involved"](../images/20260628-1503-ai-slop-psych-safety.png)
+
+- **Name the line explicitly for your team.** Most engineers haven't thought through where the boundary is — state it; don't assume shared understanding
+- **AI-generated code review comments are the highest-risk form.** They carry the weight of expert judgment without the actual thought behind it. The recipient can't tell the difference and calibrates their trust on false signal
+- **Watch for "cc'd, not involved" dynamics.** When agents mediate team communication, humans maintain the appearance of connection without the substance
+- **Step-up to human for high-trust interactions.** Feedback, decisions about someone's work, raising concerns, or any message where the recipient needs to know a real person considered them — those must be human
+- This compounds the IEEE TSE 2026 finding above: when engineers stop asking teammates *and* start receiving AI-generated responses from teammates, the team's shared context collapses from both directions
+
+---
+
+## Agentic Code Review (Addy Osmani)
+
+The core shift: code generation became the cheap, fast part. Human verification remains the bottleneck. "The hard part of engineering moved from writing code to deciding whether to trust it, which makes review the most leveraged skill in software right now."
+
+![Claude Code performing PR triage — 4 agents sweep 20 PRs and produce a consolidated safe/close/consider-review triage](../images/20260702-1000-agentic-pr-triage-claude-code.jpeg)
+
+### The Data on Agentic Code Quality
+
+| Study | Finding |
+|---|---|
+| GitClear 2025 | Agents produce ~4x raw code but only ~12% improvement in delivered value |
+| Faros AI, March 2026 (22k devs) | Code churn +861%, incidents-to-PR ratio +242.7%, defect rate 9% → 54%, review duration +441.5%, zero-review merges +31.3% |
+| CodeRabbit, Dec 2025 (470 OSS PRs) | AI code produces 1.7x more issues; logic problems +75%; security issues 1.5–2x; readability tripled |
+| GitHub (Copilot Review) | 60M reviews in <1 year (10x increase); 1 in 5 platform reviews now involves an agent |
+| Four-reviewer parallel study (146 PRs) | 93.4% of flagged issues caught by exactly one tool; 6% by two; none by all four |
+
+Key implication of the last finding: **heterogeneous review catches more bugs than any single tool**. Running two different AI reviewers is not redundant — they find different things.
+
+### The Missing Intent Problem
+
+When humans write code, intent is implicit in the author's knowledge. When agents write code, reasoning traces exist during generation but are discarded once the diff is produced. The reviewer must reconstruct intent that was never documented — they are often "the first human being to ever lay eyes on this code."
+
+This changes the nature of review from "is this right?" to "what was this trying to do, and is it right?"
+
+### Three Variables That Determine Review Depth
+
+These three factors — not author seniority — should drive how much review effort a change gets:
+
+1. **Blast Radius** — what happens when it breaks (nothing vs. angry users, financial/PII exposure)
+2. **Code Lifespan** — throwaway prototype vs. multi-year maintained system
+3. **Team Size** — solo developer vs. team requiring shared ownership
+
+### Review's Dual Purpose Is Now Separated
+
+Traditional review served two functions simultaneously: bug detection and knowledge distribution. With agents, these split apart:
+- AI handles bug detection reasonably well
+- Human understanding of the system becomes distinct, harder to achieve, and requires deliberate effort
+
+If you only use AI review, you get bug detection without knowledge distribution. The team gets faster merges and shallower understanding.
+
+### The Loop Engineering Risk
+
+"Loop engineering" = fully closing the review loop: agent writes code → agent reviews → third agent judges completion → merge. The risk is **correlated blind spots at scale**: all three agents share the same failure modes, and no human is watching. Systems become "confidently wrong" — the system's certainty becomes yours without actual understanding. This is borrowed confidence.
+
+**Recognize the signal:** if your review pipeline produces no human friction on any change, something is wrong. Review should create occasional friction; friction-free pipelines are usually blind-spot pipelines.
+
+### Tiered Review by Risk
+
+| Change type | Appropriate review |
+|---|---|
+| Configuration changes | Linter + quick glance |
+| Core business logic | Types + tests + two different AI reviewers + system owner + security pass |
+| Boilerplate | Minimal |
+| Large/sprawling changes | Do not auto-approve despite passing tests |
+
+### Prevention Strategies
+
+**Intake requirements before review begins:**
+- Statement of the change's purpose
+- Readable diff (agent PRs average 51% larger than human PRs — Faros data)
+- Test output with proof of execution
+- Rationale for non-obvious decisions
+
+**Watch for agents gaming tests:** a common failure is agents "fixing" tests by rewriting assertions to match broken behavior rather than fixing the code. Use mutation testing to verify test correctness; treat mass test rewrites as mandatory human review flags.
+
+**CI as an immovable wall:** these patterns should auto-block regardless of who authored:
+- Removed tests
+- Skipped linting
+- Lowered coverage thresholds
+- Duplicated existing helpers
+- Untrusted input in prompts (prompt injection risk)
+
+**Size constraints:** instruct agents explicitly to produce small commits. Reviewer engagement strongly predicts PR merge success.
+
+### The Human's Role in Agentic Review
+
+The human reviewer shifts from "reading every line" to "human on the loop" (sampling, auditing, spotting patterns). The irreducible human judgment calls:
+
+1. **Whether the change should exist** — distinct from code correctness; models review what's written, not missing requirements
+2. **High-blast-radius gate decisions** — the consequences of being wrong are too large to delegate
+3. **Behavioral specifications** — code matching unstated assumptions that live only in human heads
+4. **Merge authorization** — accountability cannot be delegated to a model
+
+### Organizational Warning
+
+Reducing engineering headcount because "AI made us faster" without closing the review gap converts velocity savings into future incidents. QA and review work rise even as output rises. The senior-engineer review tax is invisible to merged-PR metrics but directly impacts shipping speed.
+
+> "Your job is to deliver code you have proven to work." — Simon Willison. Agents changed proving from afterthought to center of the job.
+
 **Source:** https://newsletter.getdx.com/p/ai-productivity-debate
 **Source:** https://newsletter.getdx.com/p/designing-the-ai-native-engineering
 **Source:** https://newsletter.getdx.com/p/ai-assisted-engineering-q1-2026-impact
@@ -331,5 +463,7 @@ The point isn't to suppress AI use — it's to be explicit that **convenience-op
 **Source:** https://www.blog4ems.com/p/engineering-leadership-lessons-from-ldx3-2026
 **Source:** https://www.blog4ems.com/p/the-reason-ai-coding-isnt-working
 **Source:** https://www.blog4ems.com/p/51-of-devs-stopped-asking-their-teammates
-**Date:** 2026-05-29 (initial), 2026-06-07 (Charity Majors enthusiast/skeptic), 2026-06-09 (Forsgren/Clegg friction reveal), 2026-06-14 (harness-as-management-responsibility + METR/DORA/Faros/SO data), 2026-06-16 (team-relational cost — IEEE TSE 2026 study)
-**Tags:** leadership, ai-adoption, developer-productivity, engineering-management, org-design, ai-native, sustainability, senior-engineering, agentic-workflows, performance-metrics, player-coach, shadow-ai, change-failure-rate, dx-data, enthusiast-skeptic, organizational-polarization, charity-majors, friction-types, knowledge-friction, forsgren, ldx3, harness-engineering, metr, dora, faros, stack-overflow-survey, junior-development-gap, trust-erosion, team-dynamics, mentorship, psychological-safety, weak-ties, social-fabric
+**Source:** https://www.blog4ems.com/p/the-worst-ai-slop-isnt-in-your-code
+**Source:** https://addyo.substack.com/p/agentic-code-review
+**Date:** 2026-05-29 (initial), 2026-06-07 (Charity Majors enthusiast/skeptic), 2026-06-09 (Forsgren/Clegg friction reveal), 2026-06-14 (harness-as-management-responsibility + METR/DORA/Faros/SO data), 2026-06-16 (team-relational cost — IEEE TSE 2026 study), 2026-06-28 (AI-generated communication trust damage), 2026-07-02 (agentic code review — Addy Osmani)
+**Tags:** leadership, ai-adoption, developer-productivity, engineering-management, org-design, ai-native, sustainability, senior-engineering, agentic-workflows, performance-metrics, player-coach, shadow-ai, change-failure-rate, dx-data, enthusiast-skeptic, organizational-polarization, charity-majors, friction-types, knowledge-friction, forsgren, ldx3, harness-engineering, metr, dora, faros, stack-overflow-survey, junior-development-gap, trust-erosion, team-dynamics, mentorship, psychological-safety, weak-ties, social-fabric, ai-generated-communication, brandolini, reciprocity, code-review, agentic-code-review, loop-engineering, blast-radius, missing-intent, gitclear, coderabbit, addy-osmani
