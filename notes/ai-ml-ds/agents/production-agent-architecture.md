@@ -10,6 +10,10 @@
 - Separate low-risk operations (draft, summarize) from high-risk mutations (delete, bill) — human approval for the latter builds organizational trust incrementally
 - **Monolithic agents fail at scale** — forcing a single agent to handle intent parsing, planning, tool execution, and self-correction simultaneously overwhelms its context window; accumulated tool responses degrade the signal-to-noise ratio until the agent loses its original goal
 - Multi-agent Router → Worker → Critic split is the structural fix: each agent does one job with a minimal, focused toolset; conflict resolution requires formal arbitration, not infinite rejection loops
+- **"The harness matters as much as the model"** — production agents fail on infrastructure gaps (retrieval, identity, evaluation), not model capability
+- Treat retrieval as an iterative subagent: plan sources → execute → evaluate results → return structured "I don't know" — not a one-shot embedding search
+- Move guardrails from model I/O to **tool call and tool response boundaries** to block indirect prompt injection through retrieved content
+- Rubric-based evaluation checks specific behaviors ("did the agent verify availability before confirming?"), not generic quality — and a self-improving loop automatically generates and promotes better candidates
 
 ![The Reality Engine — backend architecture for production AI agents](../../images/20260618-1600-propose-validate-pipeline.jpeg)
 
@@ -123,9 +127,59 @@ When agents disagree (e.g., compliance agent rejects what research agent approve
 
 The failure mode to avoid: agents locked in a back-and-forth where neither yields and no human is ever notified.
 
+## Microsoft's Production Agent Harness (Enterprise Scale)
+
+Microsoft's VP of Products Marco Casalaina: "The harness matters as much as the model." Production agent failures at scale trace to infrastructure gaps — retrieval, identity, evaluation — not model capability.
+
+### Five-Layer Enterprise Harness
+
+| Layer | Role |
+|---|---|
+| **Inference** | Unified interface abstracting 11,000+ models (OpenAI, Anthropic, xAI, DeepSeek, MAI) while keeping them swappable |
+| **Agent Runtime** | Orchestration loop (tool calls + conversation state); framework-agnostic (LangChain, LangGraph, CrewAI, proprietary) |
+| **Observability & Governance** | Fleet-level health scoring, token usage, latency metrics, drift detection → Azure Monitor |
+| **Identity** | Agents as enterprise principals in Entra — RBAC, role assignments, audit trails (not anonymous, not user-delegated) |
+| **Context** | The hardest production problem: accurate retrieval from heterogeneous sources |
+
+### Retrieval-as-a-Subagent
+
+Traditional RAG (one-shot embedding search) breaks on ambiguous queries, heterogeneous data, or empty first results. The fix: treat retrieval as an iterative agent that plans, executes multi-source lookups, evaluates results against the question, and returns structured "I don't know" signals instead of hallucinations.
+
+Microsoft implemented this as four headless **IQ services**:
+
+| Service | Data Source |
+|---|---|
+| **Foundry IQ** | Unstructured documents |
+| **Fabric IQ** | Structured data warehouses |
+| **Web IQ** | Real-time web retrieval |
+| **Work IQ** | M365 surfaces (email, calendar, Teams) |
+
+### Guardrails at Tool Boundaries
+
+Move safety controls from model input/output layers to **tool call and tool response boundaries**. This prevents indirect prompt injection — malicious instructions embedded in retrieved documents or tool outputs that the model would otherwise execute.
+
+### Evaluation Strategy
+
+**Continuous evaluation:** Real traffic sampling against defined rubrics, surfacing regressions through standard incident alerting.
+
+**Rubric-based scoring:** Use-case-specific behavioral checks replace generic metrics like coherence. Example: "Does the agent verify availability before confirming a reservation?"
+
+**Self-Improving Loop (Agent Optimizer):** Automatically generates improvement candidates (prompt rewrites, model swaps, skill adjustments), scores against rubrics, and promotes winners — closing the feedback loop without manual intervention.
+
+### Prototype vs. Production
+
+| Prototype | Production |
+|---|---|
+| Test prompts work | Real users ask unexpected questions |
+| Static documents | Data becomes stale continuously |
+| No edge cases | New failure modes emerge constantly |
+| Shared system principal | Individual agent identities required |
+| No observability | Fleet-wide drift detection needed |
+
 ---
 
 **Source:** https://aiagentssimplified.substack.com/p/rule-1-of-production-ready-agents
 **Source:** https://aiagentssimplified.substack.com/p/why-90-of-ai-agents-fail-in-production
-**Date:** 2026-06-18 (initial), 2026-06-23 (multi-agent failure patterns)
-**Tags:** agents, production, validation, backend-architecture, tool-use, safety, observability, multi-agent, router-worker-critic, context-overload, conflict-resolution, distributed-state
+**Source:** https://blog.bytebytego.com/p/how-microsoft-ships-ai-agents-at
+**Date:** 2026-06-18 (initial), 2026-06-23 (multi-agent failure patterns), 2026-07-13 (Microsoft enterprise harness)
+**Tags:** agents, production, validation, backend-architecture, tool-use, safety, observability, multi-agent, router-worker-critic, context-overload, conflict-resolution, distributed-state, enterprise-agents, microsoft, retrieval-subagent, guardrails, rubric-evaluation, identity-layer, agent-harness, indirect-prompt-injection
