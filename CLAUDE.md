@@ -24,12 +24,20 @@ Personal knowledge base of technical notes and curated blog content. Topics: sof
 notes/                          # all content lives here
 ├── images/                     # centralized image storage (flat)
 ├── ai-ml-ds/                   # AI, ML, data science
-│   ├── agents/                 # agent frameworks, real-world agent writeups
+│   ├── agents/                 # single-agent concepts + real-world agent case studies
+│   ├── agent-teams-harness-eng/# multi-agent teams, harness/loop engineering, coding-agent orgs
 │   ├── claude/                 # Claude Code, Anthropic tools
-│   ├── concepts/               # RAG, LLM patterns, writing with LLMs
+│   ├── concepts/               # RAG, LLM patterns, ML/GenAI system design, writing with LLMs
 │   ├── ethics/                 # AI ethics, safety
 │   └── inference/              # ML serving, inference at scale
 ├── system-design/              # architecture, distributed systems
+│   ├── api/                    # API design, real-time comms, retries
+│   ├── database/               # data stores, replication, CDC, indexing
+│   │   └── case-studies/       # company database writeups
+│   ├── case-studies/           # company system-design writeups
+│   ├── observability/          # logging, tracing, SLA/SLO/SLI
+│   └── security/               # appsec, auth, crypto, cyber attacks
+├── security/                   # top-level security (currently only owasp-top-10 — see note below)
 ├── design/                     # product design, UX, design systems
 ├── product/                    # product management frameworks
 ├── programming/                # general programming concepts (OOP, etc.)
@@ -37,15 +45,17 @@ notes/                          # all content lives here
 ├── courses/                    # course notes (see Courses below)
 │   └── <course-name>/          # one subfolder per course
 ├── leadership/                 # management, leadership (summaries only)
-│   └── coaching-cases/         # leadership-coach agent output (see Agents)
+│   ├── coaching-cases/         # leadership-coach agent output (see Agents)
+│   └── project-management/     # PM frameworks, project lifecycle, scrum
 ├── life-coaching/              # life advice, personal growth
 ├── dad-jokes/                  # humor
 └── <new-categories-as-needed>/
 ```
 
 - One markdown file per topic — multiple blog sources merge into a single note
-- Max folder depth: `notes/<category>/<subcategory>/<file>.md` (two levels, then files)
+- Typical depth is `notes/<category>/<subcategory>/<file>.md` (two levels, then files). A `case-studies/` subfolder may nest one level deeper (e.g. `system-design/database/case-studies/`) — the only place three levels is expected
 - `notes/images/` is flat — all images regardless of topic category
+- Security notes live under `system-design/security/`. The lone top-level `security/owasp-top-10.md` predates that folder; treat `system-design/security/` as the home for new security notes
 
 ## Adding Notes
 
