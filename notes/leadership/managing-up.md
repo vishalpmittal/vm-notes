@@ -7,6 +7,7 @@
 - Strategic communication is empathy-driven professionalism — being thoughtful about framing, timing, and context is communication excellence, not manipulation
 - What feels like micromanagement is often a trust deficit caused by poor communication — increase transparency and proactive updates to earn autonomy
 - Frame instructions positively ("Do this") not negatively ("Don't do that") — recipients must mentally reverse negatives, adding cognitive load and triggering defensiveness
+- Make every message answerable from a phone — do the thinking on your side and hand the reader a decision, not work
 
 ## Core Principles
 
@@ -40,10 +41,23 @@
 
 Ask three questions: (1) What is their current context? (2) How will this land? (3) What should be said first? If you're only thinking about "what I need" and "ASAP," you're being unfiltered, not direct.
 
+## Write Emails People Can Answer From Their Phone
+
+Do the thinking on *your* side, so all that's left on theirs is a decision. "Thoughts on this?" hands them work — they have to figure out what you're really asking, form a view, and compose an answer. "I'd go with Option B because it's faster to ship — good to proceed?" hands them a choice: one thumb, done, from anywhere.
+
+Almost every message can pass this test:
+
+- **Status update** → lead with the one line they care about, not the journey
+- **Need an intro** → include the forwardable blurb so they don't have to write one
+- **Flagging a problem** → attach your suggested fix and ask "any objection?"
+
+Why it works: less friction, more replies (senior people basically live on their phones), and you stop being the person sending the 8th "just following up on this!" email.
+
 ---
 
 **Source:** https://newsletter.weskao.com/p/15-principles-for-managing-up
 **Source:** https://news.theuncommonexecutive.com/p/how-to-be-direct-and-strategic
 **Source:** https://newsletter.weskao.com/p/speak-in-the-affirmative-do-this
+**Source:** Coached newsletter (Rohan Mahtani) — "The 20-Second Career Tactic"
 **Date:** 2026-05-31
-**Tags:** leadership, managing-up, communication, strategic-communication, framing, executive-presence, stakeholder-management
+**Tags:** leadership, managing-up, communication, strategic-communication, framing, executive-presence, stakeholder-management, async-communication

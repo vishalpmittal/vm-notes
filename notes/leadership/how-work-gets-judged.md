@@ -157,11 +157,23 @@ Promotion conversations started at cycle-end arrive too late. Managers need runw
 - Every 1-on-1 update: add one sentence of context about difficulty, coordination, or what you unblocked
 - At cycle start: "What does the promotion path require from your perspective this cycle?"
 
+## Influence Is Part of the Job — and Who Tells Your Story
+
+Doing great work is the **baseline, not the differentiator.** Good work does *not* speak for itself — talented engineers get overlooked and strong projects get cancelled when decision-makers never understand their value. Influence (communicating clearly, building trust, being in the rooms where decisions happen) isn't a distraction from the work; it *is* part of the job.
+
+**The storytelling shift IC → manager:**
+- As an **IC**, your manager tells your story for you.
+- As a **manager**, that responsibility becomes yours — and the focus flips from your own visibility to **your team's**: talk about their wins, explain why their work matters to the org.
+- A core EM duty is **absorbing organizational politics** so your engineers can stay focused on building.
+
+*"Being right isn't enough if nobody's listening."* For new EMs specifically: the old IC engineering skills won't carry you — invest deliberately in communication and advocacy.
+
 ---
 
 **Source:** User-shared note (2026-06-12)
 **Source:** https://alifeengineered.substack.com/p/act-your-next-level
 **Source:** https://kevingoldsmith.substack.com/p/the-reliable-team-trap
 **Source:** https://adlerhsieh.com/p/your-manager-already-decided-your-rating-you-just-dont-know-it-yet
-**Date:** 2026-06-12, updated 2026-07-02
-**Tags:** career-management, perception, performance-reviews, loss-aversion, incentives, framing, decision-quality, labor-illusion, recency-bias, halt, visible-behaviors, next-level, advancement, scope-creation, proactive-communication, strategic-standing, delivery-trust, reliable-team-trap, calibration, output-vs-outcome, promotion-timing, manager-perspective
+**Source:** https://www.blog4ems.com/p/the-best-advice-i-ever-got-from-my-manager
+**Date:** 2026-06-12, updated 2026-07-19
+**Tags:** career-management, perception, performance-reviews, loss-aversion, incentives, framing, decision-quality, labor-illusion, recency-bias, halt, visible-behaviors, next-level, advancement, scope-creation, proactive-communication, strategic-standing, delivery-trust, reliable-team-trap, calibration, output-vs-outcome, promotion-timing, manager-perspective, influence, advocacy, ic-to-manager

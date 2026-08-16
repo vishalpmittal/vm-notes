@@ -200,8 +200,8 @@ The transactional layer is the one most people miss. Without it, your agent can 
 - [Context engineering](../concepts/context-engineering.md) — step 5 (memory) in depth
 - [Agent memory + state consistency](agent-memory-state-consistency.md) — state vs memory split, three-tier memory in depth
 - [OpenAI data agent](openai-data-agent.md) — production case with all 10 steps active
-- [Stripe Minions](stripe-minions.md) — production case at step 10
-- [Harness engineering](harness-engineering.md) — production case at step 10 with mechanically-enforced invariants
+- [Stripe Minions](../agent-teams-harness-eng/stripe-minions.md) — production case at step 10
+- [Harness engineering](../agent-teams-harness-eng/harness-engineering.md) — production case at step 10 with mechanically-enforced invariants
 
 ---
 

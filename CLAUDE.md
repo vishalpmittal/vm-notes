@@ -59,10 +59,12 @@ notes/                          # all content lives here
 
 ## Adding Notes
 
-Search before creating: `grep -ri "key terms" notes/ --include="*.md" -l`
+**Route via the README indexes first.** Every content directory has a `README.md` listing its notes with a one-line scope. Start at `notes/README.md` (master map), open the matching category README, then the narrowest subfolder README — this identifies the right folder and likely merge target without loading every note. Fall back to `grep -ri "key terms" notes/ --include="*.md" -l` only to confirm.
+
 - If a related note exists → append and merge, don't create a new file
 - If multiple placement options → prompt the user to choose
 - If no related note exists → create in the best-fit category directory
+- **Keep indexes in sync:** after adding or creating a note, add/update its one-line entry in that folder's `README.md`. When creating a new folder, add its `README.md` and link it from the parent (and from `notes/README.md` if it's a new top-level category).
 
 ### Note Format
 

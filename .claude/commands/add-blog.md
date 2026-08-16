@@ -227,14 +227,34 @@ End the file with a `---` horizontal rule followed by metadata:
 
 ## Step 5: Print Summary
 
-After creating or updating the note, output a brief summary:
+After creating or updating the note, output **two** things.
+
+### 5a. Operational summary
+
+One block per note touched:
 
 ```
 Action: created | updated
 Title: "<topic name>"
 Category: <directory>/
-File: <full-file-path>
+File: [<relative-path-from-repo-root>](<full-file-path>)
 Images: <count> saved
 Sources: <count> total in file
 Tags: [tag1, tag2, tag3]
 ```
+
+The **File** line must be a clickable markdown link to the note that was just created or updated (link text = repo-relative path, target = the absolute path). One File link per note touched.
+
+### 5b. 1-Minute Summary (always)
+
+Always finish with a **1-minute summary focused on the key learnings for the reader** — not a description of what the file contains. Present it as a table with **one row per article added** (so a multi-blog batch produces multiple rows):
+
+| Article | Problem Statement | Learning | Next Steps |
+|---|---|---|---|
+| [<article title>](<full-file-path>) | <the core problem/tension the article addresses, 1 sentence> | <the key insight/takeaway the reader should internalize, 1-2 sentences> | <concrete action the reader should take, phrased as a to-do> |
+
+Rules:
+- Keep each cell tight — this is a 60-second read, not a recap of the note.
+- The **Article** cell must link to the note file the content landed in (the same file from the operational summary).
+- "Learning" captures the durable idea; "Next Steps" is the reader's actionable follow-up.
+- If a single PDF/URL contains multiple distinct articles or pieces, give each its own row (all rows pointing to the file each piece landed in).

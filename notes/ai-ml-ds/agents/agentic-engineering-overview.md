@@ -192,7 +192,7 @@ Re-run a single agent with fresh context each iteration, tracking progress in fi
 
 **Claude Code implementation:** `/goal` command sets completion conditions ("all tests pass, lint clean"). Evaluator checks after each turn, stops when met.
 
-See: [Loop Engineering](loop-engineering.md).
+See: [Loop Engineering](../agent-teams-harness-eng/loop-engineering.md).
 
 ### Orchestration tools
 
@@ -210,7 +210,7 @@ Long-running sessions on vendor infrastructure via API. Vendor provides harness,
 
 **Billing:** pay-as-you-go API tokens vs Claude Pro/Max plans. Plans more efficient for personal use; API better for products running agents for others.
 
-See: [Harness Engineering](harness-engineering.md) (OpenAI's playbook).
+See: [Harness Engineering](../agent-teams-harness-eng/harness-engineering.md) (OpenAI's playbook).
 
 ## Layer 5: Guardrails
 

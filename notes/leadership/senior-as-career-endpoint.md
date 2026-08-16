@@ -35,8 +35,21 @@ Reference: *The Staff Engineer's Path* — "You're not a manager, but you are a 
 **The Promise Problem**
 Managers often give vague encouragement about Staff promotion when no slot exists. This creates moving goalposts and damages trust. The short-term discomfort of an honest conversation about organizational limits is far less corrosive than months of implied promises that never materialize.
 
+## Why You're Still a Senior — the Soft-Skills Misdiagnosis
+
+The self-diagnosis *"I'm technically strong, I just need soft skills"* is usually wrong on two counts: it assumes your **technical growth is finished**, and it **mislabels a technical-scope problem as a soft-skills gap.**
+
+- **Senior → Staff is still a technical jump** — it just shifts from *writing* code to deciding **which** problems to solve, making architectural trade-offs, spotting complexity early, and owning long-term system health. *"It's still technical. It just doesn't involve writing as much code."*
+- **Redefine "technical" upward:** practice problem *selection*, trade-off reasoning, and early complexity-detection — not just clean code and system design
+- **Diagnose the moment, not the trait.** Replace *"How do I get better at soft skills?"* with *"Where, specifically, do I keep falling short?"* — the answer surfaces in meetings, design reviews, and priority discussions, and managers can often predict non-promotion months out
+- **Reject "I'm just not good with people"** — reading the room is a learnable skill, not a fixed personality trait. And note: *"Being right isn't the same as getting people to follow you."* Invest in influence, not just correctness
+- **Stop benchmarking against an invented peer** — the "behind" feeling is a comparison to a LinkedIn-assembled composite; there's no universal timeline (and Staff is <1 in 10 engineers by design)
+
+→ Related: [how-work-gets-judged.md](how-work-gets-judged.md) (visible strategic judgment vs. execution), [staff-to-principal-transition.md](staff-to-principal-transition.md)
+
 ---
 
 **Source:** https://www.blog4ems.com/p/senior-is-the-top-for-most-engineers-and-thats-fine
-**Date:** 2026-07-07
-**Tags:** career-ladder, senior-engineer, staff-engineer, engineering-management, promotion, ic-track, pyramid-model, career-growth, manager-conversations
+**Source:** https://www.blog4ems.com/p/why-youre-still-a-senior
+**Date:** 2026-07-07, updated 2026-07-19
+**Tags:** career-ladder, senior-engineer, staff-engineer, engineering-management, promotion, ic-track, pyramid-model, career-growth, manager-conversations, soft-skills, technical-leadership, career-progression

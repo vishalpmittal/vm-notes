@@ -244,7 +244,9 @@ See also: [system-design/to-do.md](system-design/to-do.md) for detailed sub-cate
 
 ## Step 7: Print Summary
 
-After all writes complete, output:
+After all writes complete, output **two** things.
+
+### 7a. Operational summary
 
 ```
 Action: imported <N> doc(s)
@@ -260,6 +262,21 @@ Files:
 ```
 
 For multi-doc imports, group the file list by source doc.
+
+### 7b. 1-Minute Summary (always)
+
+Always finish with a **1-minute summary focused on the key learnings for the reader** — not a description of what the file contains. Present it as a table with **one row per source doc imported** (so a multi-doc batch produces multiple rows):
+
+| Doc | Problem Statement | Learning | Next Steps |
+|---|---|---|---|
+| [<doc title>](<full-file-path>) | <the core problem/tension the doc addresses, 1 sentence> | <the key insight/takeaway the reader should internalize, 1-2 sentences> | <concrete action the reader should take, phrased as a to-do> |
+
+Rules:
+- Keep each cell tight — this is a 60-second read, not a recap of the note.
+- The **Doc** cell must link to the note file the content landed in (the same file from the operational summary). If a doc merged into an existing note, link that note.
+- "Learning" captures the durable idea; "Next Steps" is the reader's actionable follow-up.
+- If a single doc split across multiple notes, give it one row per landing file; if multiple docs merged into one note, give each doc its own row (all pointing to that note).
+- If any TO-DO items were diverted to `notes/to-do.md`, add a final line under the table: `**Diverted to to-do.md:** <count> item(s) — <categories touched>`.
 
 ---
 

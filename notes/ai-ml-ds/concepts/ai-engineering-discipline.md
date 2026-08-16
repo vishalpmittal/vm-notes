@@ -6,6 +6,7 @@
 - Human brains are the weakest link in validation (nitpicking, repetition, small-detail catching); machines should own quality gates; engineers should own creativity, architecture, and encoding knowledge into the system
 - Nondeterministic AI-generated systems require *more* engineering discipline — observability, behavioral tests, production-stage evals — not less
 - 2026 is a return to discipline: the returns on encoding system knowledge (specs, traces, architecture artifacts) are now massive and nonlinear because every organization wants AI leverage
+- Writing code by hand was a hidden **forcing function** — syntax made you confront every edge case; specs/prompts only cover the happy path. When AI writes the code, that rigor has to be *relocated* to deterministic tests, deep observability, and autonomous auditing
 
 ## The Core Economic Shift
 
@@ -100,8 +101,24 @@ Required disciplines for the AI-code era:
 
 The shift isn't that engineers become unnecessary. It's that engineers' highest-value work moves from manually writing and gatekeeping lines of code to **encoding knowledge into systems** — through observability, behavioral tests, and architecture artifacts that can guide regeneration.
 
+## What We Lose When We Stop Writing Code
+
+Writing code is a **forcing function**: syntax forces you to confront every edge case, one line at a time. Specs and prompts don't — they cover the happy path and the obvious failures, and quietly skip the rest. *"Anticipating every failure mode before you are in the weeds is nearly impossible."* When AI writes the code, that rigor doesn't disappear — it has to be relocated. The craft shifts **from syntax to systems**.
+
+**A concrete failure it hides:** a bug where *all* exceptions were wired to a `needs_reauth` state instead of only auth errors — an "unknown unknown" invisible to metrics and to code review, caught only by systematic debugging. Since AI generation is probabilistic, **verification must become deterministic.**
+
+**Three leverage points that replace hand-writing code:**
+1. **Deterministic guardrails** — robust integration tests that dictate *how* code runs, not just that it compiles. Replace visual code review with tests
+2. **Radically deep observability** — dashboards, aggressive alerting, strict DevOps to compensate for the lost mental map of AI-written systems
+3. **Autonomous auditing** — an agent loop (e.g., Claude as an SRE running hourly via `/loop 1h`) that scans logs for >85%-confidence issues and files GitHub issues with root cause, impact, and reasoning — constrained to *not* fix code or duplicate issues. The endpoint is auto-remediation: agent-generated regression tests + PRs that close the defect-fixing SDLC loop
+
+The engineer's role moves from typing and debugging to **reading agent-generated issues, evaluating the reasoning, and reviewing/merging fixes.** *"Code may no longer be the central artifact, but commitment to craft must remain."*
+
+→ Research backing: [ai-coding-productivity-studies.md](ai-coding-productivity-studies.md) (the downstream bottleneck shifts to verification; "understanding as a deliverable")
+
 ---
 
 **Source:** https://charitydotwtf.substack.com/p/ai-demands-more-engineering-discipline
-**Date:** 2026-06-18
-**Tags:** ai-engineering, engineering-discipline, immutable-infrastructure, phoenix-architecture, code-as-cache, observability, validation, nondeterministic-systems, vibe-coding, production-engineering, chad-fowler, charity-majors
+**Source:** https://gregakespret.substack.com/p/what-we-lose-when-we-stop-writing
+**Date:** 2026-06-18, updated 2026-07-19
+**Tags:** ai-engineering, engineering-discipline, immutable-infrastructure, phoenix-architecture, code-as-cache, observability, validation, nondeterministic-systems, vibe-coding, production-engineering, autonomous-agents, sre, integration-testing, chad-fowler, charity-majors

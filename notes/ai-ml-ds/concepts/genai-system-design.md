@@ -249,6 +249,7 @@ For these, see:
 
 ## Related
 
+- [GenAI project structure](genai-project-structure.md) — reference repository/directory layout for building one of these systems
 - [Transformer architecture](transformer-architecture.md) — decoder-only / encoder-only / encoder-decoder / MoE in depth
 - [AI glossary](ai-glossary.md) — quick reference for all the terms
 - [AI engineering fundamentals](ai-engineering-fundamentals.md) — broader engineering framing

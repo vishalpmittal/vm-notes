@@ -97,6 +97,13 @@ Signs you need to move up:
 - **Workflow -> Agent:** you can't predefine the steps at design time; the LLM needs to decide dynamically
 - **Agent -> Multi-Agent:** single agent hits context overflow, needs parallelism, or requires specialization (different tools/models/permissions)
 
+## Related
+
+- [AI agent anatomy](ai-agent-anatomy.md) — the components and loop each pattern is built from (the primer)
+- [Agentic engineering overview](agentic-engineering-overview.md) — where these patterns sit in the 6-layer field map
+- [Multi-agent systems](../concepts/multi-agent-systems.md) — the top of the escalation ladder, in depth
+- [Production agent architecture](production-agent-architecture.md) — router/worker/critic as a concrete multi-agent pattern
+
 ---
 
 **Source:** https://newsletter.systemdesign.one/p/agentic-design-patterns
