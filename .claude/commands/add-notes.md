@@ -263,20 +263,29 @@ Files:
 
 For multi-doc imports, group the file list by source doc.
 
-### 7b. 1-Minute Summary (always)
+### 7b. 2-Minute Summary (always)
 
-Always finish with a **1-minute summary focused on the key learnings for the reader** — not a description of what the file contains. Present it as a table with **one row per source doc imported** (so a multi-doc batch produces multiple rows):
+Always finish with a **2-minute summary that explains the core meaning of each source doc and how it solves the problem it sets out** — not a description of what the file contains. The goal is that a reader who never opens the note still walks away understanding the central idea and why it works. Give **one entry per source doc imported** (so a multi-doc batch produces multiple entries).
 
-| Doc | Problem Statement | Learning | Next Steps |
-|---|---|---|---|
-| [<doc title>](<full-file-path>) | <the core problem/tension the doc addresses, 1 sentence> | <the key insight/takeaway the reader should internalize, 1-2 sentences> | <concrete action the reader should take, phrased as a to-do> |
+For each source doc, write a short titled block:
+
+```markdown
+#### [<doc title>](<full-file-path>)
+
+**The problem:** <the core tension/problem the doc addresses, 1-2 sentences>
+
+**The core idea & how it solves the problem:** <2-4 sentences explaining the doc's central argument, the mechanism by which it resolves the problem, and why it works. This is the heart of the summary — go deeper than a one-liner.>
+
+**What to do with it:** <concrete action the reader should take, phrased as a to-do>
+```
 
 Rules:
-- Keep each cell tight — this is a 60-second read, not a recap of the note.
-- The **Doc** cell must link to the note file the content landed in (the same file from the operational summary). If a doc merged into an existing note, link that note.
-- "Learning" captures the durable idea; "Next Steps" is the reader's actionable follow-up.
-- If a single doc split across multiple notes, give it one row per landing file; if multiple docs merged into one note, give each doc its own row (all pointing to that note).
-- If any TO-DO items were diverted to `notes/to-do.md`, add a final line under the table: `**Diverted to to-do.md:** <count> item(s) — <categories touched>`.
+- Aim for a ~2-minute total read across all entries — richer than a one-liner, but still not a full recap of the note.
+- The title link must point to the note file the content landed in (the same file from the operational summary). If a doc merged into an existing note, link that note.
+- **The core-idea paragraph is the priority:** explain the *meaning* and the *mechanism* (how it solves the problem), not just the takeaway label.
+- **If the source is a list/listicle** (e.g., "7 habits", "10 rules", a set of tips), replace the core-idea paragraph with the actual list of pointers — a tight bullet per item, each capturing the point in a phrase — so the reader gets the full list at a glance. Add one framing sentence above the list.
+- If a single doc split across multiple notes, give it one entry per landing file; if multiple docs merged into one note, give each doc its own entry (all pointing to that note).
+- If any TO-DO items were diverted to `notes/to-do.md`, add a final line after the entries: `**Diverted to to-do.md:** <count> item(s) — <categories touched>`.
 
 ---
 

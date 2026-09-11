@@ -245,16 +245,25 @@ Tags: [tag1, tag2, tag3]
 
 The **File** line must be a clickable markdown link to the note that was just created or updated (link text = repo-relative path, target = the absolute path). One File link per note touched.
 
-### 5b. 1-Minute Summary (always)
+### 5b. 2-Minute Summary (always)
 
-Always finish with a **1-minute summary focused on the key learnings for the reader** — not a description of what the file contains. Present it as a table with **one row per article added** (so a multi-blog batch produces multiple rows):
+Always finish with a **2-minute summary that explains the core meaning of each article and how it solves the problem it sets out** — not a description of what the file contains. The goal is that a reader who never opens the note still walks away understanding the central idea and why it works. Give **one entry per article added** (so a multi-blog batch produces multiple entries).
 
-| Article | Problem Statement | Learning | Next Steps |
-|---|---|---|---|
-| [<article title>](<full-file-path>) | <the core problem/tension the article addresses, 1 sentence> | <the key insight/takeaway the reader should internalize, 1-2 sentences> | <concrete action the reader should take, phrased as a to-do> |
+For each article, write a short titled block:
+
+```markdown
+#### [<article title>](<full-file-path>)
+
+**The problem:** <the core tension/problem the article addresses, 1-2 sentences>
+
+**The core idea & how it solves the problem:** <2-4 sentences explaining the article's central argument, the mechanism by which it resolves the problem, and why it works. This is the heart of the summary — go deeper than a one-liner.>
+
+**What to do with it:** <concrete action the reader should take, phrased as a to-do>
+```
 
 Rules:
-- Keep each cell tight — this is a 60-second read, not a recap of the note.
-- The **Article** cell must link to the note file the content landed in (the same file from the operational summary).
-- "Learning" captures the durable idea; "Next Steps" is the reader's actionable follow-up.
-- If a single PDF/URL contains multiple distinct articles or pieces, give each its own row (all rows pointing to the file each piece landed in).
+- Aim for a ~2-minute total read across all entries — richer than a one-liner, but still not a full recap of the note.
+- The title link must point to the note file the content landed in (the same file from the operational summary).
+- **The core-idea paragraph is the priority:** explain the *meaning* and the *mechanism* (how it solves the problem), not just the takeaway label.
+- **If the article is a list/listicle** (e.g., "7 habits", "10 rules", a set of tips), replace the core-idea paragraph with the actual list of pointers — a tight bullet per item, each capturing the point in a phrase — so the reader gets the full list at a glance. Add one framing sentence above the list.
+- If a single PDF/URL contains multiple distinct articles or pieces, give each its own entry (all pointing to the file each piece landed in).

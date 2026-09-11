@@ -16,6 +16,19 @@ How to actually use Claude Code in daily work — from beginner setup through ho
 - **Worktree pools beat ad-hoc creation.** Maintaining a pre-warmed pool of git worktrees (deps installed, env files ready, synced to main) eliminates the setup overhead that makes parallel work feel slow
 - `.claude/` has two layers (global `~/.claude/` + project `./.claude/`); project settings override global. Commit `settings.json`, `commands/`, and `rules/`; gitignore `settings.local.json`
 - The `rules/` subdirectory splits CLAUDE.md into topic-specific files Claude auto-loads; files longer than ~200 lines degrade adherence as rules compete for attention
+- **Most users sit at one of three maturity levels** (Frustrated Beginner → Hit/Miss Engineer → Ceiling Hitter). Diagnosing which one you are tells you exactly which features to learn next — the bottleneck shifts from *setup* to *consistency* to *autonomy*
+
+## A Maturity Model: Which Type of Claude Code User Are You?
+
+A self-diagnostic (Neo Kim) that maps three common user profiles to the specific bottleneck each faces — and the features in this doc that unblock them. The progression is: get set up → make results consistent → remove yourself as the bottleneck.
+
+| Level | You are here if… | Bottleneck | What to learn next |
+|---|---|---|---|
+| **1. Frustrated Beginner** | You reuse the same few commands, start every session from zero, and don't know what CLAUDE.md or Skills actually do | You don't know what exists | Permission modes (when to use each); create a CLAUDE.md + first Skill in one sitting; core commands & shortcuts |
+| **2. Hit/Miss Engineer** | Some sessions are on fire, others waste an afternoon; you've connected an MCP but aren't sure it helps; you've heard of subagents/worktrees/hooks/agent teams but never set one up | Results feel random | MCP vs CLI vs plugins (which a job actually needs); shared CLAUDE.md + worktrees so parallel agents don't collide; hooks that catch mistakes automatically |
+| **3. Ceiling Hitter** | You ship real features fast but *you* still drive every task start-to-finish; Claude has never worked while you were away; your context window fills and degrades | You are the bottleneck | Scheduled/autonomous runs that report back only when needed; a context-engineering system that stays sharp session-to-session; handing off real work via subagents + agent teams |
+
+**How to use it:** find your row, then jump to the corresponding sections below — [permission modes](#the-7-permission-modes) and [CLAUDE.md](#claudemd--the-onboarding-file) for Level 1; [MCP](#mcp-for-tools), [worktrees](#parallel-work-treehouse-worktree-manager), and verification/hooks for Level 2; [autonomous pipelines](#autonomous-validation-pipeline-no-mistakes), [context pruning](#curating-standing-context--the-pruning-discipline), and [subagents/agent teams](#custom-subagents) for Level 3. The insight isn't the features themselves (all documented here) — it's that the *order* you learn them in should track your current pain, not a feature checklist.
 
 ## Setup
 
@@ -525,5 +538,6 @@ Result: full terminal access, all tmux sessions, same environment from phone dur
 **Source:** https://getpushtoprod.substack.com/p/how-to-reduce-90-of-claude-code-token
 **Source:** https://blog.bytebytego.com/p/an-ex-meta-l8s-agentic-engineering
 **Source:** https://newsletter.systemdesign.one/p/claude-folder
-**Date:** 2026-06-18 (token optimization section added; context section 2026-06-16; initial 2026-06-05), 2026-06-23 (Kun Chen expert setup), 2026-06-24 (.claude/ folder structure)
-**Tags:** claude-code, workflow, plan-mode, claude-md, mcp, slash-commands, subagents, parallel-agents, compounding-engineering, opus, verification-loops, cli-tools, ripgrep, duckdb, environment, context-pruning, skills, hooks, session-amnesia, token-optimization, codegraph, rtk, caveman, cost-reduction, management-mindset, voice-input, lavish-editor, gnhf, no-mistakes, treehouse, worktrees, remote-access, tailscale, mosh, neovim, tmux, wezterm, rules-directory, git-hygiene, claude-folder
+**Source:** Neo Kim, "Which type of Claude Code user are you?" (imported from pasted notes, 2026-09-06)
+**Date:** 2026-06-18 (token optimization section added; context section 2026-06-16; initial 2026-06-05), 2026-06-23 (Kun Chen expert setup), 2026-06-24 (.claude/ folder structure), 2026-09-06 (maturity model)
+**Tags:** claude-code, workflow, plan-mode, claude-md, mcp, slash-commands, subagents, parallel-agents, compounding-engineering, opus, verification-loops, cli-tools, ripgrep, duckdb, environment, context-pruning, skills, hooks, session-amnesia, token-optimization, codegraph, rtk, caveman, cost-reduction, management-mindset, voice-input, lavish-editor, gnhf, no-mistakes, treehouse, worktrees, remote-access, tailscale, mosh, neovim, tmux, wezterm, rules-directory, git-hygiene, claude-folder, maturity-model, user-archetypes, self-diagnostic
